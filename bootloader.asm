@@ -1,5 +1,3 @@
-bits 16
-
 %define KBRD_PORT1 0x64
 %define KBRD_PORT2 0x60
 
@@ -21,7 +19,12 @@ bits 16
 %define STA_ENE 0x4 ;Expand down(non exec)
 %define STA_X   0x8 ;Exec seg
 
-org 0x7c00
+bits 16
+
+section .start
+
+global start
+extern kmain
 
 start:
     cli ;disable interrupts
@@ -68,17 +71,8 @@ pm_start:
     mov gs, ax
     mov ss, ax
 
-    ;call cpp_main
-    mov esi, msg
-    mov ebx, 0xb8000
-    print_loop:
-        lodsb
-        or al,al
-        jz inf_loop
-        or eax,0x0200
-        mov word [ebx], ax
-        add ebx,2
-        jmp print_loop
+    mov esp, start
+    call kmain
 
 ;if cpp_main fails then infinite loop
 inf_loop: jmp inf_loop
@@ -94,9 +88,3 @@ gdt_end:
 gdtdesc:
     dw (gdt_end-gdt)
     dd gdt
-
-msg: db "Hello Fluffer (UwU)", 0
-msg_len: equ $-msg
-
-times 510 - ($-$$) db 0 ; pad remaining 510 bytes with zeroes
-dw 0xaa55 ; magic bootloader magic - marks this 512 byte sector bootable!
