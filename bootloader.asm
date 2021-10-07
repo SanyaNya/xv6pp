@@ -74,17 +74,15 @@ pm_start:
     mov esp, start
     call kmain
 
-;if cpp_main fails then infinite loop
+;if kmain fails then infinite loop
 inf_loop: jmp inf_loop
 
 align 4
 gdt:
-    SEG_NULL                           ;null seg
+    SEG_NULL                                      ;null seg
     gdt_cs_sel: SEG STA_X|STA_RE, 0x0, 0xffffffff ;code seg
     gdt_ds_sel: SEG STA_WNE, 0x0, 0xffffffff      ;data seg
-gdt_end:
-
 
 gdtdesc:
-    dw (gdt_end-gdt)
+    dw (gdtdesc-gdt)
     dd gdt
