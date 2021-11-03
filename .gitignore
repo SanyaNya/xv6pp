@@ -1,2 +1,3 @@
 *.bin
 *.o
+bootloader/bootsector_creator/create_bootsector
