@@ -24,7 +24,7 @@ bits 16
 section .start
 
 global start
-extern kmain
+extern bootmain
 
 start:
     cli ;disable interrupts
@@ -63,7 +63,7 @@ start:
 bits 32
 
 pm_start:
-    ;set segment regs to cs
+    ;set segment regs to ds
     mov ax, PM_DS
     mov ds, ax
     mov es, ax
@@ -72,16 +72,16 @@ pm_start:
     mov ss, ax
 
     mov esp, start
-    call kmain
+    call bootmain
 
-;if kmain fails then infinite loop
+;if bootmain fails then infinite loop
 inf_loop: jmp inf_loop
 
 align 4
 gdt:
     SEG_NULL                                      ;null seg
     gdt_cs_sel: SEG STA_X|STA_RE, 0x0, 0xffffffff ;code seg
-    gdt_ds_sel: SEG STA_WNE, 0x0, 0xffffffff      ;data seg
+    gdt_ds_sel: SEG STA_WNE,      0x0, 0xffffffff ;data seg
 
 gdtdesc:
     dw (gdtdesc-gdt)
