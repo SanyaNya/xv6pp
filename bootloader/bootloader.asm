@@ -39,6 +39,15 @@ start:
 
 bits 32
 
+gdt:
+    SEG_NULL                                      ;null seg
+    gdt_cs_sel: SEG STA_X|STA_RE, 0x0, 0xffffffff ;code seg
+    gdt_ds_sel: SEG STA_WNE,      0x0, 0xffffffff ;data seg
+
+gdtdesc:
+    dw (gdtdesc-gdt)
+    dd gdt
+
 pm_start:
     ;set segment regs to ds
     mov ax, PM_DS
@@ -48,12 +57,3 @@ pm_start:
 
     mov esp, start
     jmp bootmain
-
-gdt:
-    SEG_NULL                                      ;null seg
-    gdt_cs_sel: SEG STA_X|STA_RE, 0x0, 0xffffffff ;code seg
-    gdt_ds_sel: SEG STA_WNE,      0x0, 0xffffffff ;data seg
-
-gdtdesc:
-    dw (gdtdesc-gdt)
-    dd gdt
