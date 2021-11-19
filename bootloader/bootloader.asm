@@ -32,7 +32,7 @@ start:
     ;switch to protected mode
     lgdt [gdtdesc]
     mov eax, cr0
-    or eax, CR_PM_ON
+    inc ax ;or eax, CR_PM_ON
     mov cr0, eax
 
     jmp PM_CS:pm_start
@@ -47,12 +47,8 @@ pm_start:
     mov ss, ax
 
     mov esp, start
-    call bootmain
+    jmp bootmain
 
-;if bootmain fails then infinite loop
-inf_loop: jmp inf_loop
-
-align 4
 gdt:
     SEG_NULL                                      ;null seg
     gdt_cs_sel: SEG STA_X|STA_RE, 0x0, 0xffffffff ;code seg
