@@ -29,29 +29,6 @@ extern bootmain
 start:
     cli ;disable interrupts
 
-    ;clear ds, es, ss
-    xor ax, ax
-    mov ds, ax
-    mov es, ax
-    mov ss, ax
-
-    ;enable 21th address line
-    set_a20_1:
-        in al, KBRD_PORT1
-        test al, 0x2
-        jnz set_a20_1
-
-    mov al, 0xd1
-    out 0x64, al
-
-    set_a20_2:
-        in al, KBRD_PORT1
-        test al, 0x2
-        jnz set_a20_2
-
-    mov al, 0xdf
-    out 0x60, al
-
     ;switch to protected mode
     lgdt [gdtdesc]
     mov eax, cr0
@@ -67,8 +44,6 @@ pm_start:
     mov ax, PM_DS
     mov ds, ax
     mov es, ax
-    mov fs, ax
-    mov gs, ax
     mov ss, ax
 
     mov esp, start
