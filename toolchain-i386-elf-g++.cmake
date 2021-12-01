@@ -1,0 +1,9 @@
+set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_SYSTEM_VERSION i386-elf)
+
+set(CMAKE_C_COMPILER i386-elf-gcc)
+set(CMAKE_CXX_COMPILER i386-elf-g++)
+
+#Don`t check compiler
+set(CMAKE_C_COMPILER_FORCED TRUE)
+set(CMAKE_CXX_COMPILER_FORCED TRUE)
