@@ -11,19 +11,19 @@ add_executable(boot.bin bootloader.asm bootmain.cpp)
 
 target_compile_options(boot.bin PRIVATE
     $<$<COMPILE_LANGUAGE:CXX>:
-        -Os;
-        -ffreestanding;
-        -mno-red-zone;
-        -fno-exceptions;
-        -fno-rtti;
-        -Wall;
-        -Wextra;
-        -Werror>)
+        ${CXX_OPTIMIZATION_SIZE_FLAGS};
+        ${CXX_FREESTANDING_FLAG};
+        ${CXX_NO_RED_ZONE_FLAG};
+        ${CXX_NO_EXCEPTIONS_FLAG};
+        ${CXX_NO_RTTI_FLAG};
+        ${CXX_WALL_WEXTRA_WERROR_FLAGS}>)
 
 #linker flags
-set_target_properties(boot.bin PROPERTIES
-    LINK_FLAGS "-nostdlib -T ${CMAKE_CURRENT_SOURCE_DIR}/linker.ld"
-    LINK_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/linker.ld)
+target_link_options(boot.bin PRIVATE
+    $<$<COMPILE_LANGUAGE:CXX>:${CXX_NO_STDLIB_FLAG}>)
+
+target_cxx_linker_script(boot.bin
+    ${CMAKE_CURRENT_SOURCE_DIR}/linker.ld)
 
 #Create bootsector from boot.bin
 add_custom_target(bootsector ALL DEPENDS bootsector.bin)
