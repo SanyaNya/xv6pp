@@ -7,7 +7,7 @@ set(CMAKE_ASM_NASM_OBJECT_FORMAT elf32)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_executable(boot.bin bootloader.asm bootmain.cpp)
+add_executable(boot.bin bootloader.asm x86.asm bootmain.cpp)
 
 target_compile_options(boot.bin PRIVATE
     $<$<COMPILE_LANGUAGE:CXX>:
