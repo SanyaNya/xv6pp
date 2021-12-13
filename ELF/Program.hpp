@@ -24,9 +24,9 @@ enum class Type : std::uint32_t
 
 enum class Flags : std::uint32_t
 {
-    X = 1,
-    W = 2,
-    R = 4,
+    X = 1, //Execute segment
+    W = 2, //Write segment
+    R = 4, //Read segment
 
     XW = 3,
     XR = 5,

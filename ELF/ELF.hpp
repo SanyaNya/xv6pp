@@ -97,6 +97,7 @@ struct Header
 
     std::uint16_t shstrndx;  //Index of Section Header`s entry 
                              //that contains the section names.
+                             //If file has no section names table, shstrndx = 0.
                              //If real shstrndx >= SHSTRNDX_MAX,
                              //then shstrndx = SHSTRNDX_PLUG
                              //and real shstndx stored in sh_link member
