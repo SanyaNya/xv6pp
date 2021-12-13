@@ -22,16 +22,37 @@ enum class Type : std::uint32_t
     HIPROC  = 0x7fffffff  //Reserved range for Processor - high
 };
 
+enum class Flags : std::uint32_t
+{
+    X = 1,
+    W = 2,
+    R = 4,
+
+    XW = 3,
+    XR = 5,
+
+    WR = 6,
+
+    XWR = 7
+};
+
 struct Header
 {
     Type type;
-    std::uint32_t offset; //Offset in the file image
-    std::uint8_t* vaddr;  //virtual address
-    std::uint8_t* paddr;  //physical address(on systems where is relevant)
-    std::uint32_t filesz; //size of the segment in the file
-    std::uint32_t memsz;  //size of the segment in memory
-    std::uint32_t flags;
-    std::uint32_t p_align;
+    std::uint32_t offset; //Offset from the beginning in the file image.
+                          //Should be aligned according align member
+    
+    std::uint8_t* vaddr;  //Virtual address.
+                          //Should be aligned according align member
+    
+    std::uint8_t* paddr;  //Physical address(on systems where is relevant)
+    std::uint32_t filesz; //Size of the segment in the file
+    std::uint32_t memsz;  //Size of the segment in memory
+    Flags flags;
+    std::uint32_t align;  //align should be positive and power of two
+                          //if align = 0 or align = 1, then no alignment required
+                          //offset % align = vaddr % align
+                          //Loadable segments: offset % PAGE_SIZE = vaddr % PAGE_SIZE
 };
 
 } //namespace ELF::Program
