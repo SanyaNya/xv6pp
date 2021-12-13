@@ -2,11 +2,9 @@
 #define ELF_HPP
 
 #include "../libcpp/cstdint.hpp"
+#include "Ident.hpp"
 
-namespace ELF
-{
-
-enum class Magic : std::uint32_t { value = 0x464c457f };
+namespace ELF {
 
 enum class Type : std::uint16_t
 {
@@ -46,12 +44,11 @@ enum class ISA : std::uint16_t
 
 using EntryFunc = void(*)();
 
-enum class Version : std::uint32_t { value = 1 };
+enum class Version : std::uint32_t { CURRENT = 1 };
 
 struct Header
 {
-    Magic         magic;
-    std::uint8_t  ident[12]; //skip
+    Ident::Struct ident;
     Type          type;
     ISA           machine;
     Version       version;
@@ -66,7 +63,7 @@ struct Header
     std::uint16_t shnum;     //Count of Section Header`s entries
     std::uint16_t shstrndx;  //Index of Section Header`s entry that contains the section names
 };
-
+ 
 }
 
 #endif //ELF_HPP
