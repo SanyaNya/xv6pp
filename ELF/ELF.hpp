@@ -4,7 +4,8 @@
 #include "../libcpp/cstdint.hpp"
 #include "Ident.hpp"
 
-namespace ELF {
+namespace ELF
+{
 
 enum class Type : std::uint16_t
 {
@@ -103,6 +104,6 @@ struct Header
                              //otherwise sh_link = 0
 };
  
-}
+} //namespace ELF
 
 #endif //ELF_HPP

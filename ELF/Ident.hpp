@@ -52,6 +52,6 @@ struct Struct
     std::uint8_t padding[7];
 };
 
-} //namespace Ident
+} //namespace ELF::Ident
 
 #endif //ELF_IDENT_HPP
