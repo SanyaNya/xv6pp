@@ -30,7 +30,18 @@ enum class ISA : std::uint16_t
     M68K,
     M88K,
     I860,
-    MIPS
+    MIPS,
+    PARISC,
+    SPARC32PLUS,
+    PPC,
+    PPC64,
+    S390,
+    ARM,
+    SH,
+    SPARCV9,
+    IA_64,
+    X86_64,
+    VAX
 };
 
 using EntryFunc = void(*)();
@@ -40,14 +51,14 @@ enum class Version : std::uint32_t { value = 1 };
 struct Header
 {
     Magic         magic;
-    std::uint8_t  elf[12];   //skip
+    std::uint8_t  ident[12]; //skip
     Type          type;
     ISA           machine;
     Version       version;
     EntryFunc     entry;
     std::uint32_t phoff;     //Program Header offset(relative to the begin of elf header)
     std::uint32_t shoff;     //Section Header offset(relative to the begin of elf header)
-    std::uint32_t flags;     //TODO make enum
+    std::uint32_t flags;
     std::uint16_t size;      //Size of this header
     std::uint16_t phentsize; //Size of Program Header`s table entry
     std::uint16_t phnum;     //Count of Program Header`s entries
