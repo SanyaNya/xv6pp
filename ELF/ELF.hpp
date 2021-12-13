@@ -23,9 +23,14 @@ enum class Type : std::uint16_t
 
 enum class ISA : std::uint16_t
 {
-    //...
-    x86 = 0x03
-    //...
+    NONE,
+    M32,
+    SPARC,
+    I386,
+    M68K,
+    M88K,
+    I860,
+    MIPS
 };
 
 using EntryFunc = void(*)();
