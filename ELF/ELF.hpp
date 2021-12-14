@@ -47,6 +47,10 @@ using EntryFunc = void(*)();
 
 enum class Version : std::uint32_t { CURRENT = 1 };
 
+inline constexpr std::uint16_t NO_PROGRAM_HEADER      = 0;
+inline constexpr std::uint16_t NO_SECTION_HEADER      = 0;
+inline constexpr std::uint16_t NO_SECTION_NAMES_TABLE = 0;
+
 inline constexpr std::uint16_t PHNUM_MAX = 0xffff;
 inline constexpr std::uint16_t PHNUM_PLUG = 0xffff;
 
@@ -65,11 +69,13 @@ struct Header
     EntryFunc     entry;
     std::uint32_t phoff;     //Program Header offset
                              //(relative to the begin of elf header).
-                             //If file has no Program Header, phoff = 0
+                             //
+                             //If file has no Program Header, phoff = NO_PROGRAM_HEADER
 
     std::uint32_t shoff;     //Section Header offset
                              //(relative to the begin of elf header).
-                             //If file has no Section Header, shoff = 0
+                             //
+                             //If file has no Section Header, shoff = NO_SECTION_HEADER
     
     std::uint32_t flags;     //Currently no flags defined
     std::uint16_t size;      //Size of this header
@@ -77,7 +83,9 @@ struct Header
                              //(all entries are the same size)
     
     std::uint16_t phnum;     //Count of Program Header`s entries.
-                             //If file has no Program header, phnum = 0.
+                             //
+                             //If file has no Program header, phnum = NO_PROGRAM_HEADER.
+                             //
                              //If real phnum >= PHNUM_MAX,
                              //then phnum = PHNUM_PLUG
                              //and real phnum stored in
@@ -88,7 +96,9 @@ struct Header
                              //(all entries are the same size)
     
     std::uint16_t shnum;     //Count of Section Header`s entries.
-                             //If file has no Section Header, shnum = 0.
+                             //
+                             //If file has no Section Header, shnum = NO_SECTION_HEADER.
+                             //
                              //If real shnum >= SHNUM_MAX,
                              //then shnum = SHNUM_PLUG
                              //and real shnum stored in sh_size member
@@ -97,7 +107,10 @@ struct Header
 
     std::uint16_t shstrndx;  //Index of Section Header`s entry 
                              //that contains the section names.
-                             //If file has no section names table, shstrndx = 0.
+                             //
+                             //If file has no section names table,
+                             //shstrndx = NO_SECTION_NAMES_TABLE.
+                             //
                              //If real shstrndx >= SHSTRNDX_MAX,
                              //then shstrndx = SHSTRNDX_PLUG
                              //and real shstndx stored in sh_link member
