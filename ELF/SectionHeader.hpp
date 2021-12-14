@@ -1,5 +1,5 @@
-#ifndef ELF_SECTION_HPP
-#define ELF_SECTION_HPP
+#ifndef ELF_SECTION_HEADER_HPP
+#define ELF_SECTION_HEADER_HPP
 
 #include "../libcpp/cstdint.hpp"
 
@@ -56,4 +56,4 @@ struct Header
 
 } //namespace ELF::Section
 
-#endif //ELF_SECTION_HPP
+#endif //ELF_SECTION_HEADER_HPP

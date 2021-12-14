@@ -1,5 +1,5 @@
-#ifndef ELF_PROGRAM_HPP
-#define ELF_PROGRAM_HPP
+#ifndef ELF_PROGRAM_HEADER_HPP
+#define ELF_PROGRAM_HEADER_HPP
 
 #include "../libcpp/cstdint.hpp"
 
@@ -57,4 +57,4 @@ struct Header
 
 } //namespace ELF::Program
 
-#endif //ELF_PROGRAM_HPP
+#endif //ELF_PROGRAM_HEADER_HPP
