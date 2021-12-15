@@ -3,6 +3,7 @@
 
 #include "../libcpp/type_traits.hpp"
 #include "../libcpp/cstdint.hpp"
+#include "../libcpp/ios.hpp"
 #include "x86.hpp"
 
 inline constexpr std::uint32_t SECTOR_SIZE = 512;
@@ -10,9 +11,12 @@ inline constexpr std::uint32_t SECTOR_SIZE = 512;
 class ATA_PIO_LBA28_Disk
 {
 public:
+    using pos_type = std::uint32_t;
+    using off_type = pos_type;
+
     template<typename T>
         requires requires{ std::is_trivial_v<T>; }
-    void operator>>(T& t) const
+    void operator>>(T& t)
     {
         constexpr std::uint32_t sectors_count = (sizeof(T) / SECTOR_SIZE) + 
                                                 (sizeof(T) % SECTOR_SIZE ? 1 : 0);
@@ -26,21 +30,50 @@ public:
         x86::outb(std::to_underlying(Port::CMD), std::to_underlying(Command::READ_SECTORS));
 
         waitdisk();
+        x86::insd_skip(std::to_underlying(Port::DATA), cur_pos % SECTOR_SIZE);
         x86::insd(std::to_underlying(Port::DATA), reinterpret_cast<unsigned char*>(&t), words_count);
+
+        cur_pos += sizeof(T);
     }
 
-    void seek_beg(std::uint32_t offset) const
+    pos_type tellg() const
     {
+        return cur_pos;
+    }
+
+    void seekg(pos_type pos)
+    {
+        cur_pos = pos;
+        pos /= SECTOR_SIZE; //sector pos
+
         waitdisk();
 
-        unsigned char* bytes = reinterpret_cast<unsigned char*>(&offset);
+        unsigned char* bytes = reinterpret_cast<unsigned char*>(&pos);
         x86::outb(std::to_underlying(Port::LBA_LO), bytes[0]);
         x86::outb(std::to_underlying(Port::LBA_MID), bytes[1]);
         x86::outb(std::to_underlying(Port::LBA_HI), bytes[2]);
-        x86::outb(std::to_underlying(Port::DRIVE_HEAD_LBA_EXT), bytes[4] | 0XE0);
+        x86::outb(std::to_underlying(Port::DRIVE_HEAD_LBA_EXT), bytes[3] | 0XE0);
+    }
+
+    void seekg(off_type offset, std::ios_base::seekdir dir)
+    {
+        switch(dir)
+        {
+            case std::ios_base::cur:
+                cur_pos += offset;
+                break;
+            case std::ios_base::beg:
+                cur_pos = offset;
+                break;
+
+            default: break;
+        }
+        seekg(cur_pos);
     }
 
 private:
+    pos_type cur_pos;
+
     enum class Port : std::uint16_t
     {
         IO_BASE            = 0x1F0,

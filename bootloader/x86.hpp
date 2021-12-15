@@ -9,6 +9,7 @@ extern "C"
     void outb(unsigned short port, unsigned char data);
     unsigned char inb(unsigned short port);
     void insd(unsigned short port, unsigned char* dest, unsigned int count);
+    void insd_skip(unsigned short port, unsigned int count);
 }
 
 } //namespace x86
