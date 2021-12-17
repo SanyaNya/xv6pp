@@ -1,3 +1,0 @@
-[submodule "bootsector_creator"]
-	path = bootloader/bootsector_creator
-	url = git@github.com:SanyaNya/bootsector_creator.git

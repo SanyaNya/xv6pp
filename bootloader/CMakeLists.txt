@@ -24,18 +24,3 @@ target_link_options(boot.bin PRIVATE
 
 target_cxx_linker_script(boot.bin
     ${CMAKE_CURRENT_SOURCE_DIR}/linker.ld)
-
-#Create bootsector from boot.bin
-add_custom_target(bootsector ALL DEPENDS bootsector.bin)
-
-#Install bootsector_creator
-include(ExternalProject)
-ExternalProject_Add(bootsector_creator 
-    SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bootsector_creator
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR})
-
-#Generate bootsector.bin
-add_custom_command(
-    OUTPUT bootsector.bin
-    DEPENDS boot.bin bootsector_creator
-    COMMAND ${CMAKE_BINARY_DIR}/bin/create_bootsector boot.bin bootsector.bin)

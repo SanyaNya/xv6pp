@@ -19,4 +19,11 @@ SECTIONS {
     {
         *(.bss)
     }
+
+    . = 0x7dfe;
+    .bootmagic : 
+    {
+        BYTE(0x55);
+        BYTE(0xaa);
+    }
 }
