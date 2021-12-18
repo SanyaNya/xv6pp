@@ -21,9 +21,9 @@ public:
     {
         constexpr std::uint32_t sectors_count = (sizeof(T) / SECTOR_SIZE) + 
                                                 (sizeof(T) % SECTOR_SIZE ? 1 : 0);
-        constexpr std::uint32_t words_count   = sizeof(T)/sizeof(std::uint16_t);
+        constexpr std::uint32_t words_count   = sizeof(T)/sizeof(std::uint32_t);
 
-        static_assert(sizeof(T) % 2 == 0);
+        static_assert(sizeof(T) % sizeof(std::uint32_t) == 0);
         static_assert(sectors_count < 256);
 
         waitdisk();
@@ -31,8 +31,8 @@ public:
         x86::outb(Port::CMD,          Command::READ_SECTORS);
 
         waitdisk();
-        x86::insd_skip(Port::DATA, cur_pos % SECTOR_SIZE);
-        x86::insd(Port::DATA, &t, words_count);
+        x86::in_skip(Port::DATA, cur_pos % SECTOR_SIZE);
+        x86::insl(Port::DATA, &t, words_count);
 
         cur_pos += sizeof(T);
     }
@@ -53,7 +53,7 @@ public:
         x86::outb(Port::LBA_LO,             bytes[0]);
         x86::outb(Port::LBA_MID,            bytes[1]);
         x86::outb(Port::LBA_HI,             bytes[2]);
-        x86::outb(Port::DRIVE_HEAD_LBA_EXT, bytes[3] | 0XE0);
+        x86::outb(Port::DRIVE_HEAD_LBA_EXT, bytes[3] | 0xE0);
     }
 
     void seekg(off_type offset, std::ios_base::seekdir dir)

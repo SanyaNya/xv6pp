@@ -12,12 +12,25 @@ namespace x86
 namespace detail
 {
 
-extern "C"
+inline void outb(unsigned short port, unsigned char data)
 {
-    void outb(unsigned short port, unsigned char data);
-    unsigned char inb(unsigned short port);
-    void insd(unsigned short port, unsigned char* dest, unsigned int count);
-    void insd_skip(unsigned short port, unsigned int count);
+  asm volatile("out %0,%1" : : "a" (data), "d" (port));
+}
+
+inline unsigned char inb(unsigned short port)
+{
+  unsigned char data;
+
+  asm volatile("in %1,%0" : "=a" (data) : "d" (port));
+  return data;
+}
+
+inline void insl(int port, void *addr, int cnt)
+{
+  asm volatile("cld; rep insl" :
+               "=D" (addr), "=c" (cnt) :
+               "d" (port), "0" (addr), "1" (cnt) :
+               "memory", "cc");
 }
 
 } //namespace detail
@@ -40,18 +53,19 @@ inline std::uint8_t inb(E port)
 }
 
 template<std::explicitly_convertible_to<std::uint16_t> E, typename T>
-inline void insd(E port, T* dest, std::size_t count)
+inline void insl(E port, T* dest, std::size_t count)
 {
-    detail::insd(
+    detail::insl(
         static_cast<std::uint16_t>(port), 
         reinterpret_cast<std::uint8_t*>(dest), 
         count);
 }
 
 template<std::explicitly_convertible_to<std::uint16_t> E>
-inline void insd_skip(E port, std::size_t count)
+inline void in_skip(E port, std::size_t count)
 {
-    detail::insd_skip(static_cast<std::uint16_t>(port), count);
+    for(std::size_t i = 0; i != count; ++i)
+        inb(port);
 }
 
 } //namespace x86
