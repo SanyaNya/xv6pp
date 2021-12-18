@@ -2,6 +2,7 @@
 #define ELF_SECTION_HEADER_HPP
 
 #include "../libcpp/cstdint.hpp"
+#include "../utils/ebitset.hpp"
 
 namespace ELF::Section
 {
@@ -29,19 +30,24 @@ enum class Type : std::uint32_t
 
 };
 
-enum class FlagsMask : std::uint32_t
+enum class FlagsId
 {
-    WRITE = 1,
-    ALLOC = 2,
-    EXECINSTR = 4,
-    PROC = 0xf0000000
+    WRITE,
+    ALLOC,
+    EXECINSTR,
+
+    PROC0 = 28,
+    PROC1,
+    PROC2,
+    PROC3
 };
+using Flags = ebitset<32, FlagsId>;
 
 struct Header
 {
     std::uint32_t name_idx;
-    Type type;
-    std::uint32_t flags;
+    Type          type;
+    Flags         flags;
     std::uint8_t* addr;   //If section don`t appears in the memory addr = 0
     std::uint32_t offset; //Offset from the beginning of the file
     std::uint32_t size;   //Size of this section.

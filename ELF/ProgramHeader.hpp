@@ -2,6 +2,7 @@
 #define ELF_PROGRAM_HEADER_HPP
 
 #include "../libcpp/cstdint.hpp"
+#include "../utils/ebitset.hpp"
 
 namespace ELF::Program
 {
@@ -22,23 +23,17 @@ enum class Type : std::uint32_t
     HIPROC  = 0x7fffffff  //Reserved range for Processor - high
 };
 
-enum class Flags : std::uint32_t
+enum class FlagsId
 {
-    X = 1, //Execute segment
-    W = 2, //Write segment
-    R = 4, //Read segment
-
-    XW = 3,
-    XR = 5,
-
-    WR = 6,
-
-    XWR = 7
+    X, //Execute segment
+    W, //Write segment
+    R, //Read segment
 };
+using Flags = ebitset<3, FlagsId>;
 
 struct Header
 {
-    Type type;
+    Type          type;
     std::uint32_t offset; //Offset from the beginning in the file image.
                           //Should be aligned according align member
     
@@ -48,7 +43,7 @@ struct Header
     std::uint8_t* paddr;  //Physical address(on systems where is relevant)
     std::uint32_t filesz; //Size of the segment in the file
     std::uint32_t memsz;  //Size of the segment in memory
-    Flags flags;
+    Flags         flags;
     std::uint32_t align;  //align should be positive and power of two
                           //if align = 0 or align = 1, then no alignment required
                           //offset % align = vaddr % align
