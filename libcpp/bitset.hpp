@@ -27,6 +27,7 @@ public:
             data |= x << bit_pos;
         }
 
+    public:
         operator bool() const noexcept
         {
             return data & (1 << bit_pos);
@@ -34,7 +35,7 @@ public:
 
         bool operator~() const noexcept
         {
-            return ~static_cast<bool>(*this);
+            return !static_cast<bool>(*this);
         }
 
         reference& flip() noexcept
