@@ -3,8 +3,8 @@
 
 #include "../libcpp/type_traits.hpp"
 #include "../libcpp/cstdint.hpp"
-#include "../libcpp/bitset.hpp"
 #include "../libcpp/ios.hpp"
+#include "../utils/ebitset.hpp"
 #include "x86.hpp"
 
 inline constexpr std::uint32_t SECTOR_SIZE = 512;
@@ -96,7 +96,7 @@ private:
         //Others...
     };
 
-    enum class StatusId : std::uint8_t
+    enum class StatusId
     {
         ERROR,
         INDEX,
@@ -107,15 +107,18 @@ private:
         READY,
         BUSY
     };
+    using Status = ebitset<8, StatusId>;
 
-    const std::bitset<8> get_status() const
+    const Status get_status() const
     {
-        return std::bitset<8>(x86::inb(Port::STATUS));
+        return Status(x86::inb(Port::STATUS));
     }
 
     void waitdisk() const
     {
-        while(get_status()[std::to_underlying(StatusId::READY)] && !get_status()[std::to_underlying(StatusId::BUSY)]);
+        for(Status s = get_status();
+            s[StatusId::READY] && !s[StatusId::BUSY];
+            s = get_status());
     }
 };
 
