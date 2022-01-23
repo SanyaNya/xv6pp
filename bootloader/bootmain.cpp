@@ -3,6 +3,9 @@
 #include "../ELF/ELFHeader.hpp"
 #include "../ELF/ProgramHeader.hpp"
 
+namespace xv6pp
+{
+
 static ATA_PIO_LBA28_Disk disk;
 
 static ELF::Header& elf = *reinterpret_cast<ELF::Header*>(0x10000);
@@ -21,3 +24,5 @@ extern "C" void bootmain()
 
     elf.entry();
 }
+
+} //namespace xv6pp
