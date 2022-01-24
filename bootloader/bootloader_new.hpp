@@ -35,7 +35,7 @@ inline void* alloc(std::size_t size)
    return xv6pp::detail::alloc(size);
 }
 
-void operator delete(void* ptr) noexcept {}
-void operator delete[](void* ptr) noexcept {}
+void operator delete(void*) noexcept {}
+void operator delete[](void*) noexcept {}
 
 #endif //XV6PP_BOOTLOADER_NEW_HPP
