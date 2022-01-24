@@ -174,24 +174,19 @@ protected:
     //virtual functions
 
     //locales
-    //virtual void imbue([[maybe_unused]] const locale& loc) {} TODO
+    //virtual void imbue(const locale&) {} TODO
     
     //buffer management and positioning
-    virtual basic_streambuf* setbuf(
-            [[maybe_unused]] char_type* s,
-            [[maybe_unused]] streamsize n) { return this; }
+    virtual basic_streambuf* setbuf(char_type*, streamsize) { return this; }
 
-    virtual pos_type seekoff([[maybe_unused]] off_type off, 
-                             [[maybe_unused]] ios_base::seekdir way,
-                             [[maybe_unused]] ios_base::openmode which)
+    virtual pos_type seekoff(off_type, ios_base::seekdir, ios_base::openmode)
     {
         return pos_type(off_type(-1));
     }
     
     virtual pos_type seekpos(
-                        [[maybe_unused]] pos_type sp,
-                        [[maybe_unused]] ios_base::openmode which =
-                            ios_base::in | ios_base::out)
+        pos_type, 
+        ios_base::openmode = ios_base::in | ios_base::out)
     {
         return pos_type(off_type(-1));
     }
@@ -226,7 +221,7 @@ protected:
     }
 
     //putback
-    virtual int_type pbackfail([[maybe_unused]] int_type c = traits::eof())
+    virtual int_type pbackfail(int_type = traits::eof())
     {
         return traits::eof();
     }
@@ -256,7 +251,7 @@ protected:
         return ret;
     }
 
-    virtual int_type overflow([[maybe_unused]] int_type c = traits::eof())
+    virtual int_type overflow(int_type = traits::eof())
     {
         return traits::eof();
     }
