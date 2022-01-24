@@ -14,15 +14,15 @@ extern "C" void bootmain()
 
     ELF::Header& elf = *new ELF::Header;
     disk >> elf;
-    
-    disk.seekg(512+elf.phoff);
+
+    disk.seekg(elf.phoff);
     
     std::span phdrs(new ELF::Program::Header[elf.phnum], elf.phnum);
     for(auto& phdr : phdrs) disk >> phdr;
 
     for(auto& phdr : phdrs)
     {
-        disk.seekg(512+phdr.offset);
+        disk.seekg(phdr.offset);
         disk.read(phdr.paddr, phdr.filesz);
     }
 

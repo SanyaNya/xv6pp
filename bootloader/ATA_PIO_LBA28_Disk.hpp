@@ -23,8 +23,7 @@ public:
 
     ATA_PIO_LBA28_Disk()
         : cur_pos(0), 
-          buffer(*static_cast<std::uint8_t (*)[BUFFER_SIZE]>(
-                      static_cast<void*>(new std::uint8_t[BUFFER_SIZE])))
+          buffer(*new std::array<std::uint8_t, BUFFER_SIZE>)
     {
         static_assert(BUFFER_SIZE % SECTOR_SIZE == 0);
         static_assert(BUFFER_SIZE % 4 == 0);
@@ -35,23 +34,24 @@ public:
         waitdisk();
         x86::outb(Port::SECTOR_COUNT, sector_count);
 
-        std::uint8_t* bytes = reinterpret_cast<std::uint8_t*>(&cur_pos);
-        x86::outb(Port::LBA_LO,             bytes[0]);
-        x86::outb(Port::LBA_MID,            bytes[1]);
-        x86::outb(Port::LBA_HI,             bytes[2]);
-        x86::outb(Port::DRIVE_HEAD_LBA_EXT, bytes[3] | 0xE0);
+        pos_type sector_pos = 1;
+        std::uint8_t* bytes = reinterpret_cast<std::uint8_t*>(&sector_pos);
+        x86::outb(Port::LBA_LO,        bytes[0]);
+        x86::outb(Port::LBA_MID,       bytes[1]);
+        x86::outb(Port::LBA_HI,        bytes[2]);
+        x86::outb(Port::DRIVE_LBA_EXT, bytes[3] | 0xE0);
 
         x86::outb(Port::CMD, Command::READ_SECTORS);
 
         waitdisk();
-        x86::insl(Port::DATA, buffer, words_count);
+        x86::insl(Port::DATA, buffer.data(), words_count);
     }
 
     void read(std::uint8_t* buf, std::size_t size)
     {
         std::copy(
-                buffer+cur_pos, 
-                buffer+cur_pos+size, 
+                buffer.data()+cur_pos, 
+                buffer.data()+cur_pos+size, 
                 buf);
         cur_pos += size;
     }
@@ -75,21 +75,21 @@ public:
 
 private:
     pos_type cur_pos;
-    std::uint8_t (&buffer)[BUFFER_SIZE];
+    std::array<std::uint8_t, BUFFER_SIZE>& buffer;
 
     enum class Port : std::uint16_t
     {
-        IO_BASE            = 0x1F0,
-        DATA               = 0x1F0,
-        ERROR              = 0x1F1,
-        FEATURES           = 0x1F1,
-        SECTOR_COUNT       = 0x1F2,
-        LBA_LO             = 0x1F3,
-        LBA_MID            = 0x1F4,
-        LBA_HI             = 0x1F5,
-        DRIVE_HEAD_LBA_EXT = 0x1F6,
-        STATUS             = 0x1F7,
-        CMD                = 0x1F7
+        IO_BASE       = 0x1F0,
+        DATA          = 0x1F0,
+        ERROR         = 0x1F1,
+        FEATURES      = 0x1F1,
+        SECTOR_COUNT  = 0x1F2,
+        LBA_LO        = 0x1F3,
+        LBA_MID       = 0x1F4,
+        LBA_HI        = 0x1F5,
+        DRIVE_LBA_EXT = 0x1F6,
+        STATUS        = 0x1F7,
+        CMD           = 0x1F7
     };
 
     enum class Command : std::uint8_t
@@ -123,10 +123,6 @@ private:
             s = get_status());
     }
 };
-
-template<std::size_t BUFFER_SIZE>
-ATA_PIO_LBA28_Disk(std::uint8_t (&)[BUFFER_SIZE]) -> 
-    ATA_PIO_LBA28_Disk<BUFFER_SIZE>;
 
 } //namesapce xv6pp
 
