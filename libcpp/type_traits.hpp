@@ -35,5 +35,6 @@
 #include "type_traits_impl/is_nothrow_assignable.hpp"
 #include "type_traits_impl/is_move_assignable.hpp"
 #include "type_traits_impl/is_nothrow_move_assignable.hpp"
+#include "type_traits_impl/is_convertible.hpp"
 
 #endif //STD_TYPE_TRAITS_HPP
