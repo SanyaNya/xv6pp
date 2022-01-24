@@ -21,7 +21,7 @@ SECTIONS {
     }
 
     . = 0x7dfe;
-    PROVIDE(BOOTMAGIC_ADDR);
+    PROVIDE(BOOTMAGIC_ADDR = .);
     .bootmagic : 
     {
         BYTE(0x55);

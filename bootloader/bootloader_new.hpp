@@ -10,7 +10,7 @@ namespace xv6pp
 namespace detail
 {
 
-extern unsigned char BOOTMAGIC_ADDR[];
+extern "C" unsigned char BOOTMAGIC_ADDR[];
 
 inline unsigned char* free_mem = BOOTMAGIC_ADDR;
 
