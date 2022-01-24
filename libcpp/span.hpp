@@ -130,6 +130,15 @@ private:
     [[no_unique_address]] extent_storage<Extent> extent_wrapper;
 };
 
+template<typename T, size_t N>
+span(T (&)[N]) -> span<T, N>;
+
+template<typename T, size_t N>
+span(array<T, N>&) -> span<T, N>;
+
+template<typename T, size_t N>
+span(const array<T, N>&) -> span<T, N>;
+
 } //namespace std
 
 #endif //STD_SPAN_HPP
