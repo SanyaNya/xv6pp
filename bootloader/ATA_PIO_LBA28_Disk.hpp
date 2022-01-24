@@ -4,37 +4,63 @@
 #include "../libcpp/type_traits.hpp"
 #include "../libcpp/cstdint.hpp"
 #include "../libcpp/ios.hpp"
+#include "../libcpp/algorithm.hpp"
 #include "../utils/ebitset.hpp"
 #include "x86.hpp"
+#include "bootloader_new.hpp"
+
+namespace xv6pp
+{
 
 inline constexpr std::uint32_t SECTOR_SIZE = 512;
 
+template<std::size_t BUFFER_SIZE>
 class ATA_PIO_LBA28_Disk
 {
 public:
     using pos_type = std::uint32_t;
     using off_type = pos_type;
 
+    ATA_PIO_LBA28_Disk()
+        : cur_pos(0), 
+          buffer(*static_cast<std::uint8_t (*)[BUFFER_SIZE]>(
+                      static_cast<void*>(new std::uint8_t[BUFFER_SIZE])))
+    {
+        static_assert(BUFFER_SIZE % SECTOR_SIZE == 0);
+        static_assert(BUFFER_SIZE % 4 == 0);
+
+        constexpr std::uint8_t sector_count = BUFFER_SIZE / SECTOR_SIZE;
+        constexpr std::size_t  words_count  = BUFFER_SIZE / 4;
+
+        waitdisk();
+        x86::outb(Port::SECTOR_COUNT, sector_count);
+
+        std::uint8_t* bytes = reinterpret_cast<std::uint8_t*>(&cur_pos);
+        x86::outb(Port::LBA_LO,             bytes[0]);
+        x86::outb(Port::LBA_MID,            bytes[1]);
+        x86::outb(Port::LBA_HI,             bytes[2]);
+        x86::outb(Port::DRIVE_HEAD_LBA_EXT, bytes[3] | 0xE0);
+
+        x86::outb(Port::CMD, Command::READ_SECTORS);
+
+        waitdisk();
+        x86::insl(Port::DATA, buffer, words_count);
+    }
+
+    void read(std::uint8_t* buf, std::size_t size)
+    {
+        std::copy(
+                buffer+cur_pos, 
+                buffer+cur_pos+size, 
+                buf);
+        cur_pos += size;
+    }
+
     template<typename T>
         requires requires{ std::is_trivial_v<T>; }
     void operator>>(T& t)
     {
-        constexpr std::uint32_t sectors_count = (sizeof(T) / SECTOR_SIZE) + 
-                                                (sizeof(T) % SECTOR_SIZE ? 1 : 0);
-        constexpr std::uint32_t words_count   = sizeof(T)/sizeof(std::uint32_t);
-
-        static_assert(sizeof(T) % sizeof(std::uint32_t) == 0);
-        static_assert(sectors_count < 256);
-
-        waitdisk();
-        x86::outb(Port::SECTOR_COUNT, sectors_count);
-        x86::outb(Port::CMD,          Command::READ_SECTORS);
-
-        waitdisk();
-        x86::in_skip(Port::DATA, cur_pos % SECTOR_SIZE);
-        x86::insl(Port::DATA, &t, words_count);
-
-        cur_pos += sizeof(T);
+        read(reinterpret_cast<std::uint8_t*>(&t), sizeof(T));
     }
 
     pos_type tellg() const
@@ -45,35 +71,11 @@ public:
     void seekg(pos_type pos)
     {
         cur_pos = pos;
-        pos /= SECTOR_SIZE; //sector pos
-
-        waitdisk();
-
-        std::uint8_t* bytes = reinterpret_cast<std::uint8_t*>(&pos);
-        x86::outb(Port::LBA_LO,             bytes[0]);
-        x86::outb(Port::LBA_MID,            bytes[1]);
-        x86::outb(Port::LBA_HI,             bytes[2]);
-        x86::outb(Port::DRIVE_HEAD_LBA_EXT, bytes[3] | 0xE0);
-    }
-
-    void seekg(off_type offset, std::ios_base::seekdir dir)
-    {
-        switch(dir)
-        {
-            case std::ios_base::cur:
-                cur_pos += offset;
-                break;
-            case std::ios_base::beg:
-                cur_pos = offset;
-                break;
-
-            default: break;
-        }
-        seekg(cur_pos);
     }
 
 private:
-    pos_type cur_pos = 0;
+    pos_type cur_pos;
+    std::uint8_t (&buffer)[BUFFER_SIZE];
 
     enum class Port : std::uint16_t
     {
@@ -121,5 +123,11 @@ private:
             s = get_status());
     }
 };
+
+template<std::size_t BUFFER_SIZE>
+ATA_PIO_LBA28_Disk(std::uint8_t (&)[BUFFER_SIZE]) -> 
+    ATA_PIO_LBA28_Disk<BUFFER_SIZE>;
+
+} //namesapce xv6pp
 
 #endif //ATA_PIO_LBA28_DISK_HPP

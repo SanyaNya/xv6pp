@@ -2,25 +2,29 @@
 #include "ATA_PIO_LBA28_Disk.hpp"
 #include "../ELF/ELFHeader.hpp"
 #include "../ELF/ProgramHeader.hpp"
+#include "bootloader_new.hpp"
+#include "../libcpp/span.hpp"
 
 namespace xv6pp
 {
 
-static ATA_PIO_LBA28_Disk disk;
-
-static ELF::Header& elf = *reinterpret_cast<ELF::Header*>(0x10000);
-
 extern "C" void bootmain()
 {
+    ATA_PIO_LBA28_Disk<5120> disk;
+
+    ELF::Header& elf = *new ELF::Header;
     disk >> elf;
     
-    disk.seekg(elf.phoff - sizeof(ELF::Header));
+    disk.seekg(512+elf.phoff);
     
-    ELF::Program::Header* phdr =
-        reinterpret_cast<ELF::Program::Header*>(0x10000+sizeof(ELF::Header)); 
+    std::span phdrs(new ELF::Program::Header[elf.phnum], elf.phnum);
+    for(auto& phdr : phdrs) disk >> phdr;
 
-    for(std::size_t i = 0; i != elf.phnum; ++i, ++phdr)
-        disk >> phdr;
+    for(auto& phdr : phdrs)
+    {
+        disk.seekg(512+phdr.offset);
+        disk.read(phdr.paddr, phdr.filesz);
+    }
 
     elf.entry();
 }
