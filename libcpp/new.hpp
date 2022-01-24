@@ -3,8 +3,6 @@
 
 #include "cstddef.hpp"
 
-
-
 //placement new
 [[nodiscard]] inline void* operator new(std::size_t, void* p) noexcept
 {
