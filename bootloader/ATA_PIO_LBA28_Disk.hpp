@@ -29,22 +29,22 @@ public:
         static_assert(BUFFER_SIZE % 4 == 0);
 
         constexpr std::uint8_t sector_count = BUFFER_SIZE / SECTOR_SIZE;
-        constexpr std::size_t  words_count  = BUFFER_SIZE / 4;
+        constexpr std::size_t  dwords_count  = BUFFER_SIZE / 4;
 
         waitdisk();
         x86::outb(Port::SECTOR_COUNT, sector_count);
 
         pos_type sector_pos = 1;
-        std::uint8_t* bytes = reinterpret_cast<std::uint8_t*>(&sector_pos);
+        const std::uint8_t* bytes = reinterpret_cast<std::uint8_t*>(&sector_pos);
         x86::outb(Port::LBA_LO,        bytes[0]);
         x86::outb(Port::LBA_MID,       bytes[1]);
         x86::outb(Port::LBA_HI,        bytes[2]);
-        x86::outb(Port::DRIVE_LBA_EXT, bytes[3] | 0xE0);
+        x86::outb(Port::DRIVE_LBA_EXT, bytes[3] | MASTER_LBA_MASK);
 
         x86::outb(Port::CMD, Command::READ_SECTORS);
 
         waitdisk();
-        x86::insl(Port::DATA, buffer.data(), words_count);
+        x86::insl(Port::DATA, buffer.data(), dwords_count);
     }
 
     void read(std::uint8_t* buf, std::size_t size)
@@ -91,6 +91,8 @@ private:
         STATUS        = 0x1F7,
         CMD           = 0x1F7
     };
+
+    static constexpr std::uint8_t MASTER_LBA_MASK = 0xE0;
 
     enum class Command : std::uint8_t
     {
