@@ -21,7 +21,7 @@
 #include "type_traits_impl/is_same.hpp"
 #include "type_traits_impl/conjunction.hpp"
 #include "type_traits_impl/is_explicitly_convertible.hpp"
-#include "type_traits_impl/undelying_type.hpp"
+#include "type_traits_impl/underlying_type.hpp"
 #include "type_traits_impl/is_const.hpp"
 #include "type_traits_impl/is_lvalue_reference.hpp"
 #include "type_traits_impl/is_rvalue_reference.hpp"
