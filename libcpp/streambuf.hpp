@@ -17,7 +17,7 @@ public:
     using off_type    = typename traits::off_type;
     using traits_type = traits;
 
-    virtual ~basic_streambuf();
+    virtual ~basic_streambuf() = default;
     
     //locales
     //locale pubimbue(const locale& loc) TODO
