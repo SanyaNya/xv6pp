@@ -37,5 +37,5 @@ add_custom_command(
     DEPENDS boot.bin kernel.bin image_creator
     COMMAND ${CMAKE_BINARY_DIR}/bin/create_image ${CMAKE_BINARY_DIR}/bootloader/boot.bin ${CMAKE_BINARY_DIR}/kernel.bin ${CMAKE_BINARY_DIR}/kernel.img)
 
-add_custom_target(kernel.img ALL DEPENDS ${CMAKE_BINARY_DIR}/kernel.img)
+add_custom_target(kernel_image ALL DEPENDS ${CMAKE_BINARY_DIR}/kernel.img)
 
