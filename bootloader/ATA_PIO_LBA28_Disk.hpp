@@ -34,8 +34,8 @@ public:
         waitdisk();
         x86::outb(Port::SECTOR_COUNT, sector_count);
 
-        pos_type sector_pos = 1;
-        const std::uint8_t* bytes = reinterpret_cast<std::uint8_t*>(&sector_pos);
+        const pos_type sector_pos = 1;
+        const std::uint8_t* const bytes = reinterpret_cast<const std::uint8_t* const>(&sector_pos);
         x86::outb(Port::LBA_LO,        bytes[0]);
         x86::outb(Port::LBA_MID,       bytes[1]);
         x86::outb(Port::LBA_HI,        bytes[2]);
