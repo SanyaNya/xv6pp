@@ -53,9 +53,4 @@ inline void* alloc(std::size_t size)
     return ::operator new(size, align);
 }
 
-void operator delete(void*) noexcept {}
-void operator delete[](void*) noexcept {}
-void operator delete(void*, std::size_t) {}
-void operator delete[](void*, std::size_t) {}
-
 #endif //XV6PP_BOOTLOADER_NEW_HPP
