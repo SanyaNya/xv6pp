@@ -179,14 +179,17 @@ protected:
     //buffer management and positioning
     virtual basic_streambuf* setbuf(char_type*, streamsize) { return this; }
 
-    virtual pos_type seekoff(off_type, ios_base::seekdir, ios_base::openmode)
+    virtual pos_type seekoff(
+                off_type, 
+                ios_base::seekdir,
+                ios_base::openmode = ios_base::in | ios_base::out)
     {
         return pos_type(off_type(-1));
     }
     
     virtual pos_type seekpos(
-        pos_type, 
-        ios_base::openmode = ios_base::in | ios_base::out)
+                pos_type, 
+                ios_base::openmode = ios_base::in | ios_base::out)
     {
         return pos_type(off_type(-1));
     }
