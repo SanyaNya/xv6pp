@@ -3,6 +3,20 @@
 
 #include "cstddef.hpp"
 
+namespace std
+{
+
+enum class align_val_t : size_t {};
+
+} //namespace std
+
+[[nodiscard]] void* operator new(std::size_t);
+[[nodiscard]] void* operator new(std::size_t, std::align_val_t);
+
+void operator delete(void*) noexcept;
+void operator delete(void*, std::size_t) noexcept;
+void operator delete(void*, std::align_val_t) noexcept;
+
 //placement new
 [[nodiscard]] inline void* operator new(std::size_t, void* p) noexcept
 {
