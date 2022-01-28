@@ -53,4 +53,20 @@ inline void* alloc(std::size_t size)
     return ::operator new(size, align);
 }
 
+void operator delete(void*) noexcept {}
+void operator delete(void*, std::size_t) noexcept {}
+void operator delete(void*, std::align_val_t) noexcept {}
+void operator delete(void*, std::size_t, std::align_val_t) noexcept {}
+void operator delete(void*, const std::nothrow_t&) noexcept {}
+void operator delete(void*, std::align_val_t, const std::nothrow_t&) noexcept {}
+
+void operator delete[](void*) noexcept{}
+void operator delete[](void*, std::size_t) noexcept {}
+void operator delete[](void*, std::align_val_t) noexcept {}
+void operator delete[](void*, std::size_t, std::align_val_t) noexcept {}
+void operator delete[](void*, const std::nothrow_t&) noexcept {}
+void operator delete[](void*, std::align_val_t, const std::nothrow_t&) noexcept {}
+
+
+
 #endif //XV6PP_BOOTLOADER_NEW_HPP
