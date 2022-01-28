@@ -1,9 +1,9 @@
-#ifndef XV6PP_ATA_PIO_LBA28_DISK_HPP
-#define XV6PP_ATA_PIO_LBA28_DISK_HPP
+#ifndef XV6PP_IO_DETAIL_ATA_PIO_LBA28_DISK_HPP
+#define XV6PP_IO_DETAIL_ATA_PIO_LBA28_DISK_HPP
 
-#include "libcpp/cstdint.hpp"
-#include "utils/ebitset.hpp"
-#include "x86.hpp"
+#include "../libcpp/cstdint.hpp"
+#include "../utils/ebitset.hpp"
+#include "../x86.hpp"
 
 namespace xv6pp::io::detail
 {
@@ -86,4 +86,4 @@ void read(char_type* buffer, pos_type sector_pos)
    }
 }
 
-#endif //XV6PP_ATA_PIO_LBA28_DISK_HPP
+#endif //XV6PP_IO_DETAIL_ATA_PIO_LBA28_DISK_HPP

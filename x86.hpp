@@ -1,10 +1,10 @@
 #ifndef X86_HPP
 #define X86_HPP
 
-#include "../libcpp/type_traits.hpp"
-#include "../libcpp/concepts.hpp"
-#include "../libcpp/cstddef.hpp"
-#include "../libcpp/cstdint.hpp"
+#include "libcpp/type_traits.hpp"
+#include "libcpp/concepts.hpp"
+#include "libcpp/cstddef.hpp"
+#include "libcpp/cstdint.hpp"
 
 namespace xv6pp::x86
 {
