@@ -61,7 +61,7 @@ inline constexpr std::size_t BUFFER_SIZE = 4096;
 inline constexpr std::uint16_t SECTOR_SIZE = 512;
 
 template<typename char_type, typename pos_type>
-void read(char_type* buffer, pos_type sector_pos)
+inline void read(char_type* buffer, pos_type sector_pos)
    {
         static_assert(detail::BUFFER_SIZE % SECTOR_SIZE == 0);
         static_assert(detail::BUFFER_SIZE % 4 == 0);
