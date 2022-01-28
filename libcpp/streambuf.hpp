@@ -259,7 +259,6 @@ protected:
         return traits::eof();
     }
 
-private:
     char_type* in_begin;
     char_type* in_cur;
     char_type* in_end;
