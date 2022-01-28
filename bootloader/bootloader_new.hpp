@@ -23,8 +23,8 @@ inline void align(std::align_val_t align)
 
 inline void* alloc(std::size_t size)
 {
-    void* r = xv6pp::detail::free_mem;
-    xv6pp::detail::free_mem += size;
+    void* r = free_mem;
+    free_mem += size;
     return r;
 }
 
@@ -32,40 +32,40 @@ inline void* alloc(std::size_t size)
 
 } //namesapce xv6pp
 
-[[nodiscard]] void* operator new(std::size_t size)
+[[nodiscard]] inline void* operator new(std::size_t size)
 {
     return xv6pp::detail::alloc(size);
 }
 
-[[nodiscard]] void* operator new(std::size_t size, std::align_val_t align)
+[[nodiscard]] inline void* operator new(std::size_t size, std::align_val_t align)
 {
     xv6pp::detail::align(align);
     return ::operator new(size);
 }
 
-[[nodiscard]] void* operator new[](std::size_t size)
+[[nodiscard]] inline void* operator new[](std::size_t size)
 {
     return ::operator new(size);
 }
 
-[[nodiscard]] void* operator new[](std::size_t size, std::align_val_t align)
+[[nodiscard]] inline void* operator new[](std::size_t size, std::align_val_t align)
 {
     return ::operator new(size, align);
 }
 
-void operator delete(void*) noexcept {}
-void operator delete(void*, std::size_t) noexcept {}
-void operator delete(void*, std::align_val_t) noexcept {}
-void operator delete(void*, std::size_t, std::align_val_t) noexcept {}
-void operator delete(void*, const std::nothrow_t&) noexcept {}
-void operator delete(void*, std::align_val_t, const std::nothrow_t&) noexcept {}
+inline void operator delete(void*) noexcept {}
+inline void operator delete(void*, std::size_t) noexcept {}
+inline void operator delete(void*, std::align_val_t) noexcept {}
+inline void operator delete(void*, std::size_t, std::align_val_t) noexcept {}
+inline void operator delete(void*, const std::nothrow_t&) noexcept {}
+inline void operator delete(void*, std::align_val_t, const std::nothrow_t&) noexcept {}
 
-void operator delete[](void*) noexcept{}
-void operator delete[](void*, std::size_t) noexcept {}
-void operator delete[](void*, std::align_val_t) noexcept {}
-void operator delete[](void*, std::size_t, std::align_val_t) noexcept {}
-void operator delete[](void*, const std::nothrow_t&) noexcept {}
-void operator delete[](void*, std::align_val_t, const std::nothrow_t&) noexcept {}
+inline void operator delete[](void*) noexcept{}
+inline void operator delete[](void*, std::size_t) noexcept {}
+inline void operator delete[](void*, std::align_val_t) noexcept {}
+inline void operator delete[](void*, std::size_t, std::align_val_t) noexcept {}
+inline void operator delete[](void*, const std::nothrow_t&) noexcept {}
+inline void operator delete[](void*, std::align_val_t, const std::nothrow_t&) noexcept {}
 
 
 
