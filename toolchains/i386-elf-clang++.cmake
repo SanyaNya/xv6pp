@@ -21,6 +21,7 @@ set(CXX_FREESTANDING_FLAG        -ffreestanding)
 set(CXX_NO_RED_ZONE_FLAG         -mno-red-zone)
 set(CXX_NO_EXCEPTIONS_FLAG       -fno-exceptions)
 set(CXX_NO_RTTI_FLAG             -fno-rtti)
+set(CXX_OMIT_FRAME_POINTER       -fomit-frame-pointer)
 set(CXX_WALL_WEXTRA_WERROR_FLAGS -Wall;-Wextra;-Werror)
 
 function(target_cxx_linker_script TARGET LINKER_SCRIPT)
