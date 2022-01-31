@@ -45,14 +45,14 @@ public:
                 std::ios_base::openmode = 
                     std::ios_base::in | std::ios_base::out) override
     {
+        pos_type pos;
         switch(dir)
         {
-            case std::ios_base::beg: return seekpos(offset);
-            case std::ios_base::cur: return seekpos(cur_pos() + offset);
-            //case std::ios_base::end:  //TODO
-
-            default: return pos_type(off_type(-1));
+            case std::ios_base::beg: pos = offset; break;
+            case std::ios_base::cur: pos = cur_pos() + offset; break;
+            case std::ios_base::end: pos = 0; break; //TODO
         }
+        return seekpos(pos);
     }
 
     virtual pos_type seekpos(
@@ -85,12 +85,12 @@ public:
 
 private:
    [[no_unique_address]] Allocator allocator;
-   pos_type buf_base_sector_pos;
+   pos_type buf_base_pos;
 
    //put pos == get pos
    pos_type cur_pos() const
    { 
-       return buf_base_sector_pos*detail::SECTOR_SIZE + (base::gptr() - base::eback()); 
+       return buf_base_pos + (base::gptr() - base::eback()); 
    }
 
    //eback == pbase
@@ -99,12 +99,12 @@ private:
 
    void buffer_update(pos_type pos)
    {
-       buf_base_sector_pos = pos / detail::SECTOR_SIZE;
+       buf_base_pos = pos;
 
-       detail::read(buffer(), buf_base_sector_pos);
+       detail::read(buffer(), buf_base_pos / detail::SECTOR_SIZE);
 
-       base::in_cur  = buffer() + (pos % detail::SECTOR_SIZE);
-       base::out_cur = buffer() + (pos % detail::SECTOR_SIZE);
+       base::in_cur  = buffer() + (buf_base_pos % detail::SECTOR_SIZE);
+       base::out_cur = buffer() + (buf_base_pos % detail::SECTOR_SIZE);
    }
 };
 
