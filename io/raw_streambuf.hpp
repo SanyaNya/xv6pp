@@ -12,7 +12,7 @@ template<
     typename CharT, 
     typename traits = std::char_traits<CharT>,
     typename Allocator = std::allocator<CharT>>
-class basic_rawbuf : public std::basic_streambuf<CharT, traits>
+class basic_rawbuf final : public std::basic_streambuf<CharT, traits>
 {
     using base = std::basic_streambuf<CharT, traits>;
 
