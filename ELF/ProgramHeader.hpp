@@ -30,6 +30,7 @@ enum class FlagsId
     R, //Read segment
 };
 using Flags = ebitset<3, FlagsId>;
+static_assert(sizeof(Flags) == sizeof(std::uint32_t));
 
 struct Header
 {
