@@ -66,7 +66,7 @@ public:
 private:
     static constexpr std::size_t WORD_BIT_SIZE = 8*sizeof(std::size_t);
 
-    static constexpr std::size_t word_count =
+    static constexpr std::size_t WORD_COUNT =
         N / WORD_BIT_SIZE + 
         N % WORD_BIT_SIZE == 0 ? 0 : 1;
 
@@ -90,7 +90,7 @@ private:
         return bit_mask(bit_pos(idx));
     }
 
-    std::array<std::size_t, word_count> data;
+    std::array<std::size_t, WORD_COUNT> data;
 };
 
 } //namespace std
