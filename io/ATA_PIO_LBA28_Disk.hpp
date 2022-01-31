@@ -48,11 +48,15 @@ inline Status get_status()
     return Status(x86::inb(Port::STATUS));
 }
 
+inline bool is_ready()
+{
+    Status s = get_status();
+    return s[StatusId::READY] && !s[StatusId::BUSY];
+}
+
 inline void waitdisk()
 {
-    for(Status s = get_status();
-        s[StatusId::READY] && !s[StatusId::BUSY];
-        s = get_status());
+    while(!is_ready());
 }
 
 inline constexpr std::uint8_t MASTER_LBA_MASK = 0xE0;

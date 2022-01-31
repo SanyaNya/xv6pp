@@ -16,21 +16,21 @@ public:
         friend class bitset;
 
         std::size_t& data;
-        std::size_t  bit_pos;
+        const std::size_t bpos;
 
         reference(std::size_t& bit, std::size_t pos)
-            : data(bit), bit_pos(pos) {}
+            : data(bit), bpos(pos) {}
 
         reference& operator=(bool x) noexcept
         {
-            data &= ~(1 << bit_pos);
-            data |= x << bit_pos;
+            data &= ~bit_mask(bpos);
+            data |= std::size_t(x) << bpos;
         }
 
     public:
         operator bool() const noexcept
         {
-            return data & (1 << bit_pos);
+            return data & bit_mask(bpos);
         }
 
         bool operator~() const noexcept
@@ -40,7 +40,7 @@ public:
 
         reference& flip() noexcept
         {
-            data ^= 1 << bit_pos;
+            data ^= bit_mask(bpos);
             return *this;
         }
     };
@@ -49,37 +49,48 @@ public:
     constexpr bitset() noexcept = default;
 
     constexpr bitset(unsigned long long val) noexcept
-        : data{ std::size_t(val) }
-    {}
+        : data{ size_t(val) } {}
 
     //TODO string constructors
 
     constexpr bool operator[](std::size_t idx) const
     {
-        return data[data_pos(idx)] & (1 << bit_pos(idx));
+        return data[word_pos(idx)] & bit_pos_mask(idx);
     }
 
     constexpr reference operator[](std::size_t idx)
     {
-        return reference(data[data_pos(idx)], bit_pos(idx));
+        return reference(data[word_pos(idx)], bit_pos(idx));
     }
 
 private:
-    static constexpr std::size_t data_count =
-        N / sizeof(std::size_t) + 
-        N % sizeof(std::size_t) == 0 ? 0 : 1;
+    static constexpr std::size_t WORD_BIT_SIZE = 8*sizeof(std::size_t);
 
-    static constexpr std::size_t data_pos(std::size_t idx) noexcept
+    static constexpr std::size_t word_count =
+        N / WORD_BIT_SIZE + 
+        N % WORD_BIT_SIZE == 0 ? 0 : 1;
+
+    static constexpr std::size_t word_pos(std::size_t idx) noexcept
     {
-        return idx / 8*sizeof(std::size_t);
+        return idx / WORD_BIT_SIZE;
     }
 
     static constexpr std::size_t bit_pos(std::size_t idx) noexcept
     {
-        return (idx % 8*sizeof(std::size_t));
+        return idx % WORD_BIT_SIZE;
     }
 
-    std::array<std::size_t, data_count> data;
+    static constexpr std::size_t bit_mask(std::size_t idx) noexcept
+    {
+        return std::size_t(1) << idx;
+    }
+
+    static constexpr std::size_t bit_pos_mask(std::size_t idx) noexcept
+    {
+        return bit_mask(bit_pos(idx));
+    }
+
+    std::array<std::size_t, word_count> data;
 };
 
 } //namespace std
