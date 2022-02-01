@@ -28,22 +28,57 @@ public:
         char_type* const buf_begin = allocator.allocate(detail::BUFFER_SIZE);
         char_type* const buf_end   = buf_begin + detail::BUFFER_SIZE;
 
-        base::setg(buf_begin, buf_begin, buf_end);
-        base::setp(buf_begin, buf_end);
+        base::in_begin = buf_begin;
+        base::in_end = buf_end;
+
+        base::out_begin = buf_begin;
+        base::out_end = buf_end;
 
         buffer_update(pos);
     }
 
-    virtual ~basic_rawbuf()
+    ~basic_rawbuf()
     {
         allocator.deallocate(buffer(), detail::BUFFER_SIZE);
     }
 
-    virtual pos_type seekoff(
+    pos_type pubseekoff(
+                off_type off, 
+                std::ios_base::seekdir way,
+                std::ios_base::openmode which = 
+                    std::ios_base::in | std::ios_base::out)
+    {
+        return seekoff(off, way, which);
+    }
+
+    pos_type pubseekpos(
+                pos_type sp,
+                std::ios_base::openmode which =
+                    std::ios_base::in | std::ios_base::out)
+    {
+        return seekpos(sp, which);
+    }
+
+    int pubsync()
+    {
+        return sync();
+    }
+
+    std::streamsize sgetn(char_type* s, std::streamsize n)
+    {
+        return base::xsgetn(s, n);
+    }
+
+    basic_rawbuf* setbuf(char_type*, std::streamsize) 
+    {
+        return this;
+    }
+
+    pos_type seekoff(
                 off_type offset, 
                 std::ios_base::seekdir dir, 
                 std::ios_base::openmode = 
-                    std::ios_base::in | std::ios_base::out) override
+                    std::ios_base::in | std::ios_base::out) 
     {
         pos_type pos;
         switch(dir)
@@ -55,10 +90,10 @@ public:
         return seekpos(pos);
     }
 
-    virtual pos_type seekpos(
+    pos_type seekpos(
                 pos_type pos, 
                 std::ios_base::openmode = 
-                    std::ios_base::in | std::ios_base::out) override
+                    std::ios_base::in | std::ios_base::out) 
     {
         if(base::sync() == -1) return pos_type(off_type(-1));    
 
@@ -67,15 +102,15 @@ public:
         return pos;
     }
 
-    virtual int sync() override
+    int sync() 
     {
         //TODO
         return 0;
     }
 
-    virtual int_type underflow() override
+    int_type underflow() 
     {
-        if(seekpos(cur_pos()))
+        if(seekpos(cur_pos()) != pos_type(off_type(-1)))
             return traits::to_int_type(*buffer());
 
         return traits::eof();
@@ -95,16 +130,14 @@ private:
 
    //eback == pbase
    char_type* buffer() const { return base::in_begin; }
-   void buffer(char_type* buf) { base::in_begin = buf; }
 
    void buffer_update(pos_type pos)
    {
-       buf_base_pos = pos;
+       buf_base_pos = pos - (pos % detail::SECTOR_SIZE);
+       base::in_cur  = buffer() + (pos % detail::SECTOR_SIZE);
+       base::out_cur = buffer() + (pos % detail::SECTOR_SIZE);
 
-       detail::read(buffer(), buf_base_pos / detail::SECTOR_SIZE);
-
-       base::in_cur  = buffer() + (buf_base_pos % detail::SECTOR_SIZE);
-       base::out_cur = buffer() + (buf_base_pos % detail::SECTOR_SIZE);
+       detail::read(buffer(), pos / detail::SECTOR_SIZE);
    }
 };
 
