@@ -1,29 +1,29 @@
-#include "../libcpp/cstddef.hpp"
-#include "ATA_PIO_LBA28_Disk.hpp"
+#include "bootloader_new.hpp"
 #include "../ELF/ELFHeader.hpp"
 #include "../ELF/ProgramHeader.hpp"
-#include "bootloader_new.hpp"
 #include "../libcpp/span.hpp"
+#include "../io/raw_streambuf.hpp"
 
 namespace xv6pp
 {
 
-extern "C" void bootmain()
+extern "C" [[noreturn]] void bootmain()
 {
-    ATA_PIO_LBA28_Disk<5120> disk;
+    io::rawbuf rbuf(512);
 
     ELF::Header& elf = *new ELF::Header;
-    disk >> elf;
-
-    disk.seekg(elf.phoff);
+    rbuf.sgetn(reinterpret_cast<char*>(&elf), sizeof(ELF::Header));
     
+    rbuf.seekpos(512+elf.phoff);
+
     std::span phdrs(new ELF::Program::Header[elf.phnum], elf.phnum);
-    for(auto& phdr : phdrs) disk >> phdr;
+    for(auto& phdr : phdrs) 
+        rbuf.sgetn(reinterpret_cast<char*>(&phdr), sizeof(ELF::Program::Header));
 
     for(auto& phdr : phdrs)
     {
-        disk.seekg(phdr.offset);
-        disk.read(phdr.paddr, phdr.filesz);
+        rbuf.seekpos(512 + phdr.offset);
+        rbuf.sgetn(reinterpret_cast<char*>(phdr.paddr), phdr.filesz);
     }
 
     elf.entry();
