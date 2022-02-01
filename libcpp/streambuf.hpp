@@ -17,7 +17,7 @@ public:
     using off_type    = typename traits::off_type;
     using traits_type = traits;
 
-    virtual ~basic_streambuf() = default;
+    ~basic_streambuf() = default;
     
     //locales
     //locale pubimbue(const locale& loc) TODO
@@ -177,9 +177,9 @@ protected:
     //virtual void imbue(const locale&) {} TODO
     
     //buffer management and positioning
-    virtual basic_streambuf* setbuf(char_type*, streamsize) { return this; }
+    basic_streambuf* setbuf(char_type*, streamsize) { return this; }
 
-    virtual pos_type seekoff(
+    pos_type seekoff(
                 off_type, 
                 ios_base::seekdir,
                 ios_base::openmode = ios_base::in | ios_base::out)
@@ -187,19 +187,19 @@ protected:
         return pos_type(off_type(-1));
     }
     
-    virtual pos_type seekpos(
+    pos_type seekpos(
                 pos_type, 
                 ios_base::openmode = ios_base::in | ios_base::out)
     {
         return pos_type(off_type(-1));
     }
 
-    virtual int sync() { return 0; }
+    int sync() { return 0; }
 
     //get area
-    virtual streamsize showmanyc() { return 0; }
+    streamsize showmanyc() { return 0; }
 
-    virtual streamsize xsgetn(char_type* s, streamsize n)
+    streamsize xsgetn(char_type* s, streamsize n)
     {
         streamsize ret = 0;
         do
@@ -216,21 +216,21 @@ protected:
         return ret;
     }
     
-    virtual int_type underflow() { return traits::eof(); }
+    int_type underflow() { return traits::eof(); }
 
-    virtual int_type uflow()
+    int_type uflow()
     {
         return !traits::eq_int_type(underflow(), traits::eof()) ? *in_cur++ : traits::eof();
     }
 
     //putback
-    virtual int_type pbackfail(int_type = traits::eof())
+    int_type pbackfail(int_type = traits::eof())
     {
         return traits::eof();
     }
 
     //put area
-    virtual streamsize xsputn(const char_type* s, streamsize n)
+    streamsize xsputn(const char_type* s, streamsize n)
     {
         streamsize ret = 0;
         while(n != 0)
@@ -254,7 +254,7 @@ protected:
         return ret;
     }
 
-    virtual int_type overflow(int_type = traits::eof())
+    int_type overflow(int_type = traits::eof())
     {
         return traits::eof();
     }
