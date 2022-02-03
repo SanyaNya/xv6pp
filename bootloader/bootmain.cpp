@@ -14,7 +14,7 @@ extern "C" [[noreturn]] void bootmain()
     ELF::Header& elf = *new ELF::Header;
     rbuf.sgetn(reinterpret_cast<char*>(&elf), sizeof(ELF::Header));
     
-    rbuf.seekpos(512+elf.phoff);
+    rbuf.pubseekpos(512+elf.phoff);
 
     std::span phdrs(new ELF::Program::Header[elf.phnum], elf.phnum);
     for(auto& phdr : phdrs) 
@@ -22,7 +22,7 @@ extern "C" [[noreturn]] void bootmain()
 
     for(auto& phdr : phdrs)
     {
-        rbuf.seekpos(512 + phdr.offset);
+        rbuf.pubseekpos(512 + phdr.offset);
         rbuf.sgetn(reinterpret_cast<char*>(phdr.paddr), phdr.filesz);
     }
 

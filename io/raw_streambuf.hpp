@@ -59,16 +59,12 @@ public:
         return seekpos(sp, which);
     }
 
-    int pubsync()
-    {
-        return sync();
-    }
-
     std::streamsize sgetn(char_type* s, std::streamsize n)
     {
         return base::xsgetn(s, n);
     }
 
+protected:
     basic_rawbuf* setbuf(char_type*, std::streamsize) 
     {
         return this;
@@ -102,12 +98,6 @@ public:
         return pos;
     }
 
-    int sync() 
-    {
-        //TODO
-        return 0;
-    }
-
     int_type underflow() 
     {
         if(seekpos(cur_pos()) != pos_type(off_type(-1)))
@@ -116,7 +106,7 @@ public:
         return traits::eof();
     }
 
-    //TODO overflow
+    //TODO output
 
 private:
    [[no_unique_address]] Allocator allocator;
