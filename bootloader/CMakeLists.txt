@@ -16,6 +16,7 @@ target_compile_options(boot.bin PRIVATE
         ${CXX_NO_RED_ZONE_FLAG};
         ${CXX_NO_EXCEPTIONS_FLAG};
         ${CXX_NO_RTTI_FLAG};
+        ${CXX_PIPE};
         ${CXX_WALL_WEXTRA_WERROR_FLAGS}>)
 
 #linker flags
