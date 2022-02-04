@@ -1,7 +1,8 @@
 #ifndef STD_STREAMBUF_HPP
 #define STD_STREAMBUF_HPP
 
-#include "string.hpp"
+#include "string_impl/char_traits.hpp"
+#include "ios_impl/ios_base.hpp"
 #include "algorithm.hpp"
 
 namespace std
