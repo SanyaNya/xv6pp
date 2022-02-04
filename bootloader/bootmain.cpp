@@ -11,7 +11,7 @@ extern "C" [[noreturn]] void bootmain()
 {
     io::rawbuf rbuf(512);
 
-    ELF::Header& elf = *new ELF::Header;
+    ELF::Header elf;
     rbuf.sgetn(reinterpret_cast<char*>(&elf), sizeof(ELF::Header));
     
     rbuf.pubseekpos(512+elf.phoff);
