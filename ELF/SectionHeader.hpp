@@ -42,6 +42,7 @@ enum class FlagsId
     PROC3
 };
 using Flags = ebitset<32, FlagsId>;
+static_assert(sizeof(Flags) == sizeof(std::uint32_t));
 
 struct Header
 {
