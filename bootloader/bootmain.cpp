@@ -17,8 +17,7 @@ extern "C" [[noreturn]] void bootmain()
     rbuf.pubseekpos(512+elf.phoff);
 
     std::span phdrs(new ELF::Program::Header[elf.phnum], elf.phnum);
-    for(auto& phdr : phdrs) 
-        rbuf.sgetn(reinterpret_cast<char*>(&phdr), sizeof(ELF::Program::Header));
+    rbuf.sgetn(reinterpret_cast<char*>(phdrs.data()), phdrs.size_bytes());
 
     for(auto& phdr : phdrs)
     {
