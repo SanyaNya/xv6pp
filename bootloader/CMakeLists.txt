@@ -13,7 +13,6 @@ target_compile_options(boot.bin PRIVATE
     $<$<COMPILE_LANGUAGE:CXX>:
         ${CXX_OPTIMIZATION_SIZE_FLAGS};
         ${CXX_FREESTANDING_FLAG};
-        ${CXX_NO_RED_ZONE_FLAG};
         ${CXX_NO_EXCEPTIONS_FLAG};
         ${CXX_NO_RTTI_FLAG};
         ${CXX_PIPE};
