@@ -12,9 +12,7 @@ namespace std
 template<typename InputIt, typename OutputIt>
 constexpr OutputIt copy(InputIt src_first, InputIt src_last, OutputIt dest_first)
 {
-    while(src_first != src_last)
-        *dest_first++ = *src_first++;
-    return dest_first;
+    return static_cast<OutputIt>(__builtin_memcpy(dest_first, src_first, src_last-src_first));
 }
 
 template<typename T>
