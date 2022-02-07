@@ -67,8 +67,8 @@ inline constexpr std::uint16_t SECTOR_SIZE = 512;
 template<typename char_type, typename pos_type>
 inline void read(char_type* buffer, pos_type sector_pos)
 {
-    static_assert(detail::BUFFER_SIZE % SECTOR_SIZE == 0);
-    static_assert(detail::BUFFER_SIZE % 4 == 0);
+    static_assert(BUFFER_SIZE % SECTOR_SIZE == 0);
+    static_assert(BUFFER_SIZE % 4 == 0);
 
     constexpr std::uint8_t sector_count = BUFFER_SIZE / SECTOR_SIZE;
     constexpr std::size_t  dwords_count  = BUFFER_SIZE / 4;
@@ -81,7 +81,7 @@ inline void read(char_type* buffer, pos_type sector_pos)
     x86::outb(Port::LBA_LO,        bytes[0]);
     x86::outb(Port::LBA_MID,       bytes[1]);
     x86::outb(Port::LBA_HI,        bytes[2]);
-    x86::outb(Port::DRIVE_LBA_EXT, bytes[3] | detail::MASTER_LBA_MASK);
+    x86::outb(Port::DRIVE_LBA_EXT, bytes[3] | MASTER_LBA_MASK);
 
     x86::outb(Port::CMD, Command::READ_SECTORS);
 
