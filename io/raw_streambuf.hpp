@@ -86,10 +86,6 @@ protected:
     {
         seekpos(cur_pos());
         return traits::to_int_type(*buffer());
-        //if(seekpos(cur_pos()) != pos_type(off_type(-1)))
-        //    return traits::to_int_type(*buffer());
-
-        //return traits::eof();
     }
 
     //TODO output
