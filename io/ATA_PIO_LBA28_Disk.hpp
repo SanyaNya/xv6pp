@@ -66,28 +66,29 @@ inline constexpr std::uint16_t SECTOR_SIZE = 512;
 
 template<typename char_type, typename pos_type>
 inline void read(char_type* buffer, pos_type sector_pos)
-   {
-        static_assert(detail::BUFFER_SIZE % SECTOR_SIZE == 0);
-        static_assert(detail::BUFFER_SIZE % 4 == 0);
+{
+    static_assert(detail::BUFFER_SIZE % SECTOR_SIZE == 0);
+    static_assert(detail::BUFFER_SIZE % 4 == 0);
 
-        constexpr std::uint8_t sector_count = BUFFER_SIZE / SECTOR_SIZE;
-        constexpr std::size_t  dwords_count  = BUFFER_SIZE / 4;
+    constexpr std::uint8_t sector_count = BUFFER_SIZE / SECTOR_SIZE;
+    constexpr std::size_t  dwords_count  = BUFFER_SIZE / 4;
 
-        waitdisk();
-        x86::outb(Port::SECTOR_COUNT, sector_count);
+    waitdisk();
+    x86::outb(Port::SECTOR_COUNT, sector_count);
 
-        const std::uint8_t* const bytes = 
-            reinterpret_cast<const std::uint8_t* const>(&sector_pos);
-        x86::outb(Port::LBA_LO,        bytes[0]);
-        x86::outb(Port::LBA_MID,       bytes[1]);
-        x86::outb(Port::LBA_HI,        bytes[2]);
-        x86::outb(Port::DRIVE_LBA_EXT, bytes[3] | detail::MASTER_LBA_MASK);
+    const std::uint8_t* const bytes = 
+        reinterpret_cast<const std::uint8_t* const>(&sector_pos);
+    x86::outb(Port::LBA_LO,        bytes[0]);
+    x86::outb(Port::LBA_MID,       bytes[1]);
+    x86::outb(Port::LBA_HI,        bytes[2]);
+    x86::outb(Port::DRIVE_LBA_EXT, bytes[3] | detail::MASTER_LBA_MASK);
 
-        x86::outb(Port::CMD, Command::READ_SECTORS);
+    x86::outb(Port::CMD, Command::READ_SECTORS);
 
-        waitdisk();
-        x86::insl(Port::DATA, buffer, dwords_count);
-   }
+    waitdisk();
+    x86::insl(Port::DATA, buffer, dwords_count);
 }
+
+} //namespace xv6pp::io::detail 
 
 #endif //XV6PP_IO_DETAIL_ATA_PIO_LBA28_DISK_HPP
