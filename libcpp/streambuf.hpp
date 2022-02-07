@@ -5,12 +5,32 @@
 #include "ios_impl/ios_base.hpp"
 #include "algorithm.hpp"
 
+#ifndef STD_CRTP_STREAMBUF
+#define STD_STREAMBUF_VIRTUAL virtual
+#define STD_STREAMBUF_OVERRIDE override
+#else
+#define STD_STREAMBUF_VIRTUAL 
+#define STD_STREAMBUF_OVERRIDE 
+#endif
+
 namespace std
 {
 
-template<typename CharT, typename traits = char_traits<CharT>>
+template<
+    typename CharT, 
+    typename traits = char_traits<CharT>,
+    typename TImpl = void>
 class basic_streambuf
 {
+    constexpr auto& get_this()
+    {
+#ifdef STD_CRTP_STREAMBUF
+        return *static_cast<TImpl*>(this);
+#else
+        return *this;
+#endif
+    }
+
 public:
     using char_type   = CharT;
     using int_type    = typename traits::int_type;
@@ -18,7 +38,7 @@ public:
     using off_type    = typename traits::off_type;
     using traits_type = traits;
 
-    ~basic_streambuf() = default;
+    STD_STREAMBUF_VIRTUAL ~basic_streambuf() = default;
     
     //locales
     //locale pubimbue(const locale& loc) TODO
@@ -27,7 +47,7 @@ public:
     //buffer and positioning
     basic_streambuf* pubsetbuf(char_type* s, streamsize n)
     {
-        return setbuf(s, n);
+        return get_this().setbuf(s, n);
     }
 
     pos_type pubseekoff(
@@ -36,7 +56,7 @@ public:
                 ios_base::openmode which = 
                     ios_base::in | ios_base::out)
     {
-        return seekoff(off, way, which);
+        return get_this().seekoff(off, way, which);
     }
 
     pos_type pubseekpos(
@@ -44,19 +64,19 @@ public:
                 ios_base::openmode which =
                     ios_base::in | ios_base::out)
     {
-        return seekpos(sp, which);
+        return get_this().seekpos(sp, which);
     }
 
     int pubsync()
     {
-        return sync();
+        return get_this().sync();
     }
 
     //get and put areas
     streamsize in_avail()
     {
         const streamsize avail = egptr() - gptr();
-        return avail > 0 ? avail : showmanyc();
+        return avail > 0 ? avail : get_this().showmanyc();
     }
 
     int_type snextc()
@@ -70,19 +90,19 @@ public:
     {
         [[likely]] if(is_read_avail())
             return traits::to_int_type(*in_cur++);
-        return uflow();
+        return get_this().uflow();
     }
 
     int_type sgetc()
     {
         [[likely]] if(is_read_avail())
             return traits::to_int_type(*gptr());
-        return underflow();
+        return get_this().underflow();
     }
 
     streamsize sgetn(char_type* s, streamsize n)
     {
-        return xsgetn(s, n);
+        return get_this().xsgetn(s, n);
     }
 
     //putback
@@ -90,14 +110,14 @@ public:
     {
         [[likely]] if(is_putback_avail() && traits::eq(c, gptr()[-1]))
             return traits::to_int_type(*--in_cur);
-        return pbackfail(traits::to_int_type(c));
+        return get_this().pbackfail(traits::to_int_type(c));
     }
     
     int_type sungetc()
     {
         [[likely]] if(is_putback_avail())
             return traits::to_int_type(*--in_cur);
-        return pbackfail();
+        return get_this().pbackfail();
     }
 
     //put area
@@ -105,12 +125,12 @@ public:
     {
         [[likely]] if(is_put_avail())
             return traits::to_int_type(*out_cur++ = c);
-        return overflow(traits::to_int_type(c));
+        return get_this().overflow(traits::to_int_type(c));
     }
 
     streamsize sputn(const char_type* s, streamsize n)
     {
-        return xsputn(s, n);
+        return get_this().xsputn(s, n);
     }
 
 protected:
@@ -178,9 +198,9 @@ protected:
     //virtual void imbue(const locale&) {} TODO
     
     //buffer management and positioning
-    basic_streambuf* setbuf(char_type*, streamsize) { return this; }
+    STD_STREAMBUF_VIRTUAL basic_streambuf* setbuf(char_type*, streamsize) { return this; }
 
-    pos_type seekoff(
+    STD_STREAMBUF_VIRTUAL pos_type seekoff(
                 off_type, 
                 ios_base::seekdir,
                 ios_base::openmode = ios_base::in | ios_base::out)
@@ -188,74 +208,71 @@ protected:
         return pos_type(off_type(-1));
     }
     
-    pos_type seekpos(
+    STD_STREAMBUF_VIRTUAL pos_type seekpos(
                 pos_type, 
                 ios_base::openmode = ios_base::in | ios_base::out)
     {
         return pos_type(off_type(-1));
     }
 
-    int sync() { return 0; }
+    STD_STREAMBUF_VIRTUAL int sync() { return 0; }
 
     //get area
-    streamsize showmanyc() { return 0; }
+    STD_STREAMBUF_VIRTUAL streamsize showmanyc() { return 0; }
 
-    streamsize xsgetn(char_type* s, streamsize n)
+    STD_STREAMBUF_VIRTUAL streamsize xsgetn(char_type* s, streamsize n)
     {
-        streamsize ret = 0;
+        streamsize ret = n;
         do
         {
             const streamsize count = std::min(n, egptr() - gptr());
             traits::copy(s, gptr(), count);
             s   += count;
-            ret += count;
             n   -= count;
             gbump_streamsize(count);
         }
-        while(n != 0 && !traits::eq_int_type(underflow(), traits::eof()));
+        while(n != 0 && !traits::eq_int_type(get_this().underflow(), traits::eof()));
 
-        return ret;
+        return ret-n;
     }
     
-    int_type underflow() { return traits::eof(); }
+    STD_STREAMBUF_VIRTUAL int_type underflow() { return traits::eof(); }
 
-    int_type uflow()
+    STD_STREAMBUF_VIRTUAL int_type uflow()
     {
-        return !traits::eq_int_type(underflow(), traits::eof()) ? *in_cur++ : traits::eof();
+        return !traits::eq_int_type(get_this().underflow(), traits::eof()) ? *in_cur++ : traits::eof();
     }
 
     //putback
-    int_type pbackfail(int_type = traits::eof())
+    STD_STREAMBUF_VIRTUAL int_type pbackfail(int_type = traits::eof())
     {
         return traits::eof();
     }
 
     //put area
-    streamsize xsputn(const char_type* s, streamsize n)
+    STD_STREAMBUF_VIRTUAL streamsize xsputn(const char_type* s, streamsize n)
     {
-        streamsize ret = 0;
+        streamsize ret = n;
         while(n != 0)
         {
             const streamsize count = std::min(n, epptr() - pptr());
             traits::copy(pptr(), s, count);
             s += count;
-            ret += count;
             n -= count;
             pbump_streamsize(count);
 
-            if(n != 0 && !traits::eq_int_type(overflow(traits::to_int_type(*out_cur)), traits::eof()))
+            if(n != 0 && !traits::eq_int_type(get_this().overflow(traits::to_int_type(*out_cur)), traits::eof()))
             {
                 s++;
-                ret++;
                 n--;
                 out_cur++;
             }
         }
 
-        return ret;
+        return ret-n;
     }
 
-    int_type overflow(int_type = traits::eof())
+    STD_STREAMBUF_VIRTUAL int_type overflow(int_type = traits::eof())
     {
         return traits::eof();
     }

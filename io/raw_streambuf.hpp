@@ -12,9 +12,10 @@ template<
     typename CharT, 
     typename traits = std::char_traits<CharT>,
     typename Allocator = std::allocator<CharT>>
-class basic_rawbuf final : public std::basic_streambuf<CharT, traits>
+class basic_rawbuf final : public std::basic_streambuf<CharT, traits, basic_rawbuf<CharT, traits, Allocator>>
 {
-    using base = std::basic_streambuf<CharT, traits>;
+    using base = std::basic_streambuf<CharT, traits, basic_rawbuf<CharT, traits, Allocator>>;
+    friend base;
 
 public:
     using char_type   = CharT;
@@ -42,39 +43,24 @@ public:
         allocator.deallocate(buffer(), detail::BUFFER_SIZE);
     }
 
-    pos_type pubseekoff(
-                off_type off, 
-                std::ios_base::seekdir way,
-                std::ios_base::openmode which = 
-                    std::ios_base::in | std::ios_base::out)
+#ifndef STD_CRTP_STREAMBUF
+    pos_type pubseekpos(pos_type pos, std::ios_base::openmode = std::ios_base::in | std::ios_base::out)
     {
-        return seekoff(off, way, which);
-    }
-
-    pos_type pubseekpos(
-                pos_type sp,
-                std::ios_base::openmode which =
-                    std::ios_base::in | std::ios_base::out)
-    {
-        return seekpos(sp, which);
+        return seekpos(pos);
     }
 
     std::streamsize sgetn(char_type* s, std::streamsize n)
     {
-        return base::xsgetn(s, n);
+        return base::sgetn(s, n);
     }
+#endif
 
 protected:
-    basic_rawbuf* setbuf(char_type*, std::streamsize) 
-    {
-        return this;
-    }
-
     pos_type seekoff(
                 off_type offset, 
                 std::ios_base::seekdir dir, 
                 std::ios_base::openmode = 
-                    std::ios_base::in | std::ios_base::out) 
+                    std::ios_base::in | std::ios_base::out) STD_STREAMBUF_OVERRIDE
     {
         pos_type pos;
         switch(dir)
@@ -89,21 +75,21 @@ protected:
     pos_type seekpos(
                 pos_type pos, 
                 std::ios_base::openmode = 
-                    std::ios_base::in | std::ios_base::out) 
+                    std::ios_base::in | std::ios_base::out) STD_STREAMBUF_OVERRIDE
     {
-        if(base::sync() == -1) return pos_type(off_type(-1));    
-
         buffer_update(pos);
 
         return pos;
     }
 
-    int_type underflow() 
+    int_type underflow() STD_STREAMBUF_OVERRIDE
     {
-        if(seekpos(cur_pos()) != pos_type(off_type(-1)))
-            return traits::to_int_type(*buffer());
+        seekpos(cur_pos());
+        return traits::to_int_type(*buffer());
+        //if(seekpos(cur_pos()) != pos_type(off_type(-1)))
+        //    return traits::to_int_type(*buffer());
 
-        return traits::eof();
+        //return traits::eof();
     }
 
     //TODO output

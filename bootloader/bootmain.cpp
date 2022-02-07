@@ -1,3 +1,5 @@
+#define STD_CRTP_STREAMBUF
+
 #include "bootloader_new.hpp"
 #include "../ELF/ELFHeader.hpp"
 #include "../ELF/ProgramHeader.hpp"
