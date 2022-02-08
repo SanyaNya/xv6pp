@@ -62,14 +62,7 @@ protected:
                 std::ios_base::openmode = 
                     std::ios_base::in | std::ios_base::out) STD_STREAMBUF_OVERRIDE
     {
-        pos_type pos;
-        switch(dir)
-        {
-            case std::ios_base::beg: pos = offset; break;
-            case std::ios_base::cur: pos = cur_pos() + offset; break;
-            case std::ios_base::end: pos = 0; break; //TODO
-        }
-        return seekpos(pos);
+        return seekpos(dir == std::ios_base::beg ? offset : offset + cur_pos());
     }
 
     pos_type seekpos(
@@ -84,7 +77,7 @@ protected:
 
     int_type underflow() STD_STREAMBUF_OVERRIDE
     {
-        seekpos(cur_pos());
+        buffer_update(cur_pos());
         return traits::to_int_type(*buffer());
     }
 
