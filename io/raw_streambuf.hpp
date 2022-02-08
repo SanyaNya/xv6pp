@@ -105,11 +105,11 @@ private:
 
    void buffer_update(pos_type pos)
    {
-       buf_base_pos = pos - (pos % detail::SECTOR_SIZE);
-       base::in_cur  = buffer() + (pos % detail::SECTOR_SIZE);
-       base::out_cur = buffer() + (pos % detail::SECTOR_SIZE);
+       buf_base_pos = detail::align_buf(pos);
+       base::in_cur  = buffer() + detail::buf_align_indent(pos);
+       base::out_cur = buffer() + detail::buf_align_indent(pos);
 
-       detail::read(buffer(), pos / detail::SECTOR_SIZE);
+       detail::read(buffer(), detail::buf_sector(pos));
    }
 };
 
