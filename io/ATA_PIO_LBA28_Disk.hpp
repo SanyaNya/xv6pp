@@ -59,18 +59,6 @@ inline void waitdisk()
     while(!is_ready());
 }
 
-template<typename T>
-constexpr T log2(T a)
-{
-    T c = 0;
-    while(a > 1)
-    {
-        a /= 2;
-        c++;
-    }
-    return c;
-}
-
 inline constexpr std::uint8_t MASTER_LBA_MASK = 0xE0;
 
 inline constexpr std::size_t BUFFER_SIZE = 4096; 
@@ -85,19 +73,22 @@ inline constexpr std::size_t  DWORDS_COUNT  = BUFFER_SIZE / 4;
 template<typename pos_type>
 inline pos_type align_buf(pos_type pos)
 {
-    return (pos >> log2(SECTOR_SIZE)) << log2(SECTOR_SIZE);
+    const std::make_unsigned_t<pos_type> p = pos;
+    return p - (p % SECTOR_SIZE);
 }
 
 template<typename pos_type>
 inline pos_type buf_align_indent(pos_type pos)
 {
-    return pos - align_buf(pos);
+    const std::make_unsigned_t<pos_type> p = pos;
+    return p % SECTOR_SIZE;
 }
 
 template<typename pos_type>
 inline pos_type buf_sector(pos_type pos)
 {
-    return pos >> log2(SECTOR_SIZE);
+    const std::make_unsigned_t<pos_type> p = pos;
+    return p / SECTOR_SIZE;
 }
 
 inline void read(char* buffer, std::uint32_t sector_pos)
