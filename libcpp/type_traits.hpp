@@ -12,6 +12,9 @@
 #include "type_traits_impl/remove_const.hpp"
 #include "type_traits_impl/remove_volatile.hpp"
 #include "type_traits_impl/remove_cv.hpp"
+#include "type_traits_impl/add_const.hpp"
+#include "type_traits_impl/add_volatile.hpp"
+#include "type_traits_impl/add_cv.hpp"
 #include "type_traits_impl/is_void.hpp"
 #include "type_traits_impl/is_trivially_copyable.hpp"
 #include "type_traits_impl/is_trivially_constructible.hpp"
@@ -36,5 +39,9 @@
 #include "type_traits_impl/is_move_assignable.hpp"
 #include "type_traits_impl/is_nothrow_move_assignable.hpp"
 #include "type_traits_impl/is_convertible.hpp"
+#include "type_traits_impl/is_integral.hpp"
+#include "type_traits_impl/is_bool.hpp"
+#include "type_traits_impl/conditional.hpp"
+#include "type_traits_impl/make_unsigned.hpp"
 
 #endif //STD_TYPE_TRAITS_HPP

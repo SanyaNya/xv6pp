@@ -2,6 +2,9 @@
 #define STD_TYPE_TRAITS_DETAIL_CONSTRAINTS_HPP
 
 #include "../is_void.hpp"
+#include "../is_integral.hpp"
+#include "../is_enum.hpp"
+#include "../is_bool.hpp"
 
 namespace std::detail
 {
@@ -27,6 +30,21 @@ concept complete_or_cv_void = complete<T> || cv_void<T>;
 template<typename T>
 concept complete_or_cv_void_or_unbounded_array 
     = complete<T> || cv_void<T> || unbounded_array<T>;
+
+template<typename T>
+concept integral = is_integral_v<T>;
+
+template<typename T>
+concept non_bool_integral = integral<T> && !is_bool_v<T>;
+
+template<typename T>
+concept enumeration = is_enum_v<T>;
+
+template<typename T>
+concept integral_or_enum = integral<T> || enumeration<T>;
+
+template<typename T>
+concept non_bool_integral_or_enum = non_bool_integral<T> || enumeration<T>;
 
 } //namespace
 
