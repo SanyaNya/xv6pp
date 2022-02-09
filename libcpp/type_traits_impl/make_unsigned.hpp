@@ -59,7 +59,10 @@ using make_non_cv_unsigned_t = typename make_non_cv_unsigned<T>::type;
 
 template<detail::non_bool_integral_or_enum T>
 struct make_unsigned : 
-    detail::match_cv_t<T, detail::make_non_cv_unsigned_t<T>> {};
+    detail::match_cv<T, detail::make_non_cv_unsigned_t<T>> {};
+
+template<detail::non_bool_integral_or_enum T>
+using make_unsigned_t = typename make_unsigned<T>::type;
 
 } //namepace std
 
