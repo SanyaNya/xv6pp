@@ -7,7 +7,7 @@
 namespace std
 {
 
-using streamoff  = int64_t;
+using streamoff  = int32_t;
 using streamsize = ptrdiff_t;
 using mbstate_t  = void; //TODO
 
