@@ -43,18 +43,6 @@ public:
         allocator.deallocate(buffer(), detail::BUFFER_SIZE);
     }
 
-#ifndef STD_CRTP_STREAMBUF
-    pos_type pubseekpos(pos_type pos, std::ios_base::openmode = std::ios_base::in | std::ios_base::out)
-    {
-        return seekpos(pos);
-    }
-
-    std::streamsize sgetn(char_type* s, std::streamsize n)
-    {
-        return base::sgetn(s, n);
-    }
-#endif
-
 protected:
     pos_type seekoff(
                 off_type offset, 
