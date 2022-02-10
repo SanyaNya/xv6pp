@@ -73,22 +73,19 @@ inline constexpr std::size_t  DWORDS_COUNT  = BUFFER_SIZE / 4;
 template<typename pos_type>
 inline pos_type align_buf(pos_type pos)
 {
-    const std::make_unsigned_t<pos_type> p = pos;
-    return p - (p % SECTOR_SIZE);
+    return pos - (pos % SECTOR_SIZE);
 }
 
 template<typename pos_type>
 inline pos_type buf_align_indent(pos_type pos)
 {
-    const std::make_unsigned_t<pos_type> p = pos;
-    return p % SECTOR_SIZE;
+    return pos % SECTOR_SIZE;
 }
 
 template<typename pos_type>
 inline pos_type buf_sector(pos_type pos)
 {
-    const std::make_unsigned_t<pos_type> p = pos;
-    return p / SECTOR_SIZE;
+    return pos / SECTOR_SIZE;
 }
 
 inline void read(char* buffer, std::uint32_t sector_pos)
@@ -96,8 +93,7 @@ inline void read(char* buffer, std::uint32_t sector_pos)
     waitdisk();
     x86::outb(Port::SECTOR_COUNT, SECTOR_COUNT);
 
-    const std::uint8_t* const bytes = 
-        reinterpret_cast<const std::uint8_t* const>(&sector_pos);
+    std::uint8_t* bytes = reinterpret_cast<std::uint8_t*>(&sector_pos);
     x86::outb(Port::LBA_LO,        bytes[0]);
     x86::outb(Port::LBA_MID,       bytes[1]);
     x86::outb(Port::LBA_HI,        bytes[2]);

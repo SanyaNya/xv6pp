@@ -3,6 +3,7 @@
 
 #include "../libcpp/streambuf.hpp"
 #include "../libcpp/allocator.hpp"
+#include "../libcpp/type_traits.hpp"
 #include "ATA_PIO_LBA28_Disk.hpp"
 
 namespace xv6pp::io
@@ -17,6 +18,8 @@ class basic_rawbuf final : public std::basic_streambuf<CharT, traits, basic_rawb
     using base = std::basic_streambuf<CharT, traits, basic_rawbuf<CharT, traits, Allocator>>;
     friend base;
 
+    using upos = std::make_unsigned_t<typename traits::pos_type>;
+
 public:
     using char_type   = CharT;
     using int_type    = typename traits::int_type;
@@ -24,7 +27,7 @@ public:
     using off_type    = typename traits::off_type;
     using traits_type = traits;
 
-    basic_rawbuf(pos_type pos)
+    basic_rawbuf(upos pos)
     {
         char_type* const buf_begin = allocator.allocate(detail::BUFFER_SIZE);
         char_type* const buf_end   = buf_begin + detail::BUFFER_SIZE;
@@ -73,10 +76,10 @@ protected:
 
 private:
    [[no_unique_address]] Allocator allocator;
-   pos_type buf_base_pos;
+   upos buf_base_pos;
 
    //put pos == get pos
-   pos_type cur_pos() const
+   upos cur_pos() const
    { 
        return buf_base_pos + (base::gptr() - base::eback()); 
    }
@@ -84,7 +87,7 @@ private:
    //eback == pbase
    char_type* buffer() const { return base::in_begin; }
 
-   void buffer_update(pos_type pos)
+   void buffer_update(upos pos)
    {
        buf_base_pos = detail::align_buf(pos);
        base::in_cur  = buffer() + detail::buf_align_indent(pos);
