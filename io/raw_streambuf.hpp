@@ -41,9 +41,20 @@ public:
         buffer_update(pos);
     }
 
+    basic_rawbuf(const basic_rawbuf&) = delete;
+    basic_rawbuf(basic_rawbuf&&) = default;
+
     ~basic_rawbuf()
     {
         allocator.deallocate(buffer(), detail::BUFFER_SIZE);
+    }
+
+    basic_rawbuf& operator=(const basic_rawbuf&) = delete;
+    basic_rawbuf& operator=(basic_rawbuf&&) = default;
+
+    void swap(basic_rawbuf& rhs)
+    {
+        std::swap(*this, rhs);
     }
 
 protected:
