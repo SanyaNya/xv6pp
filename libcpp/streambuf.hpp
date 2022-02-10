@@ -147,7 +147,13 @@ protected:
 
     void swap(basic_streambuf& rhs)
     {
-        std::swap(*this, rhs);
+        std::swap(in_begin, rhs.in_begin);
+        std::swap(in_cur,   rhs.in_cur);
+        std::swap(in_end,   rhs.in_end);
+
+        std::swap(out_begin, rhs.out_begin);
+        std::swap(out_cur,   rhs.out_cur);
+        std::swap(out_end,   rhs.out_end);
     }
 
     //get area access
