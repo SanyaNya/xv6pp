@@ -9,7 +9,10 @@
 namespace std
 {
 
-template<typename CharT, typename Traits = char_traits<CharT>>
+template<
+    typename CharT, 
+    typename Traits = char_traits<CharT>, 
+    typename TStreambufImpl = void>
 class basic_ios : public ios_base
 {
 public:
@@ -81,19 +84,20 @@ public:
     }
 
     //constructor/destructor
-    explicit basic_ios(basic_streambuf<CharT, Traits>* sb)
+    explicit basic_ios(basic_streambuf<CharT, Traits, TStreambufImpl>* sb)
     {
         init(sb);
     }
     virtual ~basic_ios() = default;
 
     //members
-    basic_streambuf<CharT, Traits>* rdbuf() const
+    basic_streambuf<CharT, Traits, TStreambufImpl>* rdbuf() const
     {
         return buf;
     }
 
-    basic_streambuf<CharT, Traits>* rdbuf(basic_streambuf<CharT, Traits>* sb)
+    basic_streambuf<CharT, Traits, TStreambufImpl>* 
+        rdbuf(basic_streambuf<CharT, Traits, TStreambufImpl>* sb)
     {
         auto* prev_buf = rdbuf();
 
@@ -107,7 +111,7 @@ public:
     basic_ios& operator=(const basic_ios&) = delete;
 protected:
     basic_ios() = default;
-    void init(basic_streambuf<CharT, Traits>* sb)
+    void init(basic_streambuf<CharT, Traits, TStreambufImpl>* sb)
     {
         buf = sb;
         io_state = sb ? goodbit : badbit;
@@ -130,13 +134,13 @@ protected:
         swap(io_state, rhs.io_state);
     }
 
-    void set_rdbuf(basic_streambuf<CharT, Traits>* sb)
+    void set_rdbuf(basic_streambuf<CharT, Traits, TStreambufImpl>* sb)
     {
         if(sb != nullptr) buf = sb;
     }
 
 private:
-    basic_streambuf<CharT, Traits>* buf;
+    basic_streambuf<CharT, Traits, TStreambufImpl>* buf;
     iostate io_state;
     iostate exceptions_mask;
 };
