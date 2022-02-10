@@ -43,5 +43,6 @@
 #include "type_traits_impl/is_bool.hpp"
 #include "type_traits_impl/conditional.hpp"
 #include "type_traits_impl/make_unsigned.hpp"
+#include "type_traits_impl/enable_if.hpp"
 
 #endif //STD_TYPE_TRAITS_HPP
