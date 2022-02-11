@@ -62,9 +62,15 @@ struct type_list
     static constexpr size_t find_if =
         detail::type_list_helper<Ts...>::template find_if<P, 0>::value;
 
+    template<auto P>
+    using find_type_if = get<find_if<P>>;
+
     template<typename T>
     static constexpr size_t find = 
         find_if<[]<typename TArg>(){ return is_same_v<T, TArg>; }>;
+
+    template<typename T>
+    using find_type = get<find<T>>;
 
     template<typename T>
     static constexpr bool exist = 

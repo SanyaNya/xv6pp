@@ -40,9 +40,13 @@ template<>
 struct make_unsigned_non_cv_integral<long long> : 
     type_identity<unsigned long long> {};
 
+using rank_types = type_list<unsigned char, unsigned short, unsigned int, unsigned long, unsigned long long>;
 
 template<typename T>
-struct make_unsigned_non_cv_enum;
+struct make_unsigned_non_cv_enum
+    : type_identity<
+        rank_types::find_type_if<
+            []<typename TArg>(){ return sizeof(T) <= sizeof(TArg); }>> {};
 
 template<typename T, bool = is_integral_v<T>>
 struct make_non_cv_unsigned : 
