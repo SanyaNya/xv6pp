@@ -5,30 +5,69 @@
 #include "ios_impl/ios_base.hpp"
 #include "algorithm.hpp"
 
-#ifndef STD_CRTP_STREAMBUF
-#define STD_STREAMBUF_VIRTUAL virtual
-#define STD_STREAMBUF_OVERRIDE override
-#else
-#define STD_STREAMBUF_VIRTUAL 
-#define STD_STREAMBUF_OVERRIDE 
-#endif
-
 namespace std
 {
+
+namespace detail
+{
+
+template<bool B, typename TImpl, typename traits>
+class streambuf_enable_virtual {};
+
+template<typename TImpl, typename traits>
+class streambuf_enable_virtual<true, TImpl, traits>
+{
+    using char_type   = typename traits::char_type;
+    using int_type    = typename traits::int_type;
+    using pos_type    = typename traits::pos_type;
+    using off_type    = typename traits::off_type;
+    using traits_type = traits;
+
+public:
+    virtual ~streambuf_enable_virtual() = default;
+
+protected:
+    virtual TImpl* setbuf(char_type* b, streamsize size) = 0;
+
+    virtual pos_type seekoff(
+            off_type off,
+            ios_base::seekdir dir,
+            ios_base::openmode mode = ios_base::in | ios_base::out) = 0;
+
+    virtual pos_type seekpos(
+                pos_type pos, 
+                ios_base::openmode mode = ios_base::in | ios_base::out) = 0;
+
+    virtual int sync() = 0;
+    virtual streamsize showmanyc() = 0;
+    virtual streamsize xsgetn(char_type* s, streamsize n) = 0;
+    virtual int_type underflow() = 0;
+    virtual int_type uflow() = 0;
+    virtual int_type pbackfail(int_type c = traits_type::eof()) = 0;
+    virtual streamsize xsputn(const char_type* s, streamsize n) = 0;
+    virtual int_type overflow(int_type c = traits_type::eof()) = 0;
+};
+
+} //namespace detail
 
 template<
     typename CharT, 
     typename traits = char_traits<CharT>,
     typename TImpl = void>
-class basic_streambuf
+class basic_streambuf : 
+    public detail::streambuf_enable_virtual<
+        is_same_v<TImpl, void>, 
+        basic_streambuf<CharT, traits, TImpl>,
+        traits>
 {
+    static constexpr bool IS_CRTP = !is_same_v<TImpl, void>;
+
     constexpr auto& get_this()
     {
-#ifdef STD_CRTP_STREAMBUF
-        return *static_cast<TImpl*>(this);
-#else
-        return *this;
-#endif
+        if constexpr(IS_CRTP)
+            return *static_cast<TImpl*>(this);
+        else 
+            return *this;
     }
 
 public:
@@ -38,8 +77,6 @@ public:
     using off_type    = typename traits::off_type;
     using traits_type = traits;
 
-    STD_STREAMBUF_VIRTUAL ~basic_streambuf() = default;
-    
     //locales
     //locale pubimbue(const locale& loc) TODO
     //locale getloc() const TODO
@@ -147,13 +184,13 @@ protected:
 
     void swap(basic_streambuf& rhs)
     {
-        std::swap(in_begin, rhs.in_begin);
-        std::swap(in_cur,   rhs.in_cur);
-        std::swap(in_end,   rhs.in_end);
+        swap(in_begin, rhs.in_begin);
+        swap(in_cur,   rhs.in_cur);
+        swap(in_end,   rhs.in_end);
 
-        std::swap(out_begin, rhs.out_begin);
-        std::swap(out_cur,   rhs.out_cur);
-        std::swap(out_end,   rhs.out_end);
+        swap(out_begin, rhs.out_begin);
+        swap(out_cur,   rhs.out_cur);
+        swap(out_end,   rhs.out_end);
     }
 
     //get area access
@@ -204,9 +241,9 @@ protected:
     //virtual void imbue(const locale&) {} TODO
     
     //buffer management and positioning
-    STD_STREAMBUF_VIRTUAL basic_streambuf* setbuf(char_type*, streamsize) { return this; }
+    basic_streambuf* setbuf(char_type*, streamsize) { return this; }
 
-    STD_STREAMBUF_VIRTUAL pos_type seekoff(
+    pos_type seekoff(
                 off_type, 
                 ios_base::seekdir,
                 ios_base::openmode = ios_base::in | ios_base::out)
@@ -214,24 +251,24 @@ protected:
         return pos_type(off_type(-1));
     }
     
-    STD_STREAMBUF_VIRTUAL pos_type seekpos(
+    pos_type seekpos(
                 pos_type, 
                 ios_base::openmode = ios_base::in | ios_base::out)
     {
         return pos_type(off_type(-1));
     }
 
-    STD_STREAMBUF_VIRTUAL int sync() { return 0; }
+    int sync() { return 0; }
 
     //get area
-    STD_STREAMBUF_VIRTUAL streamsize showmanyc() { return 0; }
+    streamsize showmanyc() { return 0; }
 
-    STD_STREAMBUF_VIRTUAL streamsize xsgetn(char_type* s, streamsize n)
+    streamsize xsgetn(char_type* s, streamsize n)
     {
         streamsize ret = n;
         do
         {
-            const streamsize count = std::min(n, egptr() - gptr());
+            const streamsize count = min(n, egptr() - gptr());
             traits::copy(s, gptr(), count);
             s   += count;
             n   -= count;
@@ -242,26 +279,26 @@ protected:
         return ret-n;
     }
     
-    STD_STREAMBUF_VIRTUAL int_type underflow() { return traits::eof(); }
+    int_type underflow() { return traits::eof(); }
 
-    STD_STREAMBUF_VIRTUAL int_type uflow()
+    int_type uflow()
     {
         return !traits::eq_int_type(get_this().underflow(), traits::eof()) ? *in_cur++ : traits::eof();
     }
 
     //putback
-    STD_STREAMBUF_VIRTUAL int_type pbackfail(int_type = traits::eof())
+    int_type pbackfail(int_type = traits::eof())
     {
         return traits::eof();
     }
 
     //put area
-    STD_STREAMBUF_VIRTUAL streamsize xsputn(const char_type* s, streamsize n)
+    streamsize xsputn(const char_type* s, streamsize n)
     {
         streamsize ret = n;
         while(n != 0)
         {
-            const streamsize count = std::min(n, epptr() - pptr());
+            const streamsize count = min(n, epptr() - pptr());
             traits::copy(pptr(), s, count);
             s += count;
             n -= count;
@@ -278,7 +315,7 @@ protected:
         return ret-n;
     }
 
-    STD_STREAMBUF_VIRTUAL int_type overflow(int_type = traits::eof())
+    int_type overflow(int_type = traits::eof())
     {
         return traits::eof();
     }
