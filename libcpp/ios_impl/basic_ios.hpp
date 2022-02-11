@@ -43,7 +43,7 @@ public:
         if(rdbuf() != 0) io_state = state;
         else io_state = state | badbit;
 
-        if(rdstate() & exceptions())
+        if((rdstate() & exceptions()) != iostate::goodbit)
             terminate(); //TODO exception throw
     }
     
@@ -54,7 +54,7 @@ public:
 
     bool good() const
     {
-        return rdstate() == 0;
+        return rdstate() == iostate::goodbit;
     }
 
     bool eof() const
