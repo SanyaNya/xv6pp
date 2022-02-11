@@ -2,11 +2,29 @@
 #define STD_IOS_IMPL_IOS_BASE_HPP
 
 #include "../type_traits_impl/underlying_type.hpp"
+#include "../type_traits_impl/is_same.hpp"
 
 namespace std
 {
 
-class ios_base
+namespace detail
+{
+
+template<bool B>
+class ios_base_enable_virtual {};
+
+template<>
+class ios_base_enable_virtual<true>
+{
+public:
+    virtual ~ios_base_enable_virtual() = default;        
+};
+
+} //namespace detail
+
+template<typename TImpl = void>
+class ios_base_crtp : 
+    public detail::ios_base_enable_virtual<is_same_v<TImpl, void>>
 {
 public:
     //TODO
@@ -71,15 +89,14 @@ public:
     //storage
     //TODO
 
-    //destructor
-    virtual ~ios_base() = default;
-
     //callbacks
     //TODO
 
 protected:
-    ios_base() = default;
+    ios_base_crtp() = default;
 };
+
+using ios_base = ios_base_crtp<>;
 
 inline constexpr ios_base::iostate operator&(
         ios_base::iostate lhs, ios_base::iostate rhs)
