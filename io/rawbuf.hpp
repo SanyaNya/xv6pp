@@ -40,7 +40,7 @@ public:
     using off_type    = typename traits::off_type;
     using traits_type = traits;
 
-    basic_rawbuf(upos pos)
+    explicit basic_rawbuf(upos pos)
     {
         char_type* const buf_begin = allocator.allocate(detail::BUFFER_SIZE);
         char_type* const buf_end   = buf_begin + detail::BUFFER_SIZE;
