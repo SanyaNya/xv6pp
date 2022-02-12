@@ -9,12 +9,20 @@
 namespace xv6pp
 {
 
+using rawbuf = 
+    io::basic_rawbuf<
+        char, std::char_traits<char>, 
+        std::allocator<char>, 
+        true>;
+
 using istream = 
-    std::basic_istream<char, std::char_traits<char>, true, true, int, io::rawbuf>;
+    std::basic_istream<
+        char, std::char_traits<char>, 
+        true, true, int, rawbuf>;
 
 extern "C" [[noreturn]] void bootmain()
 {
-    io::rawbuf rbuf(512);
+    rawbuf rbuf(512);
     istream is(&rbuf);
 
     ELF::Header elf;

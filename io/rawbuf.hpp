@@ -12,15 +12,23 @@ namespace xv6pp::io
 template<
     typename CharT, 
     typename traits = std::char_traits<CharT>,
-    typename Allocator = std::allocator<CharT>>
-class basic_rawbuf : 
+    typename Allocator = std::allocator<CharT>,
+    bool CRTP = false>
+class basic_rawbuf final : 
     public std::basic_streambuf<
                 CharT, traits, 
-                basic_rawbuf<CharT, traits, Allocator>>
+                std::conditional_t<
+                    CRTP,
+                    basic_rawbuf<CharT, traits, Allocator, CRTP>,
+                    void>>
 {
     using base = 
         std::basic_streambuf<
-            CharT, traits, basic_rawbuf<CharT, traits, Allocator>>;
+                CharT, traits, 
+                std::conditional_t<
+                    CRTP,
+                    basic_rawbuf<CharT, traits, Allocator, CRTP>,
+                    void>>;
     friend base;
 
     using upos = std::make_unsigned_t<typename traits::pos_type>;
@@ -112,8 +120,6 @@ private:
        detail::read(buffer(), detail::buf_sector(pos));
    }
 };
-
-using rawbuf = basic_rawbuf<char>;
 
 } //namespace xv6pp::io
 
