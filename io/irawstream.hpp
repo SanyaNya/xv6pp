@@ -85,7 +85,8 @@ public:
     template<typename T> requires std::is_trivial_v<T>
     basic_irawstream& operator>>(T& obj)
     {
-        return read(reinterpret_cast<char_type*>(&obj), sizeof(T));
+        base::read(reinterpret_cast<char_type*>(&obj), sizeof(T));
+        return *this;
     }
 
 private:
