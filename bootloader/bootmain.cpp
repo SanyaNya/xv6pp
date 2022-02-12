@@ -3,27 +3,20 @@
 #include "../ELF/ELFHeader.hpp"
 #include "../ELF/ProgramHeader.hpp"
 #include "../libcpp/span.hpp"
-#include "../io/rawbuf.hpp"
-#include "../libcpp/istream.hpp"
+#include "../io/irawstream.hpp"
 
 namespace xv6pp
 {
 
-using rawbuf = 
-    io::basic_rawbuf<
+using irawstream = 
+    io::basic_irawstream<
         char, std::char_traits<char>, 
-        std::allocator<char>, 
-        true>;
-
-using istream = 
-    std::basic_istream<
-        char, std::char_traits<char>, 
-        true, true, int, rawbuf>;
+        std::allocator<char>,
+        true, true, true, true>;
 
 extern "C" [[noreturn]] void bootmain()
 {
-    rawbuf rbuf(512);
-    istream is(&rbuf);
+    irawstream is(512);
 
     ELF::Header elf;
     is.read(reinterpret_cast<char*>(&elf), sizeof(ELF::Header));
