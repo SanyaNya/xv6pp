@@ -3,7 +3,7 @@
 #include "../ELF/ELFHeader.hpp"
 #include "../ELF/ProgramHeader.hpp"
 #include "../libcpp/span.hpp"
-#include "../io/raw_streambuf.hpp"
+#include "../io/rawbuf.hpp"
 #include "../libcpp/istream.hpp"
 
 namespace xv6pp

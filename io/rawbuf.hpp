@@ -1,5 +1,5 @@
-#ifndef XV6PP_IO_RAW_STREAMBUF_HPP
-#define XV6PP_IO_RAW_STREAMBUF_HPP
+#ifndef XV6PP_IO_RAWBUF_HPP
+#define XV6PP_IO_RAWBUF_HPP
 
 #include "../libcpp/streambuf.hpp"
 #include "../libcpp/allocator.hpp"
@@ -13,9 +13,14 @@ template<
     typename CharT, 
     typename traits = std::char_traits<CharT>,
     typename Allocator = std::allocator<CharT>>
-class basic_rawbuf final : public std::basic_streambuf<CharT, traits, basic_rawbuf<CharT, traits, Allocator>>
+class basic_rawbuf : 
+    public std::basic_streambuf<
+                CharT, traits, 
+                basic_rawbuf<CharT, traits, Allocator>>
 {
-    using base = std::basic_streambuf<CharT, traits, basic_rawbuf<CharT, traits, Allocator>>;
+    using base = 
+        std::basic_streambuf<
+            CharT, traits, basic_rawbuf<CharT, traits, Allocator>>;
     friend base;
 
     using upos = std::make_unsigned_t<typename traits::pos_type>;
@@ -112,4 +117,4 @@ using rawbuf = basic_rawbuf<char>;
 
 } //namespace xv6pp::io
 
-#endif //XV6PP_IO_RAW_STREAMBUF_HPP
+#endif //XV6PP_IO_RAWBUF_HPP
