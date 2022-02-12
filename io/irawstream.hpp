@@ -82,6 +82,12 @@ public:
             basic_rawbuf<CharT, Traits, Allocator, CRTP_BUF>*>(&buf);
     }
 
+    template<typename T> requires std::is_trivial_v<T>
+    basic_irawstream& operator>>(T& obj)
+    {
+        return read(reinterpret_cast<char_type*>(&obj), sizeof(T));
+    }
+
 private:
     basic_rawbuf<CharT, Traits, Allocator, CRTP_BUF> buf;
 };

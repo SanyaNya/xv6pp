@@ -19,7 +19,7 @@ extern "C" [[noreturn]] void bootmain()
     irawstream is(512);
 
     ELF::Header elf;
-    is.read(reinterpret_cast<char*>(&elf), sizeof(ELF::Header));
+    is >> elf;
     
     is.seekg(512+elf.phoff);
 
@@ -29,7 +29,7 @@ extern "C" [[noreturn]] void bootmain()
     for(auto& phdr : phdrs)
     {
         is.seekg(512 + phdr.offset);
-        is.read(reinterpret_cast<char*>(phdr.paddr), phdr.filesz);
+        is.read(phdr.paddr, phdr.filesz);
     }
 
     elf.entry();

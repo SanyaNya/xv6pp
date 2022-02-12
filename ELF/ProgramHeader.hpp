@@ -38,10 +38,10 @@ struct Header
     std::uint32_t offset; //Offset from the beginning in the file image.
                           //Should be aligned according align member
     
-    std::uint8_t* vaddr;  //Virtual address.
+    char* vaddr;          //Virtual address.
                           //Should be aligned according align member
     
-    std::uint8_t* paddr;  //Physical address(on systems where is relevant)
+    char* paddr;          //Physical address(on systems where is relevant)
     std::uint32_t filesz; //Size of the segment in the file
     std::uint32_t memsz;  //Size of the segment in memory
     Flags         flags;
