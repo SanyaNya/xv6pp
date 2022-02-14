@@ -61,10 +61,10 @@ public:
     using traits_type = Traits;
 
     basic_irawstream()
-        : buf(0), base(&buf) {}
+        : base(&buf), buf(0) {}
 
     explicit basic_irawstream(upos pos)
-        : buf(pos), base(&buf) {}
+        : base(&buf), buf(pos) {}
 
     basic_irawstream(const basic_irawstream&) = delete;
     basic_irawstream(basic_irawstream&&) = default;
