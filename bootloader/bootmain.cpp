@@ -24,7 +24,7 @@ extern "C" [[noreturn]] void bootmain()
     is.seekg(512+elf.phoff);
 
     std::span phdrs(new ELF::Program::Header[elf.phnum], elf.phnum);
-    is.read(reinterpret_cast<char*>(phdrs.data()), phdrs.size_bytes());
+    is >> phdrs;
 
     for(auto& phdr : phdrs)
     {

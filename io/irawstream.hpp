@@ -2,6 +2,7 @@
 #define XV6PP_IO_IRAWSTREAM_HPP
 
 #include "rawbuf.hpp"
+#include "../libcpp/span.hpp"
 #include "../libcpp/istream.hpp"
 
 namespace xv6pp::io
@@ -86,6 +87,13 @@ public:
     basic_irawstream& operator>>(T& obj)
     {
         base::read(reinterpret_cast<char_type*>(&obj), sizeof(T));
+        return *this;
+    }
+
+    template<typename T, std::size_t Extent>
+    basic_irawstream& operator>>(std::span<T, Extent>& s)
+    {
+        base::read(reinterpret_cast<char_type*>(s.data()), s.size_bytes());
         return *this;
     }
 
