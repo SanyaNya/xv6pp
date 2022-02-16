@@ -2,6 +2,7 @@
 #define XV6PP_IO_DETAIL_ATA_PIO_LBA28_DISK_HPP
 
 #include "../libcpp/cstdint.hpp"
+#include "../libcpp/span.hpp"
 #include "../utils/ebitset.hpp"
 #include "../x86.hpp"
 
@@ -61,14 +62,7 @@ inline void waitdisk()
 
 inline constexpr std::uint8_t MASTER_LBA_MASK = 0xE0;
 
-inline constexpr std::size_t BUFFER_SIZE = 4096; 
 inline constexpr std::uint16_t SECTOR_SIZE = 512;
-
-static_assert(BUFFER_SIZE % SECTOR_SIZE == 0);
-static_assert(BUFFER_SIZE % 4 == 0);
-
-inline constexpr std::uint8_t SECTOR_COUNT = BUFFER_SIZE / SECTOR_SIZE;
-inline constexpr std::size_t  DWORDS_COUNT  = BUFFER_SIZE / 4;
 
 template<typename pos_type>
 inline pos_type align_buf(pos_type pos)
@@ -88,8 +82,16 @@ inline pos_type buf_sector(pos_type pos)
     return pos / SECTOR_SIZE;
 }
 
-inline void read(char* buffer, std::uint32_t sector_pos)
+template<std::size_t BUFFER_SIZE>
+inline void read(std::span<char, BUFFER_SIZE> buffer, std::uint32_t sector_pos)
 {
+    static_assert(BUFFER_SIZE != std::dynamic_extent);
+    static_assert(BUFFER_SIZE % SECTOR_SIZE == 0);
+    static_assert(BUFFER_SIZE % 4 == 0);
+
+    constexpr std::uint8_t SECTOR_COUNT = BUFFER_SIZE / SECTOR_SIZE;
+    constexpr std::size_t  DWORDS_COUNT = BUFFER_SIZE / 4;
+
     waitdisk();
     x86::outb(Port::SECTOR_COUNT, SECTOR_COUNT);
 
@@ -102,7 +104,7 @@ inline void read(char* buffer, std::uint32_t sector_pos)
     x86::outb(Port::CMD, Command::READ_SECTORS);
 
     waitdisk();
-    x86::insl(Port::DATA, buffer, DWORDS_COUNT);
+    x86::insl(Port::DATA, buffer.data(), DWORDS_COUNT);
 }
 
 } //namespace xv6pp::io::detail 

@@ -12,22 +12,26 @@ namespace xv6pp::io
 template<
     typename CharT, 
     typename traits = std::char_traits<CharT>,
-    typename Allocator = std::allocator<CharT>,
-    bool CRTP = false>
+    template<typename> typename Allocator = std::allocator,
+    bool CRTP = false,
+    std::size_t InExtent = 4096,
+    std::size_t OutExtent = 4096>
 class basic_rawbuf final : 
     public std::basic_streambuf<
                 CharT, traits, 
+                InExtent, OutExtent,
                 std::conditional_t<
                     CRTP,
-                    basic_rawbuf<CharT, traits, Allocator, CRTP>,
+                    basic_rawbuf<CharT, traits, Allocator, CRTP, InExtent, OutExtent>,
                     void>>
 {
     using base = 
         std::basic_streambuf<
                 CharT, traits, 
+                InExtent, OutExtent,
                 std::conditional_t<
                     CRTP,
-                    basic_rawbuf<CharT, traits, Allocator, CRTP>,
+                    basic_rawbuf<CharT, traits, Allocator, CRTP, InExtent, OutExtent>,
                     void>>;
     friend base;
 
@@ -40,17 +44,9 @@ public:
     using off_type    = typename traits::off_type;
     using traits_type = traits;
 
-    explicit basic_rawbuf(upos pos)
+    explicit basic_rawbuf(upos pos) : 
+        base(*allocator.allocate(1))
     {
-        char_type* const buf_begin = allocator.allocate(detail::BUFFER_SIZE);
-        char_type* const buf_end   = buf_begin + detail::BUFFER_SIZE;
-
-        base::in_begin = buf_begin;
-        base::in_end = buf_end;
-
-        base::out_begin = buf_begin;
-        base::out_end = buf_end;
-
         buffer_update(pos);
     }
 
@@ -59,7 +55,7 @@ public:
 
     ~basic_rawbuf()
     {
-        allocator.deallocate(buffer(), detail::BUFFER_SIZE);
+        allocator.deallocate(reinterpret_cast<std::array<char_type, InExtent>*>(buffer().data()), 1);
     }
 
     basic_rawbuf& operator=(const basic_rawbuf&) = delete;
@@ -93,13 +89,13 @@ protected:
     int_type underflow()
     {
         buffer_update(cur_pos());
-        return traits::to_int_type(*buffer());
+        return traits::to_int_type(*buffer().begin());
     }
 
     //TODO output
 
 private:
-   [[no_unique_address]] Allocator allocator;
+   [[no_unique_address]] Allocator<std::array<char_type, InExtent>> allocator;
    upos buf_base_pos;
 
    //put pos == get pos
@@ -109,13 +105,13 @@ private:
    }
 
    //eback == pbase
-   char_type* buffer() const { return base::in_begin; }
+   std::span<char_type, InExtent> buffer() const { return base::in_span; }
 
    void buffer_update(upos pos)
    {
        buf_base_pos = detail::align_buf(pos);
-       base::in_cur  = buffer() + detail::buf_align_indent(pos);
-       base::out_cur = buffer() + detail::buf_align_indent(pos);
+       base::in_cur  = buffer().begin() + detail::buf_align_indent(pos);
+       base::out_cur = buffer().begin() + detail::buf_align_indent(pos);
 
        detail::read(buffer(), detail::buf_sector(pos));
    }

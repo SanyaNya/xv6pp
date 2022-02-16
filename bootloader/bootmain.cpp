@@ -11,8 +11,9 @@ namespace xv6pp
 using irawstream = 
     io::basic_irawstream<
         char, std::char_traits<char>, 
-        std::allocator<char>,
-        true, true, true, true>;
+        std::allocator,
+        true, true, true,
+        4096, 4096, true>;
 
 extern "C" [[noreturn]] void bootmain()
 {
@@ -21,7 +22,7 @@ extern "C" [[noreturn]] void bootmain()
     ELF::Header elf;
     is >> elf;
     
-    is.seekg(512+elf.phoff);
+    is.seekg(512 + elf.phoff);
 
     std::span phdrs(new ELF::Program::Header[elf.phnum], elf.phnum);
     is >> phdrs;

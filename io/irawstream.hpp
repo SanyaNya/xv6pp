@@ -11,10 +11,12 @@ namespace xv6pp::io
 template<
     typename CharT, 
     typename Traits = std::char_traits<CharT>,
-    typename Allocator = std::allocator<char>,
+    template<typename> typename Allocator = std::allocator,
     bool NEVER_SET_GCOUNT = false,
     bool NEVER_CHECK_IOSTATE = false,
     bool CRTP = false,
+    std::size_t InExtent = 4096,
+    std::size_t OutExtent = 4096,
     bool CRTP_BUF = false>
 class basic_irawstream :
     public std::basic_istream<
@@ -31,7 +33,8 @@ class basic_irawstream :
                     CRTP,
                     CRTP_BUF>,
                 void>,
-            basic_rawbuf<CharT, Traits, Allocator, CRTP_BUF>>
+            InExtent, OutExtent,
+            basic_rawbuf<CharT, Traits, Allocator, CRTP_BUF, InExtent, OutExtent>>
 {
     using base = 
         std::basic_istream<
@@ -48,7 +51,8 @@ class basic_irawstream :
                     CRTP,
                     CRTP_BUF>,
                 void>,
-            basic_rawbuf<CharT, Traits, Allocator, CRTP_BUF>>;
+            InExtent, OutExtent,
+            basic_rawbuf<CharT, Traits, Allocator, CRTP_BUF, InExtent, OutExtent>>;
     friend base;
 
     using upos = std::make_unsigned_t<typename Traits::pos_type>;
@@ -77,10 +81,10 @@ public:
         std::swap(*this, rhs);
     }
 
-    basic_rawbuf<CharT, Traits, Allocator, CRTP_BUF>* rdbuf() const
+    basic_rawbuf<CharT, Traits, Allocator, CRTP_BUF, InExtent, OutExtent>* rdbuf() const
     {
         return const_cast<
-            basic_rawbuf<CharT, Traits, Allocator, CRTP_BUF>*>(&buf);
+            basic_rawbuf<CharT, Traits, Allocator, CRTP_BUF, InExtent, OutExtent>*>(&buf);
     }
 
     template<typename T> requires std::is_trivial_v<T>
@@ -98,7 +102,7 @@ public:
     }
 
 private:
-    basic_rawbuf<CharT, Traits, Allocator, CRTP_BUF> buf;
+    basic_rawbuf<CharT, Traits, Allocator, CRTP_BUF, InExtent, OutExtent> buf;
 };
 
 } //namespace xv6pp::io

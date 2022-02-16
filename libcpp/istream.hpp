@@ -39,9 +39,11 @@ template<
     bool NEVER_SET_GCOUNT = false,
     bool NEVER_CHECK_IOSTATE = false,
     typename TImpl = void,
+    size_t InExtent = dynamic_extent,
+    size_t OutExtent = dynamic_extent,
     typename TStreambufImpl = void>
 class basic_istream : 
-    /*virtual*/ public basic_ios<CharT, Traits, NEVER_CHECK_IOSTATE, TImpl, TStreambufImpl>
+    /*virtual*/ public basic_ios<CharT, Traits, NEVER_CHECK_IOSTATE, TImpl, InExtent, OutExtent, TStreambufImpl>
 {
 public:
     //types (inherited from basic_ios)
@@ -52,7 +54,7 @@ public:
     using traits_type = Traits;
 
     //constructor/destructor
-    basic_istream(basic_streambuf<CharT, Traits, TStreambufImpl>* sb)
+    basic_istream(basic_streambuf<CharT, Traits, InExtent, OutExtent, TStreambufImpl>* sb)
         : get_count(0)
     {
         this->init(sb);
@@ -69,7 +71,8 @@ public:
                     CharT, Traits, 
                     NEVER_SET_GCOUNT, 
                     NEVER_CHECK_IOSTATE, 
-                    TImpl, TStreambufImpl>& is, 
+                    TImpl, 
+                    InExtent, OutExtent, TStreambufImpl>& is, 
                 bool /*noskipws*/ = false)
         {
             if(is.good()) is_ok = true;

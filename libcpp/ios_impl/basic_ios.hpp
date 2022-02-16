@@ -36,6 +36,8 @@ template<
     typename Traits = char_traits<CharT>,
     bool NEVER_CHECK_IOSTATE = false,
     typename TImpl = void,
+    size_t InExtent = dynamic_extent,
+    size_t OutExtent = dynamic_extent,
     typename TStreambufImpl = void>
 class basic_ios : public ios_base_crtp<TImpl>
 {
@@ -108,19 +110,19 @@ public:
     }
 
     //constructor/destructor
-    explicit basic_ios(basic_streambuf<CharT, Traits, TStreambufImpl>* sb)
+    explicit basic_ios(basic_streambuf<CharT, Traits, InExtent, OutExtent, TStreambufImpl>* sb)
     {
         init(sb);
     }
 
     //members
-    basic_streambuf<CharT, Traits, TStreambufImpl>* rdbuf() const
+    basic_streambuf<CharT, Traits, InExtent, OutExtent, TStreambufImpl>* rdbuf() const
     {
         return buf;
     }
 
-    basic_streambuf<CharT, Traits, TStreambufImpl>* 
-        rdbuf(basic_streambuf<CharT, Traits, TStreambufImpl>* sb)
+    basic_streambuf<CharT, Traits, InExtent, OutExtent, TStreambufImpl>* 
+        rdbuf(basic_streambuf<CharT, Traits, InExtent, OutExtent, TStreambufImpl>* sb)
     {
         auto* prev_buf = rdbuf();
 
@@ -134,7 +136,7 @@ public:
     basic_ios& operator=(const basic_ios&) = delete;
 protected:
     basic_ios() = default;
-    void init(basic_streambuf<CharT, Traits, TStreambufImpl>* sb)
+    void init(basic_streambuf<CharT, Traits, InExtent, OutExtent, TStreambufImpl>* sb)
     {
         buf = sb;
         io_state.set(sb ? ios_base::goodbit : ios_base::badbit);
@@ -157,13 +159,13 @@ protected:
         swap(io_state, rhs.io_state);
     }
 
-    void set_rdbuf(basic_streambuf<CharT, Traits, TStreambufImpl>* sb)
+    void set_rdbuf(basic_streambuf<CharT, Traits, InExtent, OutExtent, TStreambufImpl>* sb)
     {
         if(sb != nullptr) buf = sb;
     }
 
 private:
-    basic_streambuf<CharT, Traits, TStreambufImpl>* buf;
+    basic_streambuf<CharT, Traits, InExtent, OutExtent, TStreambufImpl>* buf;
     
     [[no_unique_address]] 
     detail::iostate_storage<NEVER_CHECK_IOSTATE> io_state;

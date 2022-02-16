@@ -4,6 +4,7 @@
 #include "string_impl/char_traits.hpp"
 #include "ios_impl/ios_base.hpp"
 #include "algorithm.hpp"
+#include "span.hpp"
 
 namespace std
 {
@@ -53,11 +54,13 @@ protected:
 template<
     typename CharT, 
     typename traits = char_traits<CharT>,
+    size_t InExtent = dynamic_extent,
+    size_t OutExtent = dynamic_extent,
     typename TImpl = void>
 class basic_streambuf : 
     public detail::streambuf_enable_virtual<
         is_same_v<TImpl, void>, 
-        basic_streambuf<CharT, traits, TImpl>,
+        basic_streambuf<CharT, traits, InExtent, OutExtent, TImpl>,
         traits>
 {
     static constexpr bool IS_CRTP = !is_same_v<TImpl, void>;
@@ -172,25 +175,25 @@ public:
 
 protected:
     basic_streambuf() : 
-        in_begin(nullptr),
+        in_span(nullptr, nullptr),
         in_cur(nullptr),
-        in_end(nullptr),
-        out_begin(nullptr),
-        out_cur(nullptr),
-        out_end(nullptr) {}
+        out_span(nullptr, nullptr),
+        out_cur(nullptr) {}
+
+    basic_streambuf(span<char_type, InExtent> s) : 
+        in_span(s),
+        out_span(s) {}
 
     basic_streambuf(const basic_streambuf& rhs) = default;
     basic_streambuf& operator=(const basic_streambuf& rhs) = default;
 
     void swap(basic_streambuf& rhs)
     {
-        swap(in_begin, rhs.in_begin);
+        swap(in_span, rhs.in_span);
         swap(in_cur,   rhs.in_cur);
-        swap(in_end,   rhs.in_end);
 
-        swap(out_begin, rhs.out_begin);
+        swap(out_span, rhs.out_span);
         swap(out_cur,   rhs.out_cur);
-        swap(out_end,   rhs.out_end);
     }
 
     //get area access
@@ -201,17 +204,17 @@ protected:
     //(eback() == nullptr &&
     // gptr()  == nullptr &&
     // egptr() == nullptr)
-    char_type* eback() const { return in_begin; }
+    char_type* eback() const { return in_span.begin(); }
     char_type* gptr()  const { return in_cur;   }
-    char_type* egptr() const { return in_end;   }
+    char_type* egptr() const { return in_span.end();   }
 
     void gbump(int n) { in_cur += n; }
     
     void setg(char_type* gbeg, char_type* gnext, char_type* gend)
     {
-        in_begin = gbeg;
+        //gend ignored if InExtent != dynamic_extent
+        in_span = span(gbeg, gend);
         in_cur = gnext;
-        in_end = gend;
     }
 
     //put area access
@@ -222,17 +225,17 @@ protected:
     //(pbase() == nullptr &&
     // pptr()  == nullptr &&
     // epptr() == nullptr)
-    char_type* pbase() const { return out_begin; }
+    char_type* pbase() const { return out_span.begin(); }
     char_type* pptr()  const { return out_cur;   }
-    char_type* epptr() const { return out_end;   }
+    char_type* epptr() const { return out_span.end();   }
 
     void pbump(int n) { out_cur += n; }
 
     void setp(char_type* pbeg, char_type* pend)
     {
-        out_begin = pbeg;
+        //pend ignored if OutExtent != dynamic_extent
+        out_span = span(pbeg, pend);
         out_cur = pbeg;
-        out_end = pend;
     }
 
     //virtual functions
@@ -320,39 +323,34 @@ protected:
         return traits::eof();
     }
 
-    char_type* in_begin;
+    span<char_type, InExtent> in_span;
     char_type* in_cur;
-    char_type* in_end;
 
-    char_type* out_begin;
+    span<char_type, OutExtent> out_span;
     char_type* out_cur;
-    char_type* out_end;
 
     bool is_read_avail() const
     {
-        //gptr() < egptr() is enough
-        //even if gptr() == nullptr and egptr() == nullptr
-        return /*gptr() == nullptr  && 
-                 egptr() == nullptr &&*/ 
-                 gptr() < egptr();
+        if constexpr (InExtent == dynamic_extent)
+            return gptr() < egptr();
+        else
+            return gptr() && (gptr() < egptr());
     }
 
     bool is_putback_avail() const
     {
-        //eback() < egptr() is enough
-        //even if eback() == nullptr and egptr() == nullptr
-        return /*eback() == nullptr && 
-                 egptr() == nullptr &&*/ 
-                 eback() < egptr();
+        if constexpr(InExtent == dynamic_extent)
+            return eback() < gptr();
+        else
+            return gptr() && (eback() < gptr());
     }
 
     bool is_put_avail() const
     {
-        //pptr() < epptr() is enough
-        //even if pptr() == nullptr and epptr() == nullptr
-        return /*pptr() == nullptr  && 
-                 epptr() == nullptr &&*/ 
-                 pptr() < epptr();
+        if constexpr(OutExtent == dynamic_extent)
+            return pptr() < epptr();
+        else
+            return pptr() && (pptr() < epptr());
     }
 
     void gbump_streamsize(streamsize n) { in_cur += n; }
