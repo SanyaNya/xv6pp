@@ -1,6 +1,3 @@
-%define KBRD_PORT1 0x64
-%define KBRD_PORT2 0x60
-
 %define CR_PM_ON 0x1
 
 %define PM_CS (gdt_cs_sel - gdt)
