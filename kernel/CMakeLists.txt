@@ -1,15 +1,10 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(xv6pp_bootloader CXX ASM_NASM)
+project(xv6pp_kernel)
 
-set(CMAKE_ASM_NASM_OBJECT_FORMAT elf32)
+add_executable(kernel.bin kernel.cpp)
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-
-add_executable(boot.bin bootloader.asm bootmain.cpp)
-
-target_compile_options(boot.bin PRIVATE
+target_compile_options(kernel.bin PRIVATE
     $<$<COMPILE_LANGUAGE:CXX>:
         ${CXX_OPTIMIZATION_SIZE_FLAGS};
         ${CXX_FREESTANDING_FLAG};
@@ -19,8 +14,8 @@ target_compile_options(boot.bin PRIVATE
         ${CXX_WALL_WEXTRA_WERROR_FLAGS}>)
 
 #linker flags
-target_link_options(boot.bin PRIVATE
+target_link_options(kernel.bin PRIVATE
     $<$<COMPILE_LANGUAGE:CXX>:${CXX_NO_STDLIB_FLAG}>)
 
-target_cxx_linker_script(boot.bin
+target_cxx_linker_script(kernel.bin
     ${CMAKE_CURRENT_SOURCE_DIR}/linker.ld)

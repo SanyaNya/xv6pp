@@ -1,0 +1,6 @@
+Build:
+    $ cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=toolchains/i386-elf-g++.cmake -G"Ninja"
+    $ cmake --build build
+
+QEMU test:
+    $ qemu-system-x86_64 -hda build/kernel.img
