@@ -10,14 +10,26 @@ template<typename TImpl, typename TAlias>
 struct bitfield
 {
     bitfield() = default;
-    bitfield(TAlias t) { *static_cast<TImpl*>(this) = union_cast<TImpl>(t); }
+    bitfield(TAlias t)
+    {
+        static_assert(sizeof(TImpl) == sizeof(TAlias));
+
+        *static_cast<TImpl*>(this) = union_cast<TImpl>(t); 
+    }
 
     TImpl& operator=(TAlias t)
     {
+        static_assert(sizeof(TImpl) == sizeof(TAlias));
+
         return *static_cast<TImpl*>(this) = union_cast<TImpl>(t);
     }
 
-    operator TAlias() const { return union_cast<TAlias>(*this); }
+    operator TAlias() const
+    {
+        static_assert(sizeof(TImpl) == sizeof(TAlias));
+
+        return union_cast<TAlias>(*this); 
+    }
 };
 
 } //namespace xv6pp
