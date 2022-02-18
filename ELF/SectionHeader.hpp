@@ -38,7 +38,7 @@ struct Flags : xv6pp::bitfield<Flags, std::uint32_t>
     std::uint32_t ALLOC     : 1;
     std::uint32_t EXECINSTR : 1;
 
-    std::uint32_t _ : 25;
+    std::uint32_t : 25;
 
     std::uint32_t PROC0 : 1;
     std::uint32_t PROC1 : 1;
