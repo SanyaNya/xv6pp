@@ -2,7 +2,7 @@
 #define ELF_SECTION_HEADER_HPP
 
 #include "../libcpp/cstdint.hpp"
-#include "../utils/ebitset.hpp"
+#include "../utils/bitfield.hpp"
 
 namespace ELF::Section
 {
@@ -30,19 +30,21 @@ enum class Type : std::uint32_t
 
 };
 
-enum class FlagsId
+struct Flags : xv6pp::bitfield<Flags, std::uint32_t>
 {
-    WRITE,
-    ALLOC,
-    EXECINSTR,
+    using bitfield::bitfield;
 
-    PROC0 = 28,
-    PROC1,
-    PROC2,
-    PROC3
+    std::uint32_t WRITE     : 1;
+    std::uint32_t ALLOC     : 1;
+    std::uint32_t EXECINSTR : 1;
+
+    std::uint32_t _ : 25;
+
+    std::uint32_t PROC0 : 1;
+    std::uint32_t PROC1 : 1;
+    std::uint32_t PROC2 : 1;
+    std::uint32_t PROC3 : 1;
 };
-using Flags = ebitset<32, FlagsId>;
-static_assert(sizeof(Flags) == sizeof(std::uint32_t));
 
 struct Header
 {

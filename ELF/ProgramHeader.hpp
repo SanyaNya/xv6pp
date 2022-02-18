@@ -2,7 +2,7 @@
 #define ELF_PROGRAM_HEADER_HPP
 
 #include "../libcpp/cstdint.hpp"
-#include "../utils/ebitset.hpp"
+#include "../utils/bitfield.hpp"
 
 namespace ELF::Program
 {
@@ -23,14 +23,14 @@ enum class Type : std::uint32_t
     HIPROC  = 0x7fffffff  //Reserved range for Processor - high
 };
 
-enum class FlagsId
+struct Flags : xv6pp::bitfield<Flags, std::uint32_t>
 {
-    X, //Execute segment
-    W, //Write segment
-    R, //Read segment
+    using bitfield::bitfield;
+
+    std::uint32_t X : 1; //Execute segment
+    std::uint32_t W : 1; //Write segment
+    std::uint32_t R : 1; //Read segment
 };
-using Flags = ebitset<3, FlagsId>;
-static_assert(sizeof(Flags) == sizeof(std::uint32_t));
 
 struct Header
 {
