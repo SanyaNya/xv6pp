@@ -3,7 +3,7 @@
 
 #include "../libcpp/cstdint.hpp"
 #include "../libcpp/span.hpp"
-#include "../utils/ebitset.hpp"
+#include "../utils/bitfield.hpp"
 #include "../x86.hpp"
 
 namespace xv6pp::io::detail
@@ -30,29 +30,29 @@ enum class Command : std::uint8_t
     //TODO
 };
 
-enum class StatusId
+struct Status : bitfield<Status, std::uint8_t>
 {
-    ERROR,
-    INDEX,
-    CORRECTED_DATA,
-    DRIVE_READY_QUERY,
-    SERVICE_REQUEST,
-    DRIVE_FAULT,
-    READY,
-    BUSY
-};
+    using bitfield::bitfield;
 
-using Status = ebitset<8, StatusId>;
+    std::uint8_t ERROR             : 1;
+    std::uint8_t INDEX             : 1;
+    std::uint8_t CORRECTED_DATA    : 1;
+    std::uint8_t DRIVE_READY_QUERY : 1;
+    std::uint8_t SERVICE_REQUEST   : 1;
+    std::uint8_t DRIVE_FAULT       : 1;
+    std::uint8_t READY             : 1;
+    std::uint8_t BUSY              : 1;
+};
 
 inline Status get_status()
 {
-    return Status(x86::inb(Port::STATUS));
+    return x86::inb(Port::STATUS);
 }
 
 inline bool is_ready()
 {
     Status s = get_status();
-    return s[StatusId::READY] && !s[StatusId::BUSY];
+    return s.READY && !s.BUSY;
 }
 
 inline void waitdisk()
