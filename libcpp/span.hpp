@@ -115,6 +115,16 @@ public:
         return ptr[idx];
     }
 
+    constexpr reference front() const
+    {
+        return ptr[0];
+    }
+
+    constexpr reference back() const
+    {
+        return ptr[size()-1];
+    }
+
     constexpr size_type size() const noexcept
     {
         return extent_wrapper.get();
