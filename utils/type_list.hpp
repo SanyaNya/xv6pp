@@ -54,9 +54,15 @@ struct type_list_helper<>
 template<typename ... Ts>
 struct type_list
 {
+    static constexpr std::size_t size = sizeof...(Ts);
+    static_assert(size > 0);
+
     template<std::size_t I>
     using get = 
         typename detail::type_list_helper<Ts...>::template get<void, I>::type;
+
+    using front = get<0>;
+    using back = get<size-1>;
 
     template<auto P>
     static constexpr std::size_t find_if =
