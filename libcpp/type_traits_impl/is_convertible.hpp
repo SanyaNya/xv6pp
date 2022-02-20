@@ -4,7 +4,7 @@
 #include "detail/constraints.hpp"
 #include "bool_constant.hpp"
 #include "void_t.hpp"
-#include "../utility.hpp"
+#include "../utility_impl/declval.hpp"
 
 namespace std
 {

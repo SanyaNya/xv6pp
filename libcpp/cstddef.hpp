@@ -1,7 +1,7 @@
 #ifndef STD_CSTDDEF_HPP
 #define STD_CSTDDEF_HPP
 
-#include "utility.hpp"
+#include "utility_impl/declval.hpp"
 
 namespace std
 {

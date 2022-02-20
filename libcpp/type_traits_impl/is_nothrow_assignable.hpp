@@ -3,7 +3,7 @@
 
 #include "void_t.hpp"
 #include "bool_constant.hpp"
-#include "../utility.hpp"
+#include "../utility_impl/declval.hpp"
 #include "detail/constraints.hpp"
 
 namespace std
