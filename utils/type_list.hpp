@@ -30,6 +30,9 @@ struct type_list_helper<T, Ts...>
     template<typename Garbage>
     struct get<Garbage, 0> : std::type_identity<T> {};
 
+    using front = get<void, 0>;
+    using back =  get<void, sizeof...(Ts)>;
+
     template<auto P, std::size_t I, bool = P.template operator()<T>()>
     struct find_if : type_list_helper<Ts...>::template find_if<P, I+1> {};
 
@@ -43,6 +46,9 @@ struct type_list_helper<>
     template<std::size_t I>
     struct get : std::type_identity<UNKNOWN_TYPE> {};
 
+    using front = UNKNOWN_TYPE;
+    using back = UNKNOWN_TYPE;
+
     template<auto P, std::size_t I>
     struct find_if : 
         std::integral_constant<std::size_t, std::numeric_limits<std::size_t>::max()> {};
@@ -55,14 +61,13 @@ template<typename ... Ts>
 struct type_list
 {
     static constexpr std::size_t size = sizeof...(Ts);
-    static_assert(size > 0);
 
     template<std::size_t I>
     using get = 
         typename detail::type_list_helper<Ts...>::template get<void, I>::type;
 
-    using front = get<0>;
-    using back = get<size-1>;
+    using front = typename detail::type_list_helper<Ts...>::front;
+    using back = typename detail::type_list_helper<Ts...>::back;
 
     template<auto P>
     static constexpr std::size_t find_if =
