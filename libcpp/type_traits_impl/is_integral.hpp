@@ -3,7 +3,7 @@
 
 #include "bool_constant.hpp"
 #include "remove_cv.hpp"
-#include "detail/type_list.hpp"
+#include "../../utils/type_list.hpp"
 
 namespace std
 {
@@ -11,7 +11,7 @@ namespace std
 template<typename T>
 struct is_integral : 
     bool_constant<
-        detail::type_list<
+        meta::type_list<
             bool, 
             char,
             signed char,

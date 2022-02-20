@@ -3,9 +3,9 @@
 
 #include "type_identity.hpp"
 #include "conditional.hpp"
-#include "detail/type_list.hpp"
 #include "detail/constraints.hpp"
 #include "detail/match_cv.hpp"
+#include "../../utils/type_list.hpp"
 
 namespace std
 {
@@ -40,7 +40,7 @@ template<>
 struct make_unsigned_non_cv_integral<long long> : 
     type_identity<unsigned long long> {};
 
-using rank_types = type_list<unsigned char, unsigned short, unsigned int, unsigned long, unsigned long long>;
+using rank_types = meta::type_list<unsigned char, unsigned short, unsigned int, unsigned long, unsigned long long>;
 
 template<typename T>
 struct make_unsigned_non_cv_enum
