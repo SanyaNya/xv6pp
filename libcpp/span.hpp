@@ -48,6 +48,7 @@ template<typename T, std::size_t Extent = dynamic_extent>
 class span
 {
 public:
+    //constants and types
     using element_type    = T;
     using value_type      = std::remove_cv_t<T>;
     using size_type       = std::size_t;
@@ -63,6 +64,7 @@ public:
 
     static constexpr std::size_t extent = Extent;
 
+    //constructors, copy and assignment
     constexpr span() noexcept
         requires (extent == 0 || extent == dynamic_extent)
         : ptr(nullptr), extent_wrapper(0) {}
@@ -95,21 +97,21 @@ public:
 
     //TODO other ctors
     
-    constexpr iterator begin() const noexcept
+    //subviews
+    //TODO
+ 
+    //observers
+    constexpr size_type size() const noexcept
     {
-        return ptr;
+        return extent_wrapper.get();
     }
 
-    constexpr iterator end() const noexcept
+    constexpr size_type size_bytes() const noexcept
     {
-        return ptr+extent_wrapper.get();
+        return size() * sizeof(element_type);
     }
 
-    constexpr pointer data() const noexcept
-    {
-        return ptr;
-    }
-
+    //element access
     constexpr reference operator[](size_type idx) const
     {
         return ptr[idx];
@@ -125,16 +127,21 @@ public:
         return ptr[size()-1];
     }
 
-    constexpr size_type size() const noexcept
+    constexpr pointer data() const noexcept
     {
-        return extent_wrapper.get();
+        return ptr;
     }
 
-    constexpr size_type size_bytes() const noexcept
+    //iterator support
+    constexpr iterator begin() const noexcept
     {
-        return size() * sizeof(element_type);
+        return ptr;
     }
 
+    constexpr iterator end() const noexcept
+    {
+        return ptr+extent_wrapper.get();
+    }
 private:
     pointer ptr;
     [[no_unique_address]] extent_storage<Extent> extent_wrapper;
