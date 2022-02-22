@@ -43,6 +43,12 @@ public:
     }
 };
 
+template<size_t Extent, size_t Offset, size_t Count>
+    static constexpr size_t subspan_size = 
+        Count != dynamic_extent ? Count
+                                : (Extent != dynamic_extent ? Extent - Offset
+                                                            : dynamic_extent);
+
 } //namesapce
 
 template<typename T, std::size_t Extent = dynamic_extent>
@@ -99,7 +105,24 @@ public:
     //TODO other ctors
     
     //subviews
-    //TODO
+    template<size_t Offset, size_t Count = dynamic_extent>
+    constexpr span<element_type, subspan_size<Extent, Offset, Count>> subspan() const
+    {
+        if constexpr(Extent != dynamic_extent)
+        {
+            static_assert(Offset <= Extent);
+            static_assert(Count == dynamic_extent || Count <= (Extent - Offset));
+        }
+        else
+        {
+            detail::assert(Offset <= size());
+            detail::assert(Count == dynamic_extent || Count <= (size() - Offset));
+        }
+
+        return span<element_type, subspan_size<Extent, Offset, Count>>(
+                data() + Offset, 
+                Count != dynamic_extent ? Count : size() - Offset);
+    }
 
     //observers
     constexpr size_type size() const noexcept
