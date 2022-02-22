@@ -13,6 +13,11 @@ namespace detail
 
 inline terminate_handler terminate_func = abort;
 
+inline void assert(bool b)
+{
+    if(!b) abort();
+}
+
 } //namespace detail
 
 terminate_handler get_terminate() noexcept

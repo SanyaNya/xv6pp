@@ -5,6 +5,7 @@
 #include "type_traits.hpp"
 #include "limits.hpp"
 #include "array.hpp"
+#include "exception.hpp"
 
 namespace std
 {
@@ -99,7 +100,7 @@ public:
     
     //subviews
     //TODO
- 
+
     //observers
     constexpr size_type size() const noexcept
     {
@@ -114,16 +115,19 @@ public:
     //element access
     constexpr reference operator[](size_type idx) const
     {
+        detail::assert(idx < size());
         return ptr[idx];
     }
 
     constexpr reference front() const
     {
+        detail::assert(size() != 0);
         return ptr[0];
     }
 
     constexpr reference back() const
     {
+        detail::assert(size() != 0);
         return ptr[size()-1];
     }
 
