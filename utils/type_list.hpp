@@ -30,8 +30,8 @@ struct type_list_helper<T, Ts...>
     template<typename Garbage>
     struct get<Garbage, 0> : std::type_identity<T> {};
 
-    using front = get<void, 0>;
-    using back =  get<void, sizeof...(Ts)>;
+    using front = typename get<void, 0>::type;
+    using back =  typename get<void, sizeof...(Ts)>::type;
 
     template<auto P, std::size_t I, bool = P.template operator()<T>()>
     struct find_if : type_list_helper<Ts...>::template find_if<P, I+1> {};
