@@ -17,6 +17,20 @@ inline constexpr std::size_t NOT_FOUND = std::numeric_limits<std::size_t>::max()
 namespace detail
 {
 
+template<auto Less, typename T1, typename T2>
+static constexpr bool less_helper()
+{
+    if constexpr(std::is_same_v<T2, UNKNOWN_TYPE>) return true;
+    else return Less.template operator()<T1, T2>();
+}
+
+template<auto More, typename T1, typename T2>
+static constexpr bool more_helper()
+{
+    if constexpr(std::is_same_v<T2, UNKNOWN_TYPE>) return true;
+    else return More.template operator()<T1, T2>();
+}
+
 template<typename ... Ts>
 struct type_list_helper;
 
@@ -38,12 +52,32 @@ struct type_list_helper<T, Ts...>
 
     template<auto P, std::size_t I>
     struct find_if<P, I, true> : std::integral_constant<std::size_t, I> {};
+
+    template<auto Less>
+    struct min : 
+        std::conditional<
+            less_helper<
+                Less, 
+                T, 
+                typename type_list_helper<Ts...>::template min<Less>::type>,
+            T, 
+            typename type_list_helper<Ts...>::template min<Less>::type> {};
+
+    template<auto More>
+    struct max :
+        std::conditional<
+            more_helper<
+                More,
+                T,
+                typename type_list_helper<Ts...>::template max<More>::type>,
+            T,
+            typename type_list_helper<Ts...>::template max<More>::type> {};
 };
 
 template<>
 struct type_list_helper<>
 {
-    template<std::size_t I>
+    template<typename, std::size_t I>
     struct get : std::type_identity<UNKNOWN_TYPE> {};
 
     using front = UNKNOWN_TYPE;
@@ -52,6 +86,12 @@ struct type_list_helper<>
     template<auto P, std::size_t I>
     struct find_if : 
         std::integral_constant<std::size_t, std::numeric_limits<std::size_t>::max()> {};
+
+    template<auto Less>
+    struct min : std::type_identity<UNKNOWN_TYPE> {};
+
+    template<auto More>
+    struct max : std::type_identity<UNKNOWN_TYPE> {};
 };
 
 } //namesapce detail
@@ -86,6 +126,14 @@ struct type_list
     template<typename T>
     static constexpr bool exist = 
         find<T> != NOT_FOUND;
+
+    template<auto Less>
+    using min =
+        typename detail::type_list_helper<Ts...>::template min<Less>::type;
+
+    template<auto More>
+    using max =
+        typename detail::type_list_helper<Ts...>::template max<More>::type;
 };
 
 } //namespace std::detail
