@@ -59,7 +59,7 @@ struct type_list_helper<T, Ts...>
             less_helper<
                 Less, 
                 T, 
-                typename type_list_helper<Ts...>::template min<Less>::type>,
+                typename type_list_helper<Ts...>::template min<Less>::type>(),
             T, 
             typename type_list_helper<Ts...>::template min<Less>::type> {};
 
@@ -69,7 +69,7 @@ struct type_list_helper<T, Ts...>
             more_helper<
                 More,
                 T,
-                typename type_list_helper<Ts...>::template max<More>::type>,
+                typename type_list_helper<Ts...>::template max<More>::type>(),
             T,
             typename type_list_helper<Ts...>::template max<More>::type> {};
 };
