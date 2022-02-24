@@ -144,13 +144,21 @@ public:
 
     constexpr reference front() const
     {
-        detail::assert(size() != 0);
+        if constexpr(Extent != dynamic_extent)
+            static_assert(Extent != 0);
+        else
+            detail::assert(size() != 0);
+
         return ptr[0];
     }
 
     constexpr reference back() const
     {
-        detail::assert(size() != 0);
+        if constexpr(Extent != dynamic_extent)
+            static_assert(Extent != 0);
+        else
+            detail::assert(size() != 0);
+
         return ptr[size()-1];
     }
 
