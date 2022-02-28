@@ -17,7 +17,7 @@ set(CXX_FREESTANDING_FLAG        -ffreestanding)
 set(CXX_NO_EXCEPTIONS_FLAG       -fno-exceptions)
 set(CXX_NO_RTTI_FLAG             -fno-rtti)
 set(CXX_PIPE                     -pipe)
-set(CXX_WALL_WEXTRA_WERROR_FLAGS -Wall;-Wextra)
+set(CXX_WALL_WEXTRA_WERROR_FLAGS -Wall;-Wextra;-Wconversion)
 
 function(target_cxx_linker_script TARGET LINKER_SCRIPT)
     set_target_properties(${TARGET} PROPERTIES
