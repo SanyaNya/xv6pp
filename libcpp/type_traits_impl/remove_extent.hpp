@@ -1,7 +1,7 @@
 #ifndef STD_TYPE_TRAITS_REMOVE_EXTENT_HPP
 #define STD_TYPE_TRAITS_REMOVE_EXTENT_HPP
 
-#include "../cstddef.hpp"
+#include "../cstddef_impl/types.hpp"
 #include "type_identity.hpp"
 
 namespace std

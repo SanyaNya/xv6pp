@@ -1,7 +1,7 @@
 #ifndef STD_ARRAY_HPP
 #define STD_ARRAY_HPP
 
-#include "cstddef.hpp"
+#include "cstddef_impl/types.hpp"
 
 namespace std
 {
