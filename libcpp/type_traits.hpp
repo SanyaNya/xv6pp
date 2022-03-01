@@ -21,6 +21,7 @@
 #include "type_traits_impl/is_trivially_default_constructible.hpp"
 #include "type_traits_impl/is_trivial.hpp"
 #include "type_traits_impl/is_standard_layout.hpp"
+#include "type_traits_impl/is_layout_compatible.hpp"
 #include "type_traits_impl/is_enum.hpp"
 #include "type_traits_impl/is_same.hpp"
 #include "type_traits_impl/conjunction.hpp"
