@@ -4,13 +4,14 @@
 #include "../ELF/ProgramHeader.hpp"
 #include "../libcpp/span.hpp"
 #include "../io/irawstream.hpp"
+#include "../io/byte_traits.hpp"
 
 namespace xv6pp
 {
 
 using irawstream = 
     io::basic_irawstream<
-        char, std::char_traits<char>, 
+        std::byte, io::byte_traits, 
         std::allocator,
         true, true, true,
         4096, 4096, true>;

@@ -2,6 +2,7 @@
 #define ELF_IDENT_HPP
 
 #include "../libcpp/cstdint.hpp"
+#include "../libcpp/cstddef.hpp"
 
 namespace ELF::Ident
 {
@@ -49,7 +50,7 @@ struct Struct
     Version version;
     ABI abi;
     std::uint8_t abi_version;
-    std::uint8_t padding[7];
+    std::byte padding[7];
 };
 
 } //namespace ELF::Ident

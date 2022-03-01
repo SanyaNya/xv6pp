@@ -51,7 +51,7 @@ struct Header
     std::uint32_t name_idx;
     Type          type;
     Flags         flags;
-    char* addr;           //If section don`t appears in the memory addr = 0
+    std::byte* addr;      //If section don`t appears in the memory addr = 0
     std::uint32_t offset; //Offset from the beginning of the file
     std::uint32_t size;   //Size of this section.
     std::uint32_t link;   //Section Header table index(interpretation depends on section type)

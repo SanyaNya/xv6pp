@@ -20,9 +20,9 @@ inline void outb(E port, T data)
 }
 
 template<std::explicitly_convertible_to<std::uint16_t> E>
-inline std::uint8_t inb(E port)
+inline std::byte inb(E port)
 {
-    std::uint8_t data;
+    std::byte data;
 
     asm volatile("in %1,%0" : 
                  "=a" (data) : 

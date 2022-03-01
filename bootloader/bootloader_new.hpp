@@ -11,9 +11,9 @@ namespace xv6pp
 namespace detail
 {
 
-extern "C" unsigned char BOOTMAGIC_ADDR[];
+extern "C" std::byte BOOTMAGIC_ADDR[];
 
-inline unsigned char* free_mem = BOOTMAGIC_ADDR;
+inline std::byte* free_mem = BOOTMAGIC_ADDR;
 
 inline void align(std::align_val_t align)
 {
