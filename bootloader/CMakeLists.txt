@@ -20,7 +20,9 @@ target_compile_options(boot.bin PRIVATE
 
 #linker flags
 target_link_options(boot.bin PRIVATE
-    $<$<COMPILE_LANGUAGE:CXX>:${CXX_NO_STDLIB_FLAG}>)
+    $<$<COMPILE_LANGUAGE:CXX>:
+        ${CXX_NO_STDLIB_FLAG};
+        ${CXX_STRIP_BINARY}>)
 
 target_cxx_linker_script(boot.bin
     ${CMAKE_CURRENT_SOURCE_DIR}/linker.ld)

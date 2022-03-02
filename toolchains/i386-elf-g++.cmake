@@ -16,6 +16,7 @@ set(CXX_NO_STDLIB_FLAG           -nostdlib)
 set(CXX_FREESTANDING_FLAG        -ffreestanding)
 set(CXX_NO_EXCEPTIONS_FLAG       -fno-exceptions)
 set(CXX_NO_RTTI_FLAG             -fno-rtti)
+set(CXX_STRIP_BINARY             -s)
 set(CXX_PIPE                     -pipe)
 set(CXX_WALL_WEXTRA_WERROR_FLAGS -Wall;-Wextra;-Wconversion)
 
