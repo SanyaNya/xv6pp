@@ -11,6 +11,7 @@ namespace xv6pp
 namespace detail
 {
 
+//In bootloader/linker.ld
 extern "C" std::byte BOOTMAGIC_ADDR[];
 
 inline std::byte* free_mem = BOOTMAGIC_ADDR;

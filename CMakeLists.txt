@@ -10,11 +10,13 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS True)
 add_subdirectory(bootloader)
 add_subdirectory(kernel)
 
+#Load image_creator
 include(ExternalProject)
 ExternalProject_Add(image_creator
     SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/image_creator
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR})
 
+#Concat bootblock and kernel
 add_custom_command(
     OUTPUT ${CMAKE_BINARY_DIR}/kernel.img
     DEPENDS boot.bin kernel.bin image_creator

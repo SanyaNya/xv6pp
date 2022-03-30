@@ -9,6 +9,10 @@
 namespace xv6pp
 {
 
+//To avoid code size overhead
+//Turn off all checks
+//Use fixed size buffer
+//Use crtp for istream and streambuf
 using irawstream = 
     io::basic_irawstream<
         std::byte, io::byte_traits, 
@@ -35,6 +39,8 @@ extern "C" [[noreturn]] void bootmain()
     }
 
     elf.entry();
+
+    //In bootloader there is no need to free mem
 }
 
 } //namespace xv6pp
