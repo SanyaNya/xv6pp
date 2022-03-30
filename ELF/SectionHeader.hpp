@@ -2,6 +2,7 @@
 #define ELF_SECTION_HEADER_HPP
 
 #include "../libcpp/cstdint.hpp"
+#include "../libcpp/cstddef.hpp"
 #include "../utils/bitfield.hpp"
 
 namespace ELF::Section
