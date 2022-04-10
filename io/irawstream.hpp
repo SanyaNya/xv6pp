@@ -95,7 +95,7 @@ public:
     }
 
     template<typename T, std::size_t Extent>
-    basic_irawstream& operator>>(std::span<T, Extent>& s)
+    basic_irawstream& operator>>(const std::span<T, Extent>& s)
     {
         base::read(reinterpret_cast<char_type*>(s.data()), s.size_bytes());
         return *this;
