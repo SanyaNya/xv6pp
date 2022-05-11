@@ -21,13 +21,14 @@ public:
         reference(std::size_t& bit, std::size_t pos)
             : data(bit), bpos(pos) {}
 
+    public:
         reference& operator=(bool x) noexcept
         {
             data &= ~bit_mask(bpos);
             data |= std::size_t(x) << bpos;
+            return *this;
         }
 
-    public:
         operator bool() const noexcept
         {
             return data & bit_mask(bpos);
