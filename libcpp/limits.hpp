@@ -24,6 +24,11 @@ struct numeric_limits<unsigned long>
     {
         return 4294967295ul;
     }
+
+    static constexpr int digits() noexcept
+    {
+        return 32;
+    }
 };
 
 template<>
@@ -39,6 +44,11 @@ struct numeric_limits<unsigned int>
     static constexpr unsigned int max() noexcept
     {
         return 4294967295u;
+    }
+
+    static constexpr int digits() noexcept
+    {
+        return 32;
     }
 };
 
