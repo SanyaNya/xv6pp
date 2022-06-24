@@ -42,6 +42,27 @@ struct numeric_limits<unsigned int>
     }
 };
 
+template<>
+struct numeric_limits<unsigned char>
+{
+    static constexpr bool is_specialized = true;
+    
+    static constexpr unsigned char min() noexcept
+    {
+        return 0;
+    }
+
+    static constexpr unsigned char max() noexcept
+    {
+        return 255;
+    }
+
+    static constexpr int digits() noexcept
+    {
+        return 8;
+    }
+};
+
 } //namespace std
 
 #endif //STD_LIMITS_HPP
