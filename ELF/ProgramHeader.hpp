@@ -3,7 +3,7 @@
 
 #include "../libcpp/cstdint.hpp"
 #include "../libcpp/cstddef.hpp"
-#include "../utils/bitfield.hpp"
+#include "../utils/bitfield/bitfield.hpp"
 
 namespace ELF::Program
 {

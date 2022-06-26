@@ -1,7 +1,7 @@
 #ifndef XV6PP_UTILS_BITFIELD_HPP
 #define XV6PP_UTILS_BITFIELD_HPP
 
-#include "../libcpp/bit.hpp"
+#include "../../libcpp/bit.hpp"
 
 namespace xv6pp
 {
@@ -9,26 +9,20 @@ namespace xv6pp
 template<typename TImpl, typename TAlias>
 struct bitfield
 {
-    bitfield() = default;
-    bitfield(TAlias t)
+    constexpr bitfield() = default;
+    constexpr bitfield(TAlias t)
     {
-        static_assert(sizeof(TImpl) == sizeof(TAlias));
-
         *static_cast<TImpl*>(this) = std::bit_cast<TImpl>(t); 
     }
 
-    TImpl& operator=(TAlias t)
+    constexpr TImpl& operator=(TAlias t)
     {
-        static_assert(sizeof(TImpl) == sizeof(TAlias));
-
         return *static_cast<TImpl*>(this) = std::bit_cast<TImpl>(t);
     }
 
-    operator TAlias() const
+    constexpr operator TAlias() const
     {
-        static_assert(sizeof(TImpl) == sizeof(TAlias));
-
-        return std::bit_cast<TAlias>(*this); 
+        return std::bit_cast<TAlias>(*static_cast<const TImpl*>(this)); 
     }
 };
 

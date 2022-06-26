@@ -4,7 +4,7 @@
 #include "../libcpp/cstdint.hpp"
 #include "../libcpp/cstddef.hpp"
 #include "../libcpp/span.hpp"
-#include "../utils/bitfield.hpp"
+#include "../utils/bitfield/bitfield.hpp"
 #include "../x86/intrinsics.hpp"
 
 namespace xv6pp::io::detail
