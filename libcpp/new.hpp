@@ -11,6 +11,12 @@ enum class align_val_t : size_t {};
 struct nothrow_t { explicit nothrow_t() = default; };
 extern const nothrow_t nothrow;
 
+template<typename T>
+[[nodiscard]] constexpr T* launder(T* p) noexcept
+{
+    return __builtin_launder(p);
+}
+
 } //namespace std
 
 [[nodiscard]] void* operator new(std::size_t);
