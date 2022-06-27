@@ -14,19 +14,17 @@ struct adv_bitfield
     using dm = distributed_member<T, TAlias, PARTS...>;
 
     constexpr adv_bitfield() noexcept = default;
-    constexpr adv_bitfield(TAlias t) noexcept
-    {
-        *static_cast<TImpl*>(this) = std::bit_cast<TImpl>(t); 
-    }
+    constexpr adv_bitfield(TAlias t) noexcept : storage(t) {}
 
     constexpr TImpl& operator=(TAlias t) noexcept
     {
-        return *static_cast<TImpl*>(this) = std::bit_cast<TImpl>(t);
+        storage = t;
+        return *static_cast<TImpl*>(this);
     }
 
     constexpr operator TAlias() const noexcept
     {
-        return std::bit_cast<TAlias>(*static_cast<const TImpl*>(this)); 
+        return storage;
     }
 
 private:
