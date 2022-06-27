@@ -76,7 +76,7 @@ private:
 
                             const auto r = 
                                 detail::shift_to<
-                                    flat_offset(Is, parts),
+                                    Part::flat_offset(Is, parts),
                                     parts[Is].begin>(src);
 
                             return r & mask;
@@ -93,13 +93,13 @@ private:
                         {
                             constexpr auto mask = 
                                 detail::mask<int_type>(
-                                        flat_offset(Is, parts), 
-                                        flat_offset(Is+1, parts));
+                                    Part::flat_offset(Is, parts), 
+                                    Part::flat_offset(Is+1, parts));
 
                             const auto r = 
                                 detail::shift_to<
                                     parts[Is].begin,
-                                    flat_offset(Is, parts)>(src);
+                                    Part::flat_offset(Is, parts)>(src);
 
                             return r & mask;
                         }() | ...);
