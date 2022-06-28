@@ -64,26 +64,44 @@ private:
     static constexpr std::size_t BYTE_SIZE = 
         std::numeric_limits<std::underlying_type_t<std::byte>>::digits;
 
+    template<std::size_t I>
+    static constexpr int_type merge_part_from_src(int_type src) noexcept
+    {
+        constexpr auto mask = 
+            detail::mask<int_type>(
+                    parts[I].begin, parts[I].end);
+
+        const auto r = 
+            detail::shift_to<
+                Part::flat_offset(I, parts),
+                parts[I].begin>(src);
+
+        return r & mask;
+    }
+
     static constexpr int_type merge_parts_from_src(int_type src) noexcept
     {
         return 
             [src]<std::size_t ... Is>(std::index_sequence<Is...>)
             {
-                return ([src]()
-                        {
-                            constexpr auto mask = 
-                                detail::mask<int_type>(
-                                        parts[Is].begin, 
-                                        parts[Is].end);
-
-                            const auto r = 
-                                detail::shift_to<
-                                    Part::flat_offset(Is, parts),
-                                    parts[Is].begin>(src);
-
-                            return r & mask;
-                        }() | ...);
+                return (merge_part_from_src<Is>(src) | ...);
             }(std::make_index_sequence<sizeof...(PARTS)>());
+    }
+
+    template<std::size_t I>
+    static constexpr int_type merge_part_from_storage(int_type src) noexcept
+    {
+        constexpr auto mask = 
+            detail::mask<int_type>(
+                Part::flat_offset(I, parts), 
+                Part::flat_offset(I+1, parts));
+
+        const auto r = 
+            detail::shift_to<
+                parts[I].begin,
+                Part::flat_offset(I, parts)>(src);
+
+        return r & mask;
     }
 
     static constexpr int_type merge_parts_from_storage(int_type src) noexcept
@@ -91,20 +109,7 @@ private:
         return 
             [src]<std::size_t ... Is>(std::index_sequence<Is...>)
             {
-                return ([src]()
-                        {
-                            constexpr auto mask = 
-                                detail::mask<int_type>(
-                                    Part::flat_offset(Is, parts), 
-                                    Part::flat_offset(Is+1, parts));
-
-                            const auto r = 
-                                detail::shift_to<
-                                    parts[Is].begin,
-                                    Part::flat_offset(Is, parts)>(src);
-
-                            return r & mask;
-                        }() | ...);
+                return (merge_part_from_storage<Is>(src) | ...);
             }(std::make_index_sequence<sizeof...(PARTS)>());
     }
 };
