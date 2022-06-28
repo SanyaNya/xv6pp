@@ -20,7 +20,7 @@ template<std::integral T>
 constexpr T rmask(std::size_t end) noexcept
 {
     return std::numeric_limits<T>::max() >> 
-	    (std::numeric_limits<T>::digits() - end);
+	    (std::numeric_limits<T>::digits - end);
 }
 
 template<std::integral T>

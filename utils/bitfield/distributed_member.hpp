@@ -60,7 +60,7 @@ private:
         ~(detail::mask<int_type>(PARTS.begin, PARTS.end) | ...);
 
     static constexpr std::size_t BYTE_SIZE = 
-        std::numeric_limits<std::underlying_type_t<std::byte>>::digits();
+        std::numeric_limits<std::underlying_type_t<std::byte>>::digits;
 
     static constexpr int_type merge_parts_from_src(int_type src) noexcept
     {
