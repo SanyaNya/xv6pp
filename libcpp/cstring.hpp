@@ -3,13 +3,12 @@
 
 #include "cstddef_impl/types.hpp"
 
+#define memcpy __builtin_memcpy
+
 namespace std
 {
 
-void* memcpy(void* dest, const void* src, std::size_t count)
-{
-    return __builtin_memcpy(dest, src, count);
-}
+using ::memcpy;
 
 } //namespace std
 
