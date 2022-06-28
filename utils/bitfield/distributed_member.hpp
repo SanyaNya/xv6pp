@@ -4,8 +4,8 @@
 #include "../../libcpp/cstddef.hpp"
 #include "../../libcpp/cstdint.hpp"
 #include "../../libcpp/bit.hpp"
-#include "../../libcpp/new.hpp"
 #include "../../libcpp/utility.hpp"
+#include "../../libcpp/cstring.hpp"
 #include "../equal_integral_rank.hpp"
 #include "part.hpp"
 #include "helper_functions.hpp"
@@ -28,8 +28,8 @@ struct distributed_member
         const int_type t_int = 
             static_cast<int_type>(std::bit_cast<TInt>(t));
 
-        storage() &= storage_inv_mask;
-        storage() |= merge_parts_from_src(t_int);
+        storage(storage() & storage_inv_mask);
+        storage(storage() | merge_parts_from_src(t_int));
 
         return *this;
     }
@@ -42,14 +42,16 @@ struct distributed_member
     }
 
 private:
-    int_type& storage() noexcept
+    void storage(int_type i) noexcept
     {
-        return *std::launder(reinterpret_cast<int_type*>(this));
+        std::memcpy(this, &i, sizeof(int_type));
     }
 
-    const int_type& storage() const noexcept
+    int_type storage() const noexcept
     {
-        return *std::launder(reinterpret_cast<const int_type*>(this));
+        int_type i;
+        std::memcpy(&i, this, sizeof(int_type));
+        return i;
     }
 
     using TInt = equal_integral_rank_t<T>;
