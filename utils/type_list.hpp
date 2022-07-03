@@ -136,6 +136,6 @@ struct type_list
         typename detail::type_list_helper<Ts...>::template max<More>::type;
 };
 
-} //namespace std::detail
+} //namespace meta
 
 #endif //META_TYPE_LIST_HPP
