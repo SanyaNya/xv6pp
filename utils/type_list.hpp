@@ -1,7 +1,6 @@
 #ifndef META_TYPE_LIST_HPP
 #define META_TYPE_LIST_HPP
 
-#include "../libcpp/cstddef_impl/types.hpp"
 #include "../libcpp/limits.hpp"
 #include "../libcpp/type_traits_impl/type_identity.hpp"
 #include "../libcpp/type_traits_impl/integral_constant.hpp"
@@ -10,9 +9,10 @@
 
 namespace meta
 {
+using uint = unsigned int;
 
 struct UNKNOWN_TYPE {};
-inline constexpr std::size_t NOT_FOUND = std::numeric_limits<std::size_t>::max();
+inline constexpr uint NOT_FOUND = std::numeric_limits<uint>::max();
 
 namespace detail
 {
@@ -37,7 +37,7 @@ struct type_list_helper;
 template<typename T, typename ... Ts>
 struct type_list_helper<T, Ts...>
 {
-    template<typename Garbage, std::size_t I>
+    template<typename Garbage, uint I>
     struct get : type_list_helper<Ts...>::template get<Garbage, I-1> {};
     
     //We need to avoid full specialization cause of gcc bug #85282
@@ -47,11 +47,11 @@ struct type_list_helper<T, Ts...>
     using front = typename get<void, 0>::type;
     using back =  typename get<void, sizeof...(Ts)>::type;
 
-    template<auto P, std::size_t I, bool = P.template operator()<T>()>
+    template<auto P, uint I, bool = P.template operator()<T>()>
     struct find_if : type_list_helper<Ts...>::template find_if<P, I+1> {};
 
-    template<auto P, std::size_t I>
-    struct find_if<P, I, true> : std::integral_constant<std::size_t, I> {};
+    template<auto P, uint I>
+    struct find_if<P, I, true> : std::integral_constant<uint, I> {};
 
     template<auto Less>
     struct min : 
@@ -77,15 +77,15 @@ struct type_list_helper<T, Ts...>
 template<>
 struct type_list_helper<>
 {
-    template<typename, std::size_t I>
+    template<typename, uint I>
     struct get : std::type_identity<UNKNOWN_TYPE> {};
 
     using front = UNKNOWN_TYPE;
     using back = UNKNOWN_TYPE;
 
-    template<auto P, std::size_t I>
+    template<auto P, uint I>
     struct find_if : 
-        std::integral_constant<std::size_t, std::numeric_limits<std::size_t>::max()> {};
+        std::integral_constant<uint, std::numeric_limits<uint>::max()> {};
 
     template<auto Less>
     struct min : std::type_identity<UNKNOWN_TYPE> {};
@@ -100,9 +100,9 @@ struct type_list_helper<>
 template<typename ... Ts>
 struct type_list
 {
-    static constexpr std::size_t size = sizeof...(Ts);
+    static constexpr uint size = sizeof...(Ts);
 
-    template<std::size_t I>
+    template<uint I>
     using get = 
         typename detail::type_list_helper<Ts...>::template get<void, I>::type;
 
@@ -110,14 +110,14 @@ struct type_list
     using back = typename detail::type_list_helper<Ts...>::back;
 
     template<auto P>
-    static constexpr std::size_t find_if =
+    static constexpr uint find_if =
         detail::type_list_helper<Ts...>::template find_if<P, 0>::value;
 
     template<auto P>
     using find_type_if = get<find_if<P>>;
 
     template<typename T>
-    static constexpr std::size_t find = 
+    static constexpr uint find = 
         find_if<[]<typename TArg>(){ return std::is_same_v<T, TArg>; }>;
 
     template<typename T>
