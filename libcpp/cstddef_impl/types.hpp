@@ -2,7 +2,7 @@
 #define STD_CSTDDEF_IMPL_TYPES_HPP
 
 #include "../utility_impl/declval.hpp"
-#include "../detail/std_types.hpp"
+#include "../detail/fundamental_types.hpp"
 
 namespace std
 {
@@ -12,7 +12,7 @@ using ptrdiff_t   = decltype(declval<int*>()-declval<int*>());
 using nullptr_t   = decltype(nullptr);
 
 using max_align_t = 
-    typename detail::std_types::template max<
+    typename detail::fundamental_types_except_void::template max<
         []<typename A, typename B>(){ return (alignof(A) > alignof(B)); }>;
 
 } //namespace std
