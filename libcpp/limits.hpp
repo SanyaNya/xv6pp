@@ -61,7 +61,7 @@ struct numeric_limits<unsigned char>
         return 255;
     }
 
-    static constexpr int digits = 0;
+    static constexpr int digits = 8;
 };
 
 } //namespace std
