@@ -1,27 +1,72 @@
 #ifndef STD_CSTDINT_HPP
 #define STD_CSTDINT_HPP
 
+#include "detail/fundamental_types.hpp"
+#include "type_traits_impl/make_unsigned.hpp"
+#include "limits.hpp"
+
 namespace std
 {
-    using int8_t   = signed char;
-    using int16_t  = short;
-    using int32_t  = int;
-    using int64_t  = long long;
 
-    using uint8_t  = unsigned char;
-    using uint16_t = unsigned short;
-    using uint32_t = unsigned int;
-    using uint64_t = unsigned long long;
+namespace detail
+{
 
-    static_assert(sizeof(int8_t)  == 1);
-    static_assert(sizeof(int16_t) == 2);
-    static_assert(sizeof(int32_t) == 4);
-    static_assert(sizeof(int64_t) == 8);
+using stdint_types = 
+    meta::type_list_cat_t<
+        meta::type_list<signed char>,
+        signed_int_types>; 
 
-    static_assert(sizeof(uint8_t)  == 1);
-    static_assert(sizeof(uint16_t) == 2);
-    static_assert(sizeof(uint32_t) == 4);
-    static_assert(sizeof(uint64_t) == 8);
-}
+template<typename T>
+constexpr auto bit_size_v = 
+    std::numeric_limits<unsigned char>::digits * sizeof(T);
+
+template<auto SIZE>
+using stdint_equal_bit_size_t = 
+    detail::stdint_types::find_type_if<
+        []<typename T>(){ return detail::bit_size_v<T> == SIZE; }>;
+
+template<auto SIZE>
+using stdint_least_bit_size_t = 
+    detail::stdint_types::find_type_if<
+        []<typename T>(){ return detail::bit_size_v<T> >= SIZE; }>;
+
+} //namespace detail
+
+
+    using int8_t  = detail::stdint_equal_bit_size_t<8>;
+    using int16_t = detail::stdint_equal_bit_size_t<16>;
+    using int32_t = detail::stdint_equal_bit_size_t<32>;
+    using int64_t = detail::stdint_equal_bit_size_t<64>;
+
+    using int_least8_t  = detail::stdint_least_bit_size_t<8>;
+    using int_least16_t = detail::stdint_least_bit_size_t<16>;
+    using int_least32_t = detail::stdint_least_bit_size_t<32>;
+    using int_least64_t = detail::stdint_least_bit_size_t<64>;
+
+    using intmax_t = 
+        detail::stdint_types::max<
+            []<typename A, typename B>()
+            { return (sizeof(A) > sizeof(B)); }>;
+
+    using intptr_t =
+        detail::stdint_types::find_type_if<
+            []<typename T>(){ return sizeof(T) == sizeof(void*); }>;
+
+
+    using uint8_t  = make_unsigned_t<int8_t>;
+    using uint16_t = make_unsigned_t<int16_t>;
+    using uint32_t = make_unsigned_t<int32_t>;
+    using uint64_t = make_unsigned_t<int64_t>;
+
+    using uint_least8_t  = make_unsigned_t<int8_t>;
+    using uint_least16_t = make_unsigned_t<int16_t>;
+    using uint_least32_t = make_unsigned_t<int32_t>;
+    using uint_least64_t = make_unsigned_t<int64_t>;
+
+    using uintmax_t = make_unsigned_t<intmax_t>;
+
+    using uintptr_t = make_unsigned_t<intptr_t>;
+
+} //namespace std
 
 #endif //STD_CSTDINT_HPP
