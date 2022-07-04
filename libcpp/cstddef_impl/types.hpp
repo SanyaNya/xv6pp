@@ -3,6 +3,7 @@
 
 #include "../utility_impl/declval.hpp"
 #include "../detail/fundamental_types.hpp"
+#include "../../utils/type_list_remove.hpp"
 
 namespace std
 {
@@ -12,8 +13,9 @@ using ptrdiff_t   = decltype(declval<int*>()-declval<int*>());
 using nullptr_t   = decltype(nullptr);
 
 using max_align_t = 
-    typename detail::fundamental_types_except_void::template max<
-        []<typename A, typename B>(){ return (alignof(A) > alignof(B)); }>;
+    typename meta::type_list_remove_t<
+        detail::fundamental_types, void>::template max<
+            []<typename A, typename B>(){ return (alignof(A) > alignof(B)); }>;
 
 } //namespace std
 

@@ -45,11 +45,6 @@ using int_types =
         signed_int_types,
         unsigned_int_types>;
 
-using int_types_with_char =
-    meta::type_list_cat_t<
-        meta::type_list<signed char, unsigned char>,
-        int_types>;
-
 
 using floating_point_types =
     meta::type_list<
@@ -69,15 +64,10 @@ using arithmetic_types =
         floating_point_types,
         integral_types>;
 
-using fundamental_types_except_void =
-    meta::type_list_cat_t<
-        meta::type_list<decltype(nullptr)>,
-        arithmetic_types>;
-
 using fundamental_types =
     meta::type_list_cat_t<
-        meta::type_list<void>,
-        fundamental_types_except_void>;
+        meta::type_list<void, decltype(nullptr)>,
+        arithmetic_types>;
 
 } //namespace std::detail
 
