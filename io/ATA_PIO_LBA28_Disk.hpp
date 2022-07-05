@@ -66,19 +66,19 @@ constexpr std::byte MASTER_LBA_MASK {0xE0};
 constexpr std::uint16_t SECTOR_SIZE = 512;
 
 template<typename pos_type>
-inline pos_type align_buf(pos_type pos)
+constexpr pos_type align_buf(pos_type pos)
 {
     return pos - (pos % SECTOR_SIZE);
 }
 
 template<typename pos_type>
-inline pos_type buf_align_indent(pos_type pos)
+constexpr pos_type buf_align_indent(pos_type pos)
 {
     return pos % SECTOR_SIZE;
 }
 
 template<typename pos_type>
-inline pos_type buf_sector(pos_type pos)
+constexpr pos_type buf_sector(pos_type pos)
 {
     return pos / SECTOR_SIZE;
 }
