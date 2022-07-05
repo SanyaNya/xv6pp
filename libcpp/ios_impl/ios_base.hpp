@@ -98,21 +98,21 @@ protected:
 
 using ios_base = ios_base_crtp<>;
 
-inline constexpr ios_base::iostate operator&(
+constexpr ios_base::iostate operator&(
         ios_base::iostate lhs, ios_base::iostate rhs)
 {
     return static_cast<ios_base::iostate>(
             to_underlying(lhs) & to_underlying(rhs));
 }
 
-inline constexpr ios_base::openmode operator&(
+constexpr ios_base::openmode operator&(
         ios_base::openmode lhs, ios_base::openmode rhs)
 {
     return static_cast<ios_base::openmode>(
             to_underlying(lhs) & to_underlying(rhs));
 }
 
-inline constexpr ios_base::seekdir operator&(
+constexpr ios_base::seekdir operator&(
         ios_base::seekdir lhs, ios_base::seekdir rhs)
 {
     return static_cast<ios_base::seekdir>(
@@ -120,21 +120,21 @@ inline constexpr ios_base::seekdir operator&(
 }
 
 
-inline constexpr ios_base::iostate operator|(
+constexpr ios_base::iostate operator|(
         ios_base::iostate lhs, ios_base::iostate rhs)
 {
     return static_cast<ios_base::iostate>(
             to_underlying(lhs) | to_underlying(rhs));
 }
 
-inline constexpr ios_base::openmode operator|(
+constexpr ios_base::openmode operator|(
         ios_base::openmode lhs, ios_base::openmode rhs)
 {
     return static_cast<ios_base::openmode>(
             to_underlying(lhs) | to_underlying(rhs));
 }
 
-inline constexpr ios_base::seekdir operator|(
+constexpr ios_base::seekdir operator|(
         ios_base::seekdir lhs, ios_base::seekdir rhs)
 {
     return static_cast<ios_base::seekdir>(
@@ -142,17 +142,17 @@ inline constexpr ios_base::seekdir operator|(
 }
 
 
-inline constexpr ios_base::iostate operator~(ios_base::iostate state)
+constexpr ios_base::iostate operator~(ios_base::iostate state)
 {
     return static_cast<ios_base::iostate>(to_underlying(state));
 }
 
-inline constexpr ios_base::openmode operator~(ios_base::openmode state)
+constexpr ios_base::openmode operator~(ios_base::openmode state)
 {
     return static_cast<ios_base::openmode>(to_underlying(state));
 }
 
-inline constexpr ios_base::seekdir operator~(ios_base::seekdir state)
+constexpr ios_base::seekdir operator~(ios_base::seekdir state)
 {
     return static_cast<ios_base::seekdir>(to_underlying(state));
 }

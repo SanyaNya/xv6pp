@@ -20,7 +20,7 @@ struct is_assignable<T, U, void_t<decltype(declval<T>() = declval<U>())>>
 
 template<detail::complete_or_cv_void_or_unbounded_array T, 
          detail::complete_or_cv_void_or_unbounded_array U>
-inline constexpr bool is_assignable_v = is_assignable<T, U>::value;
+constexpr bool is_assignable_v = is_assignable<T, U>::value;
 
 } //namespace std
 

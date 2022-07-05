@@ -61,9 +61,9 @@ inline void waitdisk()
     while(!is_ready());
 }
 
-inline constexpr std::byte MASTER_LBA_MASK {0xE0};
+constexpr std::byte MASTER_LBA_MASK {0xE0};
 
-inline constexpr std::uint16_t SECTOR_SIZE = 512;
+constexpr std::uint16_t SECTOR_SIZE = 512;
 
 template<typename pos_type>
 inline pos_type align_buf(pos_type pos)

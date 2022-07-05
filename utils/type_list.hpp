@@ -12,7 +12,7 @@ namespace meta
 using uint = unsigned int;
 
 struct UNKNOWN_TYPE {};
-inline constexpr uint NOT_FOUND = std::numeric_limits<uint>::max();
+constexpr uint NOT_FOUND = std::numeric_limits<uint>::max();
 
 namespace detail
 {

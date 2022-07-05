@@ -15,7 +15,7 @@ struct is_move_constructible
 
 template<detail::complete_or_cv_void_or_unbounded_array T>
     requires detail::is_referenceable_v<T>
-inline constexpr bool is_move_constructible_v = 
+constexpr bool is_move_constructible_v = 
     is_move_constructible<T>::value;
 
 } //namespace std

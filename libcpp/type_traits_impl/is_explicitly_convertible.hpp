@@ -18,7 +18,7 @@ struct is_explicitly_convertible<
         void_t<decltype(static_cast<To>(declval<From>()))>> : true_type {};
 
 template<typename From, typename To>
-inline constexpr bool is_explicitly_convertible_v = 
+constexpr bool is_explicitly_convertible_v = 
     is_explicitly_convertible<From, To>::value;
 
 } //namespace std

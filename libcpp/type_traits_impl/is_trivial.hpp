@@ -18,7 +18,7 @@ struct is_trivial
 
 template<typename T>
     requires detail::complete_or_cv_void<remove_all_extents_t<T>>
-inline constexpr bool is_trivial_v = is_trivial<T>::value;
+constexpr bool is_trivial_v = is_trivial<T>::value;
 
 } //namespace std
 

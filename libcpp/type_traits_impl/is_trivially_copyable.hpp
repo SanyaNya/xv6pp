@@ -15,7 +15,7 @@ struct is_trivially_copyable
 
 template<typename T>
     requires detail::complete_or_cv_void<remove_all_extents_t<T>>
-inline constexpr bool is_trivially_copyable_v =
+constexpr bool is_trivially_copyable_v =
     is_trivially_copyable<T>::value;
 
 } //namespace std

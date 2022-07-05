@@ -14,7 +14,7 @@ template<typename T>
 struct is_bool<T, bool> : bool_constant<true> {};
 
 template<typename T>
-inline constexpr bool is_bool_v = is_bool<T>::value;
+constexpr bool is_bool_v = is_bool<T>::value;
 
 } //namespace std
 

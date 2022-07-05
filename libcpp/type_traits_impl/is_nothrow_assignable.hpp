@@ -22,7 +22,7 @@ struct is_nothrow_assignable<
 
 template<detail::complete_or_cv_void_or_unbounded_array T,
          detail::complete_or_cv_void_or_unbounded_array U>
-inline constexpr bool is_nothrow_assignable_v = 
+constexpr bool is_nothrow_assignable_v = 
     is_nothrow_assignable<T, U>::value;
 
 } //namespace std

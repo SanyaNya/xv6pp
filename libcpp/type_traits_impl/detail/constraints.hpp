@@ -16,10 +16,10 @@ template<typename T>
 concept cv_void = is_void_v<T>;
 
 template<typename T>
-inline constexpr bool is_unbounded_array = false;
+constexpr bool is_unbounded_array = false;
 
 template<typename T>
-inline constexpr bool is_unbounded_array<T[]> = true;
+constexpr bool is_unbounded_array<T[]> = true;
 
 template<typename T>
 concept unbounded_array = is_unbounded_array<T>;

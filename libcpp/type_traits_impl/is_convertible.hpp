@@ -31,7 +31,7 @@ struct is_convertible<
 
 template<detail::complete_or_cv_void_or_unbounded_array From,
          detail::complete_or_cv_void_or_unbounded_array To>
-inline constexpr bool is_convertible_v = is_convertible<From, To>::value;
+constexpr bool is_convertible_v = is_convertible<From, To>::value;
 
 } //namespace std
 

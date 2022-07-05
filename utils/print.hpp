@@ -5,7 +5,7 @@ namespace xv6pp
 {
 
 inline short* const vga_buf = reinterpret_cast<short*>(0xb8000);
-inline constexpr short color = 0x0200;
+constexpr short color = 0x0200;
 
 inline void print(short* buf, const char* str)
 {

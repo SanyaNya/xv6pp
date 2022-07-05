@@ -47,18 +47,18 @@ using EntryFunc = void(*)();
 
 enum class Version : std::uint32_t { CURRENT = 1 };
 
-inline constexpr std::uint16_t NO_PROGRAM_HEADER      = 0;
-inline constexpr std::uint16_t NO_SECTION_HEADER      = 0;
-inline constexpr std::uint16_t NO_SECTION_NAMES_TABLE = 0;
+constexpr std::uint16_t NO_PROGRAM_HEADER      = 0;
+constexpr std::uint16_t NO_SECTION_HEADER      = 0;
+constexpr std::uint16_t NO_SECTION_NAMES_TABLE = 0;
 
-inline constexpr std::uint16_t PHNUM_MAX = 0xffff;
-inline constexpr std::uint16_t PHNUM_PLUG = 0xffff;
+constexpr std::uint16_t PHNUM_MAX = 0xffff;
+constexpr std::uint16_t PHNUM_PLUG = 0xffff;
 
-inline constexpr std::uint16_t SHNUM_MAX = 0xff00;
-inline constexpr std::uint16_t SHNUM_PLUG = 0;
+constexpr std::uint16_t SHNUM_MAX = 0xff00;
+constexpr std::uint16_t SHNUM_PLUG = 0;
 
-inline constexpr std::uint16_t SHSTRNDX_MAX = 0xff00;
-inline constexpr std::uint16_t SHSTRNDX_PLUG = 0xffff;
+constexpr std::uint16_t SHSTRNDX_MAX = 0xff00;
+constexpr std::uint16_t SHSTRNDX_PLUG = 0xffff;
 
 struct Header
 {
