@@ -22,7 +22,7 @@ struct numeric_limits<unsigned long>
 
     static constexpr unsigned long max() noexcept
     {
-        return 4294967295ul;
+        return 0xfffffffful;
     }
 
     static constexpr int digits = 32;
@@ -35,12 +35,12 @@ struct numeric_limits<unsigned int>
     
     static constexpr unsigned int min() noexcept
     {
-        return 0;
+        return 0u;
     }
 
     static constexpr unsigned int max() noexcept
     {
-        return 4294967295u;
+        return 0xffffffffu;
     }
 
     static constexpr int digits = 32;
@@ -58,7 +58,7 @@ struct numeric_limits<unsigned char>
 
     static constexpr unsigned char max() noexcept
     {
-        return 255;
+        return 0xff;
     }
 
     static constexpr int digits = 8;
