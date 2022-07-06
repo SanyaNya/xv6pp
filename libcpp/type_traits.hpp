@@ -12,6 +12,7 @@
 #include "type_traits_impl/remove_const.hpp"
 #include "type_traits_impl/remove_volatile.hpp"
 #include "type_traits_impl/remove_cv.hpp"
+#include "type_traits_impl/remove_reference.hpp"
 #include "type_traits_impl/add_const.hpp"
 #include "type_traits_impl/add_volatile.hpp"
 #include "type_traits_impl/add_cv.hpp"
