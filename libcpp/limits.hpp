@@ -47,6 +47,25 @@ struct numeric_limits<unsigned int>
 };
 
 template<>
+struct numeric_limits<unsigned long long>
+{
+    static constexpr bool is_specialized = true;
+
+    static constexpr unsigned long long min() noexcept
+    {
+        return 0ull;
+    }
+
+    static constexpr unsigned long long max() noexcept
+    {
+        return 0xffffffffffffffffull;
+    }
+
+    static constexpr int digits = 64;
+};
+
+
+template<>
 struct numeric_limits<unsigned char>
 {
     static constexpr bool is_specialized = true;
