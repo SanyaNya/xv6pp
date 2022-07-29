@@ -1,3 +1,6 @@
+Work in progress.
+For now only bootloader implemented.
+
 Build:
     $ cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=toolchains/i386-elf-g++.cmake -G"Ninja"
     $ cmake --build build
