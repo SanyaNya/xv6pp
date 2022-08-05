@@ -13,8 +13,8 @@ using ptrdiff_t   = decltype(declval<int*>()-declval<int*>());
 using nullptr_t   = decltype(nullptr);
 
 using max_align_t = 
-    typename meta::type_list_remove_t<
-        detail::fundamental_types, void>::template max<
+    meta::type_list_remove_t<
+        detail::fundamental_types, void>::max<
             []<typename A, typename B>(){ return (alignof(A) > alignof(B)); }>;
 
 } //namespace std
