@@ -1,7 +1,7 @@
 #ifndef STD_CSTDINT_HPP
 #define STD_CSTDINT_HPP
 
-#include "detail/fundamental_types.hpp"
+#include "../meta/fundamental_types.hpp"
 #include "type_traits_impl/make_unsigned.hpp"
 #include "limits.hpp"
 
@@ -11,7 +11,7 @@ namespace std
 namespace detail
 {
 
-using stdint_types = signed_int_types::push_front<signed char>;
+using stdint_types = meta::signed_int_types::push_front<signed char>;
 
 template<typename T>
 constexpr auto bit_size_v = 
@@ -19,13 +19,13 @@ constexpr auto bit_size_v =
 
 template<auto SIZE>
 using stdint_equal_bit_size_t = 
-    detail::stdint_types::find_type_if<
-        []<typename T>(){ return detail::bit_size_v<T> == SIZE; }>;
+    stdint_types::find_type_if<
+        []<typename T>(){ return bit_size_v<T> == SIZE; }>;
 
 template<auto SIZE>
 using stdint_least_bit_size_t = 
-    detail::stdint_types::find_type_if<
-        []<typename T>(){ return detail::bit_size_v<T> >= SIZE; }>;
+    stdint_types::find_type_if<
+        []<typename T>(){ return bit_size_v<T> >= SIZE; }>;
 
 } //namespace detail
 

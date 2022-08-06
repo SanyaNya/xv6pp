@@ -1,9 +1,9 @@
-#ifndef STD_DETAIL_FUNDAMENTAL_TYPES_HPP
-#define STD_DETAIL_FUNDAMENTAL_TYPES_HPP
+#ifndef META_FUNDAMENTAL_TYPES_HPP
+#define META_FUNDAMENTAL_TYPES_HPP
 
-#include "../../meta/type_list.hpp"
+#include "type_list.hpp"
 
-namespace std::detail
+namespace meta
 {
 
 using narrow_char_types =
@@ -57,4 +57,4 @@ using fundamental_types =
 
 } //namespace std::detail
 
-#endif //STD_DETAIL_FUNDAMENTAL_TYPES_HPP
+#endif //META_FUNDAMENTAL_TYPES_HPP
