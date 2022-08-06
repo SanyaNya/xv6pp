@@ -2,7 +2,6 @@
 #define STD_DETAIL_FUNDAMENTAL_TYPES_HPP
 
 #include "../../utils/type_list.hpp"
-#include "../../utils/type_list_cat.hpp"
 
 namespace std::detail
 {
@@ -20,10 +19,8 @@ using wide_char_types =
         char32_t,
         wchar_t>;
 
-using character_types =
-    meta::type_list_cat_t<
-        narrow_char_types,
-        wide_char_types>;
+using character_types = 
+    narrow_char_types::append<wide_char_types>;
 
 
 using signed_int_types =
@@ -40,11 +37,7 @@ using unsigned_int_types =
         unsigned long int,
         unsigned long long int>;
 
-using int_types =
-    meta::type_list_cat_t<
-        signed_int_types,
-        unsigned_int_types>;
-
+using int_types = signed_int_types::append<unsigned_int_types>;
 
 using floating_point_types =
     meta::type_list<
@@ -53,21 +46,14 @@ using floating_point_types =
         long double>;
 
 
-using integral_types =
-    meta::type_list_cat_t<
-        meta::type_list<bool>,
-        character_types,
-        int_types>;
+using integral_types = 
+    character_types::append<int_types>::push_front<bool>;
 
-using arithmetic_types =
-    meta::type_list_cat_t<
-        floating_point_types,
-        integral_types>;
+using arithmetic_types = 
+    floating_point_types::append<integral_types>;
 
-using fundamental_types =
-    meta::type_list_cat_t<
-        meta::type_list<void, decltype(nullptr)>,
-        arithmetic_types>;
+using fundamental_types = 
+    arithmetic_types::push_front<void, decltype(nullptr)>;
 
 } //namespace std::detail
 
