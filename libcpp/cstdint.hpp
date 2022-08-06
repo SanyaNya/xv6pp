@@ -11,10 +11,7 @@ namespace std
 namespace detail
 {
 
-using stdint_types = 
-    meta::type_list_cat_t<
-        meta::type_list<signed char>,
-        signed_int_types>; 
+using stdint_types = signed_int_types::push_front<signed char>;
 
 template<typename T>
 constexpr auto bit_size_v = 

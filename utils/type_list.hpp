@@ -9,6 +9,7 @@
 
 namespace meta
 {
+
 using uint = unsigned int;
 
 struct UNKNOWN_TYPE {};
@@ -134,6 +135,12 @@ struct type_list
     template<auto More>
     using max =
         typename detail::type_list_helper<Ts...>::template max<More>::type;
+
+    template<typename ... ATs>
+    using push_back = type_list<Ts..., ATs...>;
+
+    template<typename ... ATs>
+    using push_front = type_list<ATs..., Ts...>;
 };
 
 } //namespace meta
