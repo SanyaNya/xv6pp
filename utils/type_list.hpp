@@ -10,6 +10,9 @@
 namespace meta
 {
 
+template<typename...>
+struct type_list;
+
 using uint = unsigned int;
 
 struct UNKNOWN_TYPE {};
@@ -95,6 +98,26 @@ struct type_list_helper<>
     struct max : std::type_identity<UNKNOWN_TYPE> {};
 };
 
+template<typename ... Ts>
+struct type_list_cat;
+
+template<typename T, typename ... Ts>
+struct type_list_cat<T, Ts...> :
+    std::type_identity<
+        typename type_list_cat<
+            T,
+            typename type_list_cat<Ts...>::type>::type> {};
+
+template<typename ... Ts1, typename ... Ts2>
+struct type_list_cat<
+    type_list<Ts1...>, type_list<Ts2...>> :
+        std::type_identity<
+            type_list<Ts1..., Ts2...>> {};
+
+template<>
+struct type_list_cat<> :
+    std::type_identity<type_list<>> {};
+
 } //namesapce detail
 
 
@@ -141,6 +164,9 @@ struct type_list
 
     template<typename ... ATs>
     using push_front = type_list<ATs..., Ts...>;
+
+    template<typename ... TLs>
+    using append = typename detail::type_list_cat<type_list<Ts...>, TLs...>::type;
 };
 
 } //namespace meta

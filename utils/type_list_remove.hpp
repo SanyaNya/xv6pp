@@ -2,7 +2,6 @@
 #define META_TYPE_LIST_REMOVE_HPP
 
 #include "type_list.hpp"
-#include "type_list_cat.hpp"
 
 namespace meta
 {
@@ -16,8 +15,7 @@ struct type_list_remove_if<type_list<T, Ts...>, P> :
         std::conditional_t<
             P.template operator()<T>(),
             typename type_list_remove_if<type_list<Ts...>, P>::type,
-            type_list_cat_t<
-                type_list<T>, 
+            typename type_list<T>::template append<
                 typename type_list_remove_if<type_list<Ts...>, P>::type>>> {};
 
 template<auto P>
