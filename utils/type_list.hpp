@@ -118,6 +118,22 @@ template<>
 struct type_list_cat<> :
     std::type_identity<type_list<>> {};
 
+template<typename List, auto P>
+struct type_list_remove_if;
+
+template<typename T, typename ... Ts, auto P>
+struct type_list_remove_if<type_list<T, Ts...>, P> :
+    std::type_identity<
+        std::conditional_t<
+            P.template operator()<T>(),
+            typename type_list_remove_if<type_list<Ts...>, P>::type,
+            typename type_list<T>::template append<
+                typename type_list_remove_if<type_list<Ts...>, P>::type>>> {};
+
+template<auto P>
+struct type_list_remove_if<type_list<>, P> :
+    std::type_identity<type_list<>> {};
+
 } //namesapce detail
 
 
@@ -167,6 +183,12 @@ struct type_list
 
     template<typename ... TLs>
     using append = typename detail::type_list_cat<type_list<Ts...>, TLs...>::type;
+
+    template<auto P>
+    using remove_if = typename detail::type_list_remove_if<type_list<Ts...>, P>::type;
+
+    template<typename T>
+    using remove = remove_if<[]<typename A>(){ return std::is_same_v<A, T>; }>;
 };
 
 } //namespace meta
