@@ -1,7 +1,7 @@
 #ifndef STD_DETAIL_FUNDAMENTAL_TYPES_HPP
 #define STD_DETAIL_FUNDAMENTAL_TYPES_HPP
 
-#include "../../utils/type_list.hpp"
+#include "../../meta/type_list.hpp"
 
 namespace std::detail
 {
