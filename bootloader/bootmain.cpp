@@ -5,6 +5,7 @@
 #include "../libcpp/span.hpp"
 #include "../io/irawstream.hpp"
 #include "../io/byte_traits.hpp"
+#include "gdtdesc.hpp"
 
 namespace xv6pp
 {
