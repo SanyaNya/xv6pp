@@ -14,7 +14,7 @@ template<typename T>
 struct is_void<T, void> : true_type {};
 
 template<typename T>
-inline constexpr bool is_void_v = is_void<T>::value;
+constexpr bool is_void_v = is_void<T>::value;
 
 } //namespace std
 

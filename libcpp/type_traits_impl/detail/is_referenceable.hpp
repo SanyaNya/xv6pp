@@ -14,7 +14,7 @@ template<typename T>
 struct is_referenceable<T, void_t<T&>> : true_type {};
 
 template<typename T>
-inline constexpr bool is_referenceable_v = is_referenceable<T>::value;
+constexpr bool is_referenceable_v = is_referenceable<T>::value;
 
 } //namespace std::detail
 

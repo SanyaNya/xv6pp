@@ -15,7 +15,7 @@ struct is_move_assignable : is_assignable<T, T&&> {};
 
 template<detail::complete_or_cv_void_or_unbounded_array T>
     requires detail::is_referenceable_v<T>
-inline constexpr bool is_move_assignable_v = 
+constexpr bool is_move_assignable_v = 
     is_move_assignable<T>::value;
 
 } //namespace std

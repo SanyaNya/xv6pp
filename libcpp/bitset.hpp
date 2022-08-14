@@ -18,27 +18,28 @@ public:
         std::size_t& data;
         const std::size_t bpos;
 
-        reference(std::size_t& bit, std::size_t pos)
+        constexpr reference(std::size_t& bit, std::size_t pos)
             : data(bit), bpos(pos) {}
 
-        reference& operator=(bool x) noexcept
+    public:
+        constexpr reference& operator=(bool x) noexcept
         {
             data &= ~bit_mask(bpos);
             data |= std::size_t(x) << bpos;
+            return *this;
         }
 
-    public:
-        operator bool() const noexcept
+        constexpr operator bool() const noexcept
         {
             return data & bit_mask(bpos);
         }
 
-        bool operator~() const noexcept
+        constexpr bool operator~() const noexcept
         {
             return !static_cast<bool>(*this);
         }
 
-        reference& flip() noexcept
+        constexpr reference& flip() noexcept
         {
             data ^= bit_mask(bpos);
             return *this;

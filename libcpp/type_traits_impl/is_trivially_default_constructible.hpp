@@ -12,7 +12,7 @@ struct is_trivially_default_constructible
     : bool_constant<is_trivially_constructible_v<T>> {};
 
 template<detail::complete_or_cv_void_or_unbounded_array T>
-inline constexpr bool is_trivially_default_constructible_v =
+constexpr bool is_trivially_default_constructible_v =
     is_trivially_default_constructible<T>::value;
 
 } //namespace std

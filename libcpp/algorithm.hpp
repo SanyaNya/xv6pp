@@ -3,6 +3,7 @@
 
 #include "type_traits_impl/is_nothrow_move_constructible.hpp"
 #include "type_traits_impl/is_nothrow_move_assignable.hpp"
+#include "cstring.hpp"
 
 namespace std
 {
@@ -10,7 +11,7 @@ namespace std
 template<typename InputIt, typename OutputIt>
 constexpr OutputIt copy(InputIt src_first, InputIt src_last, OutputIt dest_first)
 {
-    return static_cast<OutputIt>(__builtin_memcpy(dest_first, src_first, src_last-src_first));
+    return static_cast<OutputIt>(memcpy(dest_first, src_first, src_last-src_first));
 }
 
 template<typename T>

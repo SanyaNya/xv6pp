@@ -3,7 +3,7 @@
 
 #include "bool_constant.hpp"
 #include "remove_cv.hpp"
-#include "../../utils/type_list.hpp"
+#include "../../meta/type_list.hpp"
 
 namespace std
 {
@@ -30,7 +30,7 @@ struct is_integral :
             unsigned long long>::exist<T>> {};
 
 template<typename T>
-inline constexpr bool is_integral_v = is_integral<remove_cv_t<T>>::value;
+constexpr bool is_integral_v = is_integral<remove_cv_t<T>>::value;
 
 } //namespace std
 

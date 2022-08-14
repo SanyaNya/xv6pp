@@ -13,7 +13,7 @@ template<typename T>
 struct is_lvalue_reference<T&> : true_type {};
 
 template<typename T>
-inline constexpr bool is_lvalue_reference_v = 
+constexpr bool is_lvalue_reference_v = 
     is_lvalue_reference<T>::value;
 
 } //namespace std

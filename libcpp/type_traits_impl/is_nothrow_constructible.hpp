@@ -29,7 +29,7 @@ struct is_nothrow_constructible
 
 template<detail::complete_or_cv_void_or_unbounded_array T, 
          detail::complete_or_cv_void_or_unbounded_array ... TArgs>
-inline constexpr bool is_nothrow_constructible_v = 
+constexpr bool is_nothrow_constructible_v = 
     is_nothrow_constructible<T, TArgs...>::value;
 
 } //namespace std
