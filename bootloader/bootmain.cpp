@@ -33,7 +33,7 @@ extern "C" [[noreturn]] void bootmain()
     std::span phdrs(new ELF::Program::Header[elf.phnum], elf.phnum);
     is >> phdrs;
 
-    for(auto& phdr : phdrs)
+    for(const auto& phdr : phdrs)
     {
         is.seekg(512 + phdr.offset);
         is.read(phdr.paddr, phdr.filesz);
