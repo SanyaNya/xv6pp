@@ -105,14 +105,20 @@ private:
    }
 
    //eback == pbase
-   std::span<char_type, InExtent> buffer() const { return base::in_span; }
+   std::span<char_type, InExtent> buffer() const
+   {
+       return std::span<char_type, InExtent>(base::eback(), base::egptr());
+   }
 
    void buffer_update(upos pos)
    {
        buf_base_pos = detail::align_buf(pos);
-       base::in_cur  = buffer().begin() + detail::buf_align_indent(pos);
-       base::out_cur = buffer().begin() + detail::buf_align_indent(pos);
 
+       base::setg(
+            base::eback(), 
+            base::eback() + detail::buf_align_indent(pos), 
+            base::egptr());
+       
        detail::read(buffer(), detail::buf_sector(pos));
    }
 };
