@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../libcpp/cstdint.hpp"
-#include "../libcpp/cstddef.hpp"
-#include "../libcpp/span.hpp"
+#include <cstdint>
+#include <cstddef>
+#include <span>
 #include "../utils/bitfield.hpp"
 #include "../x86/intrinsics.hpp"
 

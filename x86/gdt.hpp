@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../libcpp/array.hpp"
+#include <array>
 #include "SegmentDescriptor.hpp"
 
 namespace xv6pp::x86

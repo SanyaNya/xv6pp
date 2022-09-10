@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../libcpp/cstdint.hpp"
+#include <cstdint>
 #include "Ident.hpp"
 
 namespace ELF

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "rawbuf.hpp"
-#include "../libcpp/span.hpp"
-#include "../libcpp/istream.hpp"
+#include <span>
+#include <istream>
 
 namespace xv6pp::io
 {

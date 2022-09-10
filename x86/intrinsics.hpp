@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../libcpp/type_traits.hpp"
-#include "../libcpp/concepts.hpp"
-#include "../libcpp/cstddef.hpp"
-#include "../libcpp/cstdint.hpp"
+#include <type_traits>
+#include <concepts>
+#include <cstddef>
+#include <cstdint>
 
 namespace xv6pp::x86
 {

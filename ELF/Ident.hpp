@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../libcpp/cstdint.hpp"
-#include "../libcpp/cstddef.hpp"
+#include <cstdint>
+#include <cstddef>
 
 namespace ELF::Ident
 {

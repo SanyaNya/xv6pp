@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../libcpp/cstddef.hpp"
-#include "../libcpp/ios.hpp"
+#include <cstddef>
+#include <ios>
 
 namespace xv6pp::io
 {

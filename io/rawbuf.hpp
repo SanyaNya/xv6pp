@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../libcpp/streambuf.hpp"
-#include "../libcpp/allocator.hpp"
-#include "../libcpp/type_traits.hpp"
+#include <streambuf>
+#include <allocator>
+#include <type_traits>
 #include "ATA_PIO_LBA28_Disk.hpp"
 
 namespace xv6pp::io

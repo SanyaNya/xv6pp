@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../libcpp/limits.hpp"
-#include "../libcpp/type_traits_impl/type_identity.hpp"
-#include "../libcpp/type_traits_impl/integral_constant.hpp"
-#include "../libcpp/type_traits_impl/conditional.hpp"
-#include "../libcpp/type_traits_impl/is_same.hpp"
+#include <limits>
+#include <type_traits_impl/type_identity.hpp>
+#include <type_traits_impl/integral_constant.hpp>
+#include <type_traits_impl/conditional.hpp>
+#include <type_traits_impl/is_same.hpp>
 
 namespace meta
 {

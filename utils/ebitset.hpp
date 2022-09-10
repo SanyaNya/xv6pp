@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../libcpp/bitset.hpp"
-#include "../libcpp/type_traits.hpp"
+#include <bitset>
+#include <type_traits>
 
 template<std::size_t N, typename E>
     requires std::is_enum_v<E>
