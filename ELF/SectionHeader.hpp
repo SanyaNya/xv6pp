@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include <cstddef>
-#include "../utils/bitfield/bitfield.hpp"
+#include "utils/bitfield/bitfield.hpp"
 
 namespace ELF::Section
 {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../utils/bitfield.hpp"
-#include "../advanced-bitfield/advanced_bitfield.hpp"
+#include "utils/bitfield.hpp"
+#include "advanced-bitfield/advanced_bitfield.hpp"
 
 namespace xv6pp::x86::Segment
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../x86/gdt.hpp"
+#include "x86/gdt.hpp"
 
 constexpr xv6pp::x86::GDT gdt
 {

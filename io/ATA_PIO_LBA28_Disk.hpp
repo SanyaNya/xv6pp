@@ -3,8 +3,8 @@
 #include <cstdint>
 #include <cstddef>
 #include <span>
-#include "../utils/bitfield.hpp"
-#include "../x86/intrinsics.hpp"
+#include "utils/bitfield.hpp"
+#include "x86/intrinsics.hpp"
 
 namespace xv6pp::io::detail
 {
