@@ -3,6 +3,7 @@
 #include "../ELF/ELFHeader.hpp"
 #include "../ELF/ProgramHeader.hpp"
 #include "../libcpp/span.hpp"
+#include "../libcpp/utility.hpp"
 #include "../io/irawstream.hpp"
 #include "../io/byte_traits.hpp"
 #include "gdtdesc.hpp"
@@ -42,6 +43,7 @@ extern "C" [[noreturn]] void bootmain()
     elf.entry();
 
     //In bootloader there is no need to free mem
+    std::unreachable();
 }
 
 } //namespace xv6pp
