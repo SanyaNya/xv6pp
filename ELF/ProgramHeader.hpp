@@ -1,9 +1,8 @@
-#ifndef ELF_PROGRAM_HEADER_HPP
-#define ELF_PROGRAM_HEADER_HPP
+#pragma once
 
-#include "../libcpp/cstdint.hpp"
-#include "../libcpp/cstddef.hpp"
-#include "../utils/bitfield.hpp"
+#include <cstdint>
+#include <cstddef>
+#include "utils/bitfield.hpp"
 
 namespace ELF::Program
 {
@@ -53,5 +52,3 @@ struct Header
 };
 
 } //namespace ELF::Program
-
-#endif //ELF_PROGRAM_HEADER_HPP

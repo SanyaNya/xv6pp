@@ -1,5 +1,4 @@
-#ifndef XV6PP_PRINT_HPP
-#define XV6PP_PRINT_HPP
+#pragma once
 
 namespace xv6pp
 {
@@ -21,5 +20,3 @@ inline void print(short* buf, unsigned int i)
 }
 
 } //namesapce xv6pp
-
-#endif //XV6PP_PRINT_HPP

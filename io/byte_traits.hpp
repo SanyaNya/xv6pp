@@ -1,8 +1,7 @@
-#ifndef XV6PP_IO_BYTE_TRAITS_HPP
-#define XV6PP_IO_BYTE_TRAITS_HPP
+#pragma once
 
-#include "../libcpp/cstddef.hpp"
-#include "../libcpp/ios.hpp"
+#include <cstddef>
+#include <ios>
 
 namespace xv6pp::io
 {
@@ -59,5 +58,3 @@ struct byte_traits
 
 
 } //namespace xv6pp::io
-
-#endif //XV6PP_IO_BYTE_TRAITS_HPP

@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IS_CONSTRUCTIBLE_HPP
-#define STD_TYPE_TRAITS_IS_CONSTRUCTIBLE_HPP
+#pragma once
 
 #include "void_t.hpp"
 #include "bool_constant.hpp"
@@ -33,5 +32,3 @@ constexpr bool is_constructible_v =
     is_constructible<T, TArgs...>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IS_CONSTRUCTIBLE_HPP

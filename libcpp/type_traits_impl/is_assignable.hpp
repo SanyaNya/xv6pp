@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IS_ASSIGNABLE_HPP
-#define STD_TYPE_TRAITS_IS_ASSIGNABLE_HPP
+#pragma once
 
 #include "void_t.hpp"
 #include "bool_constant.hpp"
@@ -23,5 +22,3 @@ template<detail::complete_or_cv_void_or_unbounded_array T,
 constexpr bool is_assignable_v = is_assignable<T, U>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IS_ASSIGNABLE_HPP

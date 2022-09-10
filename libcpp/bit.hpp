@@ -1,5 +1,4 @@
-#ifndef STD_BIT_HPP
-#define STD_BIT_HPP
+#pragma once
 
 #include "type_traits_impl/is_trivially_copyable.hpp"
 
@@ -16,5 +15,3 @@ constexpr To bit_cast(const From& from) noexcept
 }
 
 } //namespace std
-
-#endif //STD_BIT_HPP

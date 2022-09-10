@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IS_NOTHROW_ASSIGNABLE_HPP
-#define STD_TYPE_TRAITS_IS_NOTHROW_ASSIGNABLE_HPP
+#pragma once
 
 #include "void_t.hpp"
 #include "bool_constant.hpp"
@@ -26,5 +25,3 @@ constexpr bool is_nothrow_assignable_v =
     is_nothrow_assignable<T, U>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IS_NOTHROW_ASSIGNABLE_HPP

@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_BOOL_CONSTANT_HPP
-#define STD_TYPE_TRAITS_BOOL_CONSTANT_HPP
+#pragma once
 
 #include "integral_constant.hpp"
 
@@ -13,5 +12,3 @@ using false_type = bool_constant<false>;
 using true_type  = bool_constant<true>;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_BOOL_CONSTANT_HPP

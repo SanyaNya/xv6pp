@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IS_CONST_HPP
-#define STD_TYPE_TRAITS_IS_CONST_HPP
+#pragma once
 
 #include "bool_constant.hpp"
 
@@ -16,5 +15,3 @@ template<typename T>
 constexpr bool is_const_v = is_const<T>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IS_CONST_HPP

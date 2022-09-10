@@ -1,12 +1,12 @@
-#ifndef XV6PP_BOOTLOADER_ABORT_HPP
-#define XV6PP_BOOTLOADER_ABORT_HPP
+#pragma once
+
+#include <utility>
 
 namespace std
 {
     [[noreturn]] void abort() noexcept
     {
         //do nothing :)
+        std::unreachable();
     }
-}
-
-#endif //XV6PP_BOOTLOADER_ABORT_HPP
+} //namespace std

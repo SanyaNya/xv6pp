@@ -1,7 +1,6 @@
-#ifndef XV6PP_X86_GDT_HPP
-#define XV6PP_X86_GDT_HPP
+#pragma once
 
-#include "../libcpp/array.hpp"
+#include <array>
 #include "SegmentDescriptor.hpp"
 
 namespace xv6pp::x86
@@ -46,5 +45,3 @@ template<std::size_t N>
 GDT_Description(const GDT<N>&) -> GDT_Description<N>;
 
 } //namespace xv6pp::x86
-
-#endif //XV6PP_X86_GDT_HPP

@@ -1,11 +1,10 @@
-#ifndef XV6PP_IO_DETAIL_ATA_PIO_LBA28_DISK_HPP
-#define XV6PP_IO_DETAIL_ATA_PIO_LBA28_DISK_HPP
+#pragma once
 
-#include "../libcpp/cstdint.hpp"
-#include "../libcpp/cstddef.hpp"
-#include "../libcpp/span.hpp"
-#include "../utils/bitfield.hpp"
-#include "../x86/intrinsics.hpp"
+#include <cstdint>
+#include <cstddef>
+#include <span>
+#include "utils/bitfield.hpp"
+#include "x86/intrinsics.hpp"
 
 namespace xv6pp::io::detail
 {
@@ -109,5 +108,3 @@ inline void read(std::span<char_type, BUFFER_SIZE> buffer, std::uint32_t sector_
 }
 
 } //namespace xv6pp::io::detail 
-
-#endif //XV6PP_IO_DETAIL_ATA_PIO_LBA28_DISK_HPP

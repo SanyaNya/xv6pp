@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IMPL_CONDITIONAL_HPP
-#define STD_TYPE_TRAITS_IMPL_CONDITIONAL_HPP
+#pragma once
 
 #include "type_identity.hpp"
 
@@ -16,5 +15,3 @@ template<bool B, typename TTrue, typename TFalse>
 using conditional_t = typename conditional<B, TTrue, TFalse>::type;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IMPL_CONDITIONAL_HPP

@@ -1,9 +1,8 @@
-#ifndef XV6PP_IO_IRAWSTREAM_HPP
-#define XV6PP_IO_IRAWSTREAM_HPP
+#pragma once
 
 #include "rawbuf.hpp"
-#include "../libcpp/span.hpp"
-#include "../libcpp/istream.hpp"
+#include <span>
+#include <istream>
 
 namespace xv6pp::io
 {
@@ -106,5 +105,3 @@ private:
 };
 
 } //namespace xv6pp::io
-
-#endif //XV6PP_IO_IRAWSTREAM_HPP

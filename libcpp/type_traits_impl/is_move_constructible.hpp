@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IS_MOVE_CONSTRUCTIBLE_HPP
-#define STD_TYPE_TRAITS_IS_MOVE_CONSTRUCTIBLE_HPP
+#pragma once
 
 #include "detail/constraints.hpp"
 #include "detail/is_referenceable.hpp"
@@ -19,5 +18,3 @@ constexpr bool is_move_constructible_v =
     is_move_constructible<T>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IS_MOVE_CONSTRUCTIBLE_HPP

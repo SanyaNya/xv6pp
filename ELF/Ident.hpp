@@ -1,8 +1,7 @@
-#ifndef ELF_IDENT_HPP
-#define ELF_IDENT_HPP
+#pragma once
 
-#include "../libcpp/cstdint.hpp"
-#include "../libcpp/cstddef.hpp"
+#include <cstdint>
+#include <cstddef>
 
 namespace ELF::Ident
 {
@@ -54,5 +53,3 @@ struct Struct
 };
 
 } //namespace ELF::Ident
-
-#endif //ELF_IDENT_HPP

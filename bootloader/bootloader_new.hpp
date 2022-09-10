@@ -1,9 +1,8 @@
-#ifndef XV6PP_BOOTLOADER_NEW_HPP
-#define XV6PP_BOOTLOADER_NEW_HPP
+#pragma once
 
-#include "../libcpp/new.hpp"
-#include "../libcpp/cstddef.hpp"
-#include "../libcpp/type_traits_impl/underlying_type.hpp"
+#include <new>
+#include <cstddef>
+#include <type_traits>
 
 namespace xv6pp
 {
@@ -67,7 +66,3 @@ inline void operator delete[](void*, std::align_val_t) noexcept {}
 inline void operator delete[](void*, std::size_t, std::align_val_t) noexcept {}
 inline void operator delete[](void*, const std::nothrow_t&) noexcept {}
 inline void operator delete[](void*, std::align_val_t, const std::nothrow_t&) noexcept {}
-
-
-
-#endif //XV6PP_BOOTLOADER_NEW_HPP

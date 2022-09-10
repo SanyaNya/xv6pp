@@ -1,5 +1,4 @@
-#ifndef STD_ARRAY_HPP
-#define STD_ARRAY_HPP
+#pragma once
 
 #include "cstddef_impl/types.hpp"
 
@@ -73,5 +72,3 @@ struct array
 };
 
 } //namespace std
-
-#endif //STD_ARRAY_HPP

@@ -1,8 +1,7 @@
-#ifndef XV6PP_X86_SEGMENT_DESCRIPTOR_HPP
-#define XV6PP_X86_SEGMENT_DESCRIPTOR_HPP
+#pragma once
 
-#include "../utils/bitfield.hpp"
-#include "../advanced-bitfield/advanced_bitfield.hpp"
+#include "utils/bitfield.hpp"
+#include "advanced-bitfield/advanced_bitfield.hpp"
 
 namespace xv6pp::x86::Segment
 {
@@ -142,5 +141,3 @@ concept IsDescriptor =
     std::is_same_v<std::remove_cvref_t<T>, Descriptor<Type::Data>>;
 
 } //namespace xv6pp::x86::Segment
-
-#endif //XV6PP_X86_SEGMENT_DESCRIPTOR_HPP

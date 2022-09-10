@@ -1,10 +1,9 @@
-#ifndef XV6PP_X86_INTRINSICS_HPP
-#define XV6PP_X86_INTRINSICS_HPP
+#pragma once
 
-#include "../libcpp/type_traits.hpp"
-#include "../libcpp/concepts.hpp"
-#include "../libcpp/cstddef.hpp"
-#include "../libcpp/cstdint.hpp"
+#include <type_traits>
+#include <concepts>
+#include <cstddef>
+#include <cstdint>
 
 namespace xv6pp::x86
 {
@@ -42,5 +41,3 @@ inline void insl(E port, T* dest, std::size_t count)
 }
 
 } //namespace xv6pp::x86
-
-#endif //XV6PP_X86_INTRINSICS_HPP

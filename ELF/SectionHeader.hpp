@@ -1,9 +1,8 @@
-#ifndef ELF_SECTION_HEADER_HPP
-#define ELF_SECTION_HEADER_HPP
+#pragma once
 
-#include "../libcpp/cstdint.hpp"
-#include "../libcpp/cstddef.hpp"
-#include "../utils/bitfield/bitfield.hpp"
+#include <cstdint>
+#include <cstddef>
+#include "utils/bitfield/bitfield.hpp"
 
 namespace ELF::Section
 {
@@ -65,5 +64,3 @@ struct Header
 };
 
 } //namespace ELF::Section
-
-#endif //ELF_SECTION_HEADER_HPP

@@ -1,7 +1,6 @@
-#ifndef XV6PP_UTILS_BITFIELD_HPP
-#define XV6PP_UTILS_BITFIELD_HPP
+#pragma once
 
-#include "../libcpp/bit.hpp"
+#include <bit>
 
 namespace xv6pp
 {
@@ -30,5 +29,3 @@ struct bitfield
 };
 
 } //namespace xv6pp
-
-#endif //XV6PP_UTILS_BITFIELD_HPP

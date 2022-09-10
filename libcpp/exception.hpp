@@ -1,7 +1,7 @@
-#ifndef STD_EXCEPTION_HPP
-#define STD_EXCEPTION_HPP
+#pragma once
 
 #include "cstdlib.hpp"
+#include "utility_impl/unreachable.hpp"
 
 namespace std
 {
@@ -33,8 +33,7 @@ void set_terminate(terminate_handler f) noexcept
 [[noreturn]] void terminate() noexcept
 {
     detail::terminate_func();
+    unreachable();
 }
 
 } //namespace std
-
-#endif //STD_EXCEPTION_HPP

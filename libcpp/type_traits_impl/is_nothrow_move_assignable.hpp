@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IS_NOTHROW_MOVE_ASSIGNABLE_HPP
-#define STD_TYPE_TRAITS_IS_NOTHROW_MOVE_ASSIGNABLE_HPP
+#pragma once
 
 #include "bool_constant.hpp"
 #include "is_nothrow_assignable.hpp"
@@ -19,5 +18,3 @@ constexpr bool is_nothrow_move_assignable_v =
     is_nothrow_move_assignable<T>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IS_NOTHROW_MOVE_ASSIGNABLE_HPP

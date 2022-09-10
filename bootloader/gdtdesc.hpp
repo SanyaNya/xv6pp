@@ -1,9 +1,8 @@
-#ifndef XV6PP_BOOTLOADER_GDTDESC_HPP
-#define XV6PP_BOOTLOADER_GDTDESC_HPP
+#pragma once
 
-#include "../x86/gdt.hpp"
+#include "x86/gdt.hpp"
 
-xv6pp::x86::GDT gdt
+constexpr xv6pp::x86::GDT gdt
 {
     xv6pp::x86::Segment::Descriptor<xv6pp::x86::Segment::Type::Code>
     {
@@ -38,6 +37,4 @@ xv6pp::x86::GDT gdt
     }
 };
 
-xv6pp::x86::GDT_Description gdtdesc(gdt);
-
-#endif //XV6PP_BOOTLOADER_GDTDESC_HPP
+constinit xv6pp::x86::GDT_Description gdtdesc(gdt);

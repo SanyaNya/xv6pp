@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IS_LAYOUT_COMPATIBLE_HPP
-#define STD_TYPE_TRAITS_IS_LAYOUT_COMPATIBLE_HPP
+#pragma once
 
 #include "detail/constraints.hpp"
 #include "bool_constant.hpp"
@@ -21,5 +20,3 @@ template<
 constexpr bool is_layout_compatible_v = is_layout_compatible<T, U>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IS_LAYOUT_COMPATIBLE_HPP

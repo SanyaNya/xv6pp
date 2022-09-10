@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_CONJUNCTION_HPP
-#define STD_TYPE_TRAITS_CONJUNCTION_HPP
+#pragma once
 
 #include "bool_constant.hpp"
 
@@ -13,5 +12,3 @@ template<typename ... Bs>
 constexpr bool conjunction_v = conjunction<Bs...>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_CONJUNCTION_HPP

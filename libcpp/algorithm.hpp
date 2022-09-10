@@ -1,5 +1,4 @@
-#ifndef STD_ALGORITHM_HPP
-#define STD_ALGORITHM_HPP
+#pragma once
 
 #include "type_traits_impl/is_nothrow_move_constructible.hpp"
 #include "type_traits_impl/is_nothrow_move_assignable.hpp"
@@ -39,5 +38,3 @@ constexpr const T& min(const T& a, const T& b)
 }
 
 } //namespace std
-
-#endif //STD_ALGORITHM_HPP

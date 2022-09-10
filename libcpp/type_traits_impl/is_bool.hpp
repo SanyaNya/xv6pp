@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IMPL_IS_BOOL_HPP
-#define STD_TYPE_TRAITS_IMPL_IS_BOOL_HPP
+#pragma once
 
 #include "bool_constant.hpp"
 #include "remove_cv.hpp"
@@ -17,5 +16,3 @@ template<typename T>
 constexpr bool is_bool_v = is_bool<T>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IMPL_IS_BOOL_HPP

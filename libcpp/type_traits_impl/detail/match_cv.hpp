@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IMPL_DETAIL_MATCH_CV_HPP
-#define STD_TYPE_TRAITS_IMPL_DETAIL_MATCH_CV_HPP
+#pragma once
 
 #include "../type_identity.hpp"
 #include "../remove_const.hpp"
@@ -38,5 +37,3 @@ using match_cv_t = typename match_cv<TSrc, TDest>::type;
 
 
 } //namespace std::detail
-
-#endif //STD_TYPE_TRAITS_IMPL_DETAIL_MATCH_CV_HPP

@@ -1,5 +1,4 @@
-#ifndef STD_IOS_IMPL_BASIC_IOS_HPP
-#define STD_IOS_IMPL_BASIC_IOS_HPP
+#pragma once
 
 #include "../string_impl/char_traits.hpp"
 #include "../streambuf.hpp"
@@ -175,5 +174,3 @@ private:
 };
 
 } //namesapce std
-
-#endif //STD_IOS_IMPL_BASIC_IOS_HPP

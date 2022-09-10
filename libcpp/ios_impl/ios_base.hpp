@@ -1,5 +1,4 @@
-#ifndef STD_IOS_IMPL_IOS_BASE_HPP
-#define STD_IOS_IMPL_IOS_BASE_HPP
+#pragma once
 
 #include "../type_traits_impl/underlying_type.hpp"
 #include "../type_traits_impl/is_same.hpp"
@@ -158,5 +157,3 @@ constexpr ios_base::seekdir operator~(ios_base::seekdir state)
 }
 
 } //namespace std
-
-#endif //STD_IOS_IMPL_IOS_BASE_HPP

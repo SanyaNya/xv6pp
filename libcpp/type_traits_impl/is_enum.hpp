@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IS_ENUM_HPP
-#define STD_TYPE_TRAITS_IS_ENUM_HPP
+#pragma once
 
 #include "bool_constant.hpp"
 
@@ -13,5 +12,3 @@ template<typename T>
 constexpr bool is_enum_v = is_enum<T>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IS_ENUM_HPP

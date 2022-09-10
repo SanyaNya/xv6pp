@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_REMOVE_EXTENT_HPP
-#define STD_TYPE_TRAITS_REMOVE_EXTENT_HPP
+#pragma once
 
 #include "../cstddef_impl/types.hpp"
 #include "type_identity.hpp"
@@ -17,5 +16,3 @@ template<typename T, size_t N>
 struct remove_extent<T[N]> : type_identity<T> {};
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_REMOVE_EXTENT_HPP

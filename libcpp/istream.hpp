@@ -1,5 +1,4 @@
-#ifndef STD_ISTREAM_HPP
-#define STD_ISTREAM_HPP
+#pragma once
 
 #include "string_impl/char_traits.hpp"
 #include "ios_impl/basic_ios.hpp"
@@ -162,5 +161,3 @@ private:
 };
 
 } //namespace std
-
-#endif //STD_ISTREAM_HPP

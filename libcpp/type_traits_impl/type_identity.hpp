@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_TYPE_IDENTITY_HPP
-#define STD_TYPE_TRAITS_TYPE_IDENTITY_HPP
+#pragma once
 
 namespace std
 {
@@ -11,5 +10,3 @@ struct type_identity
 };
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_TYPE_IDENTITY_HPP

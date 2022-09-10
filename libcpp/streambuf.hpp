@@ -1,5 +1,4 @@
-#ifndef STD_STREAMBUF_HPP
-#define STD_STREAMBUF_HPP
+#pragma once
 
 #include "string_impl/char_traits.hpp"
 #include "ios_impl/ios_base.hpp"
@@ -213,7 +212,7 @@ protected:
     void setg(char_type* gbeg, char_type* gnext, char_type* gend)
     {
         //gend ignored if InExtent != dynamic_extent
-        in_span = span(gbeg, gend);
+        in_span = span<char_type, InExtent>(gbeg, gend);
         in_cur = gnext;
     }
 
@@ -234,7 +233,7 @@ protected:
     void setp(char_type* pbeg, char_type* pend)
     {
         //pend ignored if OutExtent != dynamic_extent
-        out_span = span(pbeg, pend);
+        out_span = span<char_type, OutExtent>(pbeg, pend);
         out_cur = pbeg;
     }
 
@@ -323,6 +322,7 @@ protected:
         return traits::eof();
     }
 
+private:
     span<char_type, InExtent> in_span;
     char_type* in_cur;
 
@@ -361,5 +361,3 @@ using streambuf = basic_streambuf<char>;
 //TODO wstreambuf
 
 } //namespace std
-
-#endif //STD_STREAMBUF_HPP
