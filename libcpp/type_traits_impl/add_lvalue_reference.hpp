@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_ADD_LVALUE_REFERENCE_HPP
-#define STD_TYPE_TRAITS_ADD_LVALUE_REFERENCE_HPP
+#pragma once
 
 #include "type_identity.hpp"
 #include "detail/is_referenceable.hpp"
@@ -17,5 +16,3 @@ template<typename T>
 using add_lvalue_reference_t = typename add_lvalue_reference<T>::type;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_ADD_LVALUE_REFERENCE_HPP

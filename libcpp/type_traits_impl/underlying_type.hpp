@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_UNDERLYING_TYPE_HPP
-#define STD_TYPE_TRAITS_UNDERLYING_TYPE_HPP
+#pragma once
 
 #include "is_enum.hpp"
 #include "type_identity.hpp"
@@ -20,5 +19,3 @@ constexpr auto to_underlying(E e) noexcept
 }
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_UNDERLYING_TYPE_HPP

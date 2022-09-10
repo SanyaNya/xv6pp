@@ -1,5 +1,4 @@
-#ifndef META_FUNDAMENTAL_TYPES_HPP
-#define META_FUNDAMENTAL_TYPES_HPP
+#pragma once
 
 #include "type_list.hpp"
 
@@ -56,5 +55,3 @@ using fundamental_types =
     arithmetic_types::push_front<void, decltype(nullptr)>;
 
 } //namespace std::detail
-
-#endif //META_FUNDAMENTAL_TYPES_HPP

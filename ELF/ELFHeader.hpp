@@ -1,5 +1,4 @@
-#ifndef ELF_HEADER_HPP
-#define ELF_HEADER_HPP
+#pragma once
 
 #include "../libcpp/cstdint.hpp"
 #include "Ident.hpp"
@@ -119,5 +118,3 @@ struct Header
 };
  
 } //namespace ELF
-
-#endif //ELF_HEADER_HPP

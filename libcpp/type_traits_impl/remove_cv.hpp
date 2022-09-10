@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_REMOVE_CV_HPP
-#define STD_TYPE_TRAITS_REMOVE_CV_HPP
+#pragma once
 
 #include "remove_const.hpp"
 #include "remove_volatile.hpp"
@@ -15,5 +14,3 @@ template<typename T>
 using remove_cv_t = typename remove_cv<T>::type; 
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_REMOVE_CV_HPP

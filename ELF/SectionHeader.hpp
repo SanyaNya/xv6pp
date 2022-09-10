@@ -1,5 +1,4 @@
-#ifndef ELF_SECTION_HEADER_HPP
-#define ELF_SECTION_HEADER_HPP
+#pragma once
 
 #include "../libcpp/cstdint.hpp"
 #include "../libcpp/cstddef.hpp"
@@ -65,5 +64,3 @@ struct Header
 };
 
 } //namespace ELF::Section
-
-#endif //ELF_SECTION_HEADER_HPP

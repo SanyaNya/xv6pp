@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IS_TRIVIAL_HPP
-#define STD_TYPE_TRAITS_IS_TRIVIAL_HPP
+#pragma once
 
 #include "is_trivially_copyable.hpp"
 #include "is_trivially_default_constructible.hpp"
@@ -21,5 +20,3 @@ template<typename T>
 constexpr bool is_trivial_v = is_trivial<T>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IS_TRIVIAL_HPP

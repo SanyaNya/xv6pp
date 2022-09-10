@@ -1,5 +1,4 @@
-#ifndef STD_STRING_IMPL_CHAR_TRAITS_HPP
-#define STD_STRING_IMPL_CHAR_TRAITS_HPP
+#pragma once
 
 #include "../algorithm.hpp"
 #include "../ios_impl/types.hpp"
@@ -62,5 +61,3 @@ struct char_traits<char>
 };
 
 } //namespace std
-
-#endif //STD_STRING_IMPL_CHAR_TRAITS_HPP

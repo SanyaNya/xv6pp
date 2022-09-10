@@ -1,5 +1,4 @@
-#ifndef STD_NEW_HPP
-#define STD_NEW_HPP
+#pragma once
 
 #include "cstddef_impl/types.hpp"
 
@@ -60,5 +59,3 @@ void operator delete[](void*, std::align_val_t, const std::nothrow_t&) noexcept;
 
 inline void operator delete(void*, void*) noexcept {}
 inline void operator delete[](void*, void*) noexcept {}
-
-#endif //STD_NEW_HPP

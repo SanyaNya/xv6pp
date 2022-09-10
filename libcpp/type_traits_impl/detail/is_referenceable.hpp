@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IS_REFERENCEABLE_HPP
-#define STD_TYPE_TRAITS_IS_REFERENCEABLE_HPP
+#pragma once
 
 #include "../bool_constant.hpp"
 #include "../void_t.hpp"
@@ -17,5 +16,3 @@ template<typename T>
 constexpr bool is_referenceable_v = is_referenceable<T>::value;
 
 } //namespace std::detail
-
-#endif //STD_TYPE_TRAITS_IS_REFERENCEABLE_HPP

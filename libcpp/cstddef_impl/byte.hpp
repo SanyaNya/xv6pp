@@ -1,5 +1,4 @@
-#ifndef STD_CSTDDEF_IMPL_BYTE_HPP
-#define STD_CSTDDEF_IMPL_BYTE_HPP
+#pragma once
 
 #include "../concepts_impl/integral.hpp"
 #include "../type_traits_impl/underlying_type.hpp"
@@ -87,5 +86,3 @@ constexpr IntType to_integer(byte b) noexcept
 }
 
 } //namespace std
-
-#endif //STD_CSTDDEF_IMPL_BYTE_HPP

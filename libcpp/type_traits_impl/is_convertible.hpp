@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IS_CONVERTIBLE_HPP
-#define STD_TYPE_TRAITS_IS_CONVERTIBLE_HPP
+#pragma once
 
 #include "detail/constraints.hpp"
 #include "bool_constant.hpp"
@@ -34,5 +33,3 @@ template<detail::complete_or_cv_void_or_unbounded_array From,
 constexpr bool is_convertible_v = is_convertible<From, To>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IS_CONVERTIBLE_HPP

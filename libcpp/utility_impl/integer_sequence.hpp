@@ -1,5 +1,4 @@
-#ifndef STD_UTILITY_IMPL_INTEGER_SEQUENCE_HPP
-#define STD_UTILITY_IMPL_INTEGER_SEQUENCE_HPP
+#pragma once
 
 #include "../concepts.hpp"
 #include "../type_traits_impl/type_identity.hpp"
@@ -60,5 +59,3 @@ template<size_t N>
 using make_index_sequence = make_integer_sequence<size_t, N>;
 
 } //namespace std
-
-#endif //STD_UTILITY_IMPL_INTEGER_SEQUENCE_HPP

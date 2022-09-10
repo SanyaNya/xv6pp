@@ -1,5 +1,4 @@
-#ifndef STD_LIMITS_HPP
-#define STD_LIMITS_HPP
+#pragma once
 
 namespace std
 {
@@ -84,5 +83,3 @@ struct numeric_limits<unsigned char>
 };
 
 } //namespace std
-
-#endif //STD_LIMITS_HPP

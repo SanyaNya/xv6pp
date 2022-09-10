@@ -1,5 +1,4 @@
-#ifndef STD_BITSET_HPP
-#define STD_BITSET_HPP
+#pragma once
 
 #include "cstddef_impl/types.hpp"
 #include "array.hpp"
@@ -95,5 +94,3 @@ private:
 };
 
 } //namespace std
-
-#endif //STD_BITSET_HPP

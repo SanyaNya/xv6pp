@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IS_TRIVIALLY_CONSTRUCTIBLE_HPP
-#define STD_TYPE_TRAITS_IS_TRIVIALLY_CONSTRUCTIBLE_HPP
+#pragma once
 
 #include "bool_constant.hpp"
 #include "detail/constraints.hpp"
@@ -18,5 +17,3 @@ constexpr bool is_trivially_constructible_v =
     is_trivially_constructible<T, TArgs...>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IS_TRIVIALLY_CONSTRUCTIBLE_HPP

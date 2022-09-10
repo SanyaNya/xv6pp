@@ -1,5 +1,4 @@
-#ifndef STD_SPAN_HPP
-#define STD_SPAN_HPP
+#pragma once
 
 #include "cstddef_impl/types.hpp"
 #include "type_traits.hpp"
@@ -192,5 +191,3 @@ template<typename T, size_t N>
 span(const array<T, N>&) -> span<T, N>;
 
 } //namespace std
-
-#endif //STD_SPAN_HPP

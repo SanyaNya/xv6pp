@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IS_VOID_HPP
-#define STD_TYPE_TRAITS_IS_VOID_HPP
+#pragma once
 
 #include "remove_cv.hpp"
 #include "bool_constant.hpp"
@@ -17,5 +16,3 @@ template<typename T>
 constexpr bool is_void_v = is_void<T>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IS_VOID_HPP

@@ -1,5 +1,4 @@
-#ifndef META_TYPE_LIST_HPP
-#define META_TYPE_LIST_HPP
+#pragma once
 
 #include "../libcpp/limits.hpp"
 #include "../libcpp/type_traits_impl/type_identity.hpp"
@@ -192,5 +191,3 @@ struct type_list
 };
 
 } //namespace meta
-
-#endif //META_TYPE_LIST_HPP

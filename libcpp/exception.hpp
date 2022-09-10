@@ -1,5 +1,4 @@
-#ifndef STD_EXCEPTION_HPP
-#define STD_EXCEPTION_HPP
+#pragma once
 
 #include "cstdlib.hpp"
 
@@ -36,5 +35,3 @@ void set_terminate(terminate_handler f) noexcept
 }
 
 } //namespace std
-
-#endif //STD_EXCEPTION_HPP

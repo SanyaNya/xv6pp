@@ -1,5 +1,4 @@
-#ifndef STD_CSTDDEF_IMPL_TYPES_HPP
-#define STD_CSTDDEF_IMPL_TYPES_HPP
+#pragma once
 
 #include "../utility_impl/declval.hpp"
 #include "../../meta/fundamental_types.hpp"
@@ -17,5 +16,3 @@ using max_align_t =
             max<[]<typename A, typename B>(){ return (alignof(A) > alignof(B)); }>;
 
 } //namespace std
-
-#endif //STD_CSTDDEF_IMPL_TYPES_HPP

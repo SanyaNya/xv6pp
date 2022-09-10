@@ -1,5 +1,4 @@
-#ifndef STD_CONCEPTS_IMPL_EXPLICITLY_CONVERTIBLE_HPP
-#define STD_CONCEPTS_IMPL_EXPLICITLY_CONVERTIBLE_HPP
+#pragma once
 
 #include "../type_traits_impl/is_explicitly_convertible.hpp"
 
@@ -11,5 +10,3 @@ concept explicitly_convertible_to =
     std::is_explicitly_convertible_v<From, To>;
 
 } //namespace std
-
-#endif //STD_CONCEPTS_IMPL_EXPLICITLY_CONVERTIBLE_HPP

@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IS_FUNCTION_HPP
-#define STD_TYPE_TRAITS_IS_FUNCTION_HPP
+#pragma once
 
 #include "bool_constant.hpp"
 #include "is_const.hpp"
@@ -16,5 +15,3 @@ template<typename T>
 constexpr bool is_function_v = is_function<T>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IS_FUNCTION_HPP

@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_REMOVE_VOLATILE_HPP
-#define STD_TYPE_TRAITS_REMOVE_VOLATILE_HPP
+#pragma once
 
 #include "type_identity.hpp"
 
@@ -16,5 +15,3 @@ template<typename T>
 using remove_volatile_t = typename remove_volatile<T>::type;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_REMOVE_VOLATILE_HPP

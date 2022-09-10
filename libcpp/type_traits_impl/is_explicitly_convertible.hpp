@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IS_EXPLICITLY_CONVERTIBLE_HPP
-#define STD_TYPE_TRAITS_IS_EXPLICITLY_CONVERTIBLE_HPP
+#pragma once
 
 #include "void_t.hpp"
 #include "is_void.hpp"
@@ -22,5 +21,3 @@ constexpr bool is_explicitly_convertible_v =
     is_explicitly_convertible<From, To>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IS_EXPLICITLY_CONVERTIBLE_HPP

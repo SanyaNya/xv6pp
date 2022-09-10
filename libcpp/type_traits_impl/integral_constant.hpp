@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_INTEGRAL_CONSTANT_HPP
-#define STD_TYPE_TRAITS_INTEGRAL_CONSTANT_HPP
+#pragma once
 
 namespace std
 {
@@ -24,5 +23,3 @@ struct integral_constant
 };
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_INTEGRAL_CONSTANT_HPP

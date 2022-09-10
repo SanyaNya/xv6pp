@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IS_REFERENCE_HPP
-#define STD_TYPE_TRAITS_IS_REFERENCE_HPP
+#pragma once
 
 #include "bool_constant.hpp"
 #include "is_lvalue_reference.hpp"
@@ -16,5 +15,3 @@ template<typename T>
 constexpr bool is_reference_v = is_reference<T>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IS_REFERENCE_HPP

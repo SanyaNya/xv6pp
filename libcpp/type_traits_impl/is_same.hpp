@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IS_SAME_HPP
-#define STD_TYPE_TRAITS_IS_SAME_HPP
+#pragma once
 
 #include "bool_constant.hpp"
 
@@ -16,5 +15,3 @@ template<typename T1, typename T2>
 constexpr bool is_same_v = is_same<T1, T2>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IS_SAME_HPP

@@ -1,5 +1,4 @@
-#ifndef STD_IOS_IMPL_TYPES_HPP
-#define STD_IOS_IMPL_TYPES_HPP
+#pragma once
 
 #include "../cstddef_impl/types.hpp"
 #include "../cstdint.hpp"
@@ -17,5 +16,3 @@ using fpos = streamoff; //TODO normal impl
 using streampos = fpos<mbstate_t>;
 
 } //namesapce std
-
-#endif //STD_IOS_IMPL_TYPES_HPP

@@ -1,5 +1,4 @@
-#ifndef EBITSET_HPP
-#define EBITSET_HPP
+#pragma once
 
 #include "../libcpp/bitset.hpp"
 #include "../libcpp/type_traits.hpp"
@@ -21,5 +20,3 @@ struct ebitset : std::bitset<N>
         return static_cast<std::bitset<N>*>(this)->operator[](std::to_underlying(e));
     }
 };
-
-#endif //EBITSET_HPP

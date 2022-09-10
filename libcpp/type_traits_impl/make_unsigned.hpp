@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IMPL_MAKE_UNSIGNED_HPP
-#define STD_TYPE_TRAITS_IMPL_MAKE_UNSIGNED_HPP
+#pragma once
 
 #include "type_identity.hpp"
 #include "conditional.hpp"
@@ -69,5 +68,3 @@ template<detail::non_bool_integral_or_enum T>
 using make_unsigned_t = typename make_unsigned<T>::type;
 
 } //namepace std
-
-#endif //STD_TYPE_TRAITS_IMPL_MAKE_UNSIGNED_HPP

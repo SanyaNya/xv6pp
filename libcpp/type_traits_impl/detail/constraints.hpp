@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_DETAIL_CONSTRAINTS_HPP
-#define STD_TYPE_TRAITS_DETAIL_CONSTRAINTS_HPP
+#pragma once
 
 #include "../is_void.hpp"
 #include "../is_integral.hpp"
@@ -47,5 +46,3 @@ template<typename T>
 concept non_bool_integral_or_enum = non_bool_integral<T> || enumeration<T>;
 
 } //namespace
-
-#endif //STD_TYPE_TRAITS_DETAIL_CONSTRAITS_HPP

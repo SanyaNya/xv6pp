@@ -1,5 +1,4 @@
-#ifndef STD_CSTDINT_HPP
-#define STD_CSTDINT_HPP
+#pragma once
 
 #include "../meta/fundamental_types.hpp"
 #include "type_traits_impl/make_unsigned.hpp"
@@ -65,5 +64,3 @@ using stdint_least_bit_size_t =
     using uintptr_t = make_unsigned_t<intptr_t>;
 
 } //namespace std
-
-#endif //STD_CSTDINT_HPP

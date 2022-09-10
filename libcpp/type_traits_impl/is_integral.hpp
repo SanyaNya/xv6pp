@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IMPL_IS_INTEGRAL_HPP
-#define STD_TYPE_TRAITS_IMPL_IS_INTEGRAL_HPP
+#pragma once
 
 #include "bool_constant.hpp"
 #include "remove_cv.hpp"
@@ -33,5 +32,3 @@ template<typename T>
 constexpr bool is_integral_v = is_integral<remove_cv_t<T>>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IMPL_IS_INTEGRAL_HPP

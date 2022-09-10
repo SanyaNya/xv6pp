@@ -1,5 +1,4 @@
-#ifndef STD_CSTRING_HPP
-#define STD_CSTRING_HPP
+#pragma once
 
 #include "cstddef_impl/types.hpp"
 
@@ -11,5 +10,3 @@ namespace std
 using ::memcpy;
 
 } //namespace std
-
-#endif //STD_LIBCPP_CSTRING_HPP

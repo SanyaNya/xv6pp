@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IMPL_ENABLE_IF_HPP
-#define STD_TYPE_TRAITS_IMPL_ENABLE_IF_HPP
+#pragma once
 
 #include "type_identity.hpp"
 
@@ -16,5 +15,3 @@ template<bool B, typename T = void>
 using enable_if_t = typename enable_if<B, T>::type;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IMPL_ENABLE_IF_HPP

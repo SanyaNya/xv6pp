@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IMPL_IS_STANDARD_LAYOUT_HPP
-#define STD_TYPE_TRAITS_IMPL_IS_STANDARD_LAYOUT_HPP
+#pragma once
 
 #include "detail/constraints.hpp"
 #include "remove_all_extents.hpp"
@@ -18,5 +17,3 @@ template<typename T>
 constexpr bool is_standard_layout_v = is_standard_layout<T>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IMPL_IS_STANDARD_LAYOUT_HPP

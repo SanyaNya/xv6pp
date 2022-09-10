@@ -1,5 +1,4 @@
-#ifndef XV6PP_BOOTLOADER_ABORT_HPP
-#define XV6PP_BOOTLOADER_ABORT_HPP
+#pragma once
 
 namespace std
 {
@@ -7,6 +6,4 @@ namespace std
     {
         //do nothing :)
     }
-}
-
-#endif //XV6PP_BOOTLOADER_ABORT_HPP
+} //namespace std

@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IS_LVALUE_REFERENCE_HPP
-#define STD_TYPE_TRAITS_IS_LVALUE_REFERENCE_HPP
+#pragma once
 
 #include "bool_constant.hpp"
 
@@ -17,5 +16,3 @@ constexpr bool is_lvalue_reference_v =
     is_lvalue_reference<T>::value;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IS_LVALUE_REFERENCE_HPP

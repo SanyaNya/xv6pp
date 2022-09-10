@@ -1,5 +1,4 @@
-#ifndef STD_ALLOCATOR_HPP
-#define STD_ALLOCATOR_HPP
+#pragma once
 
 #include "type_traits_impl/bool_constant.hpp"
 #include "cstddef_impl/types.hpp"
@@ -44,5 +43,3 @@ constexpr bool operator==(const allocator<T>&, const allocator<T>&)
 }
 
 } //namespace mem
-
-#endif //STD_ALLOCATOR_HPP

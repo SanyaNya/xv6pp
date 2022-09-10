@@ -1,5 +1,4 @@
-#ifndef XV6PP_IO_RAWBUF_HPP
-#define XV6PP_IO_RAWBUF_HPP
+#pragma once
 
 #include "../libcpp/streambuf.hpp"
 #include "../libcpp/allocator.hpp"
@@ -124,5 +123,3 @@ private:
 };
 
 } //namespace xv6pp::io
-
-#endif //XV6PP_IO_RAWBUF_HPP

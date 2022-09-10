@@ -1,5 +1,4 @@
-#ifndef STD_STREAMBUF_HPP
-#define STD_STREAMBUF_HPP
+#pragma once
 
 #include "string_impl/char_traits.hpp"
 #include "ios_impl/ios_base.hpp"
@@ -362,5 +361,3 @@ using streambuf = basic_streambuf<char>;
 //TODO wstreambuf
 
 } //namespace std
-
-#endif //STD_STREAMBUF_HPP

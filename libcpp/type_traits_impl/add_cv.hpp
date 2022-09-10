@@ -1,5 +1,4 @@
-#ifndef STD_TYPE_TRAITS_IMPL_ADD_CV_HPP
-#define STD_TYPE_TRAITS_IMPL_ADD_CV_HPP
+#pragma once
 
 #include "type_identity.hpp"
 
@@ -13,5 +12,3 @@ template<typename T>
 using add_cv_t = typename add_cv<T>::type;
 
 } //namespace std
-
-#endif //STD_TYPE_TRAITS_IMPL_ADD_CV_HPP
